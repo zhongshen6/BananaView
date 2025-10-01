@@ -1,0 +1,106 @@
+<!-- v0.83 -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mod 聚合器</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar" role="banner">
+      <!-- Logo -->
+      <a class="logo" href="#" onclick="return false;">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo-img">
+
+        <div>
+          <div class="title">GameBanana</div>
+          <div style="font-size:12px; color:var(--muted);">现代 • 清晰 • 流畅</div>
+        </div>
+      </a>
+
+      <!-- 控件：设置按钮 -->
+      <div class="controls">
+        <!-- 控件：下拉菜单 -->
+        <div class="dropdown">
+          <button id="menuBtn" class="btn dropdown-toggle" data-label="推荐内容">推荐内容 ▼</button>
+
+          <div class="dropdown-menu hidden" id="menuList">
+            <button class="dropdown-item" data-action="recommended">推荐内容</button>
+            <button class="dropdown-item" data-action="latest">最新发布</button>
+            <button class="dropdown-item" data-action="updated">最近更新</button>
+            <button class="dropdown-item" data-action="subscriptions">订阅内容</button>
+          </div>
+        </div>
+
+
+        <button id="settingsBtn" class="btn" title="设置">⚙️</button>
+      </div>
+    </header>
+
+        <!-- 瀑布流容器 -->
+      <main id="mods" aria-live="polite"></main>
+      <div id="loader" class="loader">正在加载…</div>
+      <div id="sentinel"></div>
+  </div>
+
+  <!-- 设置窗口 -->
+  <div id="settingsModal" class="settings-modal hidden">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h3>设置</h3>
+        <button id="closeSettings" class="close-btn">✕</button>
+      </div>
+      <div class="settings-body">
+        <!-- 这里以后可以加设置项 -->
+
+        <div class="setting-item">
+            <span class="setting-label">缩略图质量</span>
+            <div class="slider-container" id="thumbQualitySlider">
+                <div class="slider-option" data-value="220">低</div>
+                <div class="slider-option" data-value="530">高</div>
+                <div class="slider-thumb"></div>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <span class="setting-label">列数</span>
+            <div class="slider-container" id="columnCountSlider">
+                <div class="slider-option" data-value="0">多列</div>
+                <div class="slider-option" data-value="1">单列</div>
+                <div class="slider-thumb"></div>
+            </div>
+        </div>
+
+        <div class="setting-item">
+          <span class="setting-label">用户ID</span>
+          <div style="display:flex; align-items:center; gap:8px; flex:1;">
+            <input id="userIdInput" type="text" pattern="\d*" placeholder="请输入数字ID" style="flex:1;">
+            <button id="howToBtn" class="info-btn"> ？</button>
+          </div>
+        </div>
+
+        <!-- 弹出窗口 -->
+        <div id="howToPopover" class="popover hidden">
+          <div class="popover-arrow"></div>
+          <div class="popover-content">
+            <h4>获取用户ID</h4>
+            <p>在 GameBanana登录后，打开以下链接，找到类似 <code>/members/123456</code> 的数字，即为 ID。</p>
+            <img src="{{ url_for('static', filename='id_example.png') }}" alt="示例图" style="width:100%;border-radius:8px;margin:6px 0;">
+            <img src="{{ url_for('static', filename='id_example-2.png') }}" alt="示例图" style="width:100%;border-radius:8px;margin:6px 0;">
+            <a href="https://gamebanana.com/members/account/login" target="_blank" rel="noreferrer" class="btn-popover">去登录</a>
+            <a href="https://gamebanana.com/apiv11/Member/Navigator/Personal" target="_blank" rel="noreferrer" class="btn-popover">获取ID</a>
+          </div>
+        </div>
+        <p style="color:var(--muted);font-size:14px;">这里将显示设置项…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回到顶部按钮 -->
+  <button id="backTop" aria-label="回到顶部" title="回到顶部">↑</button>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

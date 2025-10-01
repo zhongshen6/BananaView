@@ -1,0 +1,94 @@
+[
+  {
+    "en": "English Term",
+    "zhCN": "中文翻译",
+    "tags": ["optional", "tags"],
+    "notes": "可选注释"
+  },
+  {
+    "en": "Characters",
+    "zhCN": "角色"
+  },
+  {
+    "en": "Skins",
+    "zhCN": "皮肤"
+  },
+  {
+    "en": "Characters Icons",
+    "zhCN": "角色图标"
+  },
+  {
+    "en": "Escoffier",
+    "zhCN": "爱可菲"
+  },
+  {
+    "en": "mona",
+    "zhCN": "莫娜"
+  },
+  {
+    "en": "Objects",
+    "zhCN": "物品"
+  }, 
+  {
+    "en": "barbara",
+    "zhCN": "芭芭拉"
+  },
+  {
+    "en": "Claymores",
+    "zhCN": "双手剑"
+  },
+  {
+    "en": "Swords",
+    "zhCN": "单手剑"
+  },
+  {
+    "en": "mika",
+    "zhCN": "米卡"
+  },
+  {
+    "en": "bows",
+    "zhCN": "弓"
+  },  
+  {
+    "en": "Fischl",
+    "zhCN": "菲谢尔"
+  },
+  {
+    "en": "Catalysts",
+    "zhCN": "法器"
+  },
+  {
+    "en": "Diluc",
+    "zhCN": "迪卢克"
+  },
+  {
+    "en": "mona",
+    "zhCN": "莫娜"
+  },
+  {
+    "en": "kazuha",
+    "zhCN": "万叶"
+  },
+  {
+    "en": "diona",
+    "zhCN": "迪奥娜"
+  },
+  {
+    "en": "Entity",
+    "zhCN": "实体"
+  },
+
+
+
+
+
+
+
+
+
+
+  {
+    "en": "Gadget",
+    "zhCN": "小工具"
+  }
+]
