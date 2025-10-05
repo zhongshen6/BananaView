@@ -1,5 +1,5 @@
-//v0.84
-//重构结构
+//v0.85
+//将缓存文件获取到前端，减少向后端的申请
 
 (() => {
   'use strict';
@@ -135,7 +135,10 @@
       const url = `/mod/api/subcat?ids=${ids.join(',')}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('分类别请求失败');
-      return res.json();
+      const data = await res.json();
+      
+      // 新增：对返回的分类信息进行翻译
+      return Translator.translateContent(data);
     }
 
     return { getApiUrl, fetchJson, fetchSubcat };
@@ -144,84 +147,142 @@
   // ================================================== 分类获取模块 ==================================================
   //负责批量请求分类信息并处理重试逻辑
   const CategoryPoller = (() => {
-    const pendingIds = new Set(); // 待处理的分类ID集合
-    const pendingTries = new Map(); // 每个分类的重试次数记录
-    let pollTimer = null; // 轮询定时器
+      const pendingIds = new Set();
+      const pendingTries = new Map();
+      let pollTimer = null;
+      const categoryCache = new Map();
+      let cacheLoaded = false;
 
-    //添加分类ID到轮询队列
-    function add(id) {
-      id = String(id);
-      if (!pendingIds.has(id)) {
-        pendingIds.add(id);
-        pendingTries.set(id, 0);
+      // 加载分类缓存文件
+      async function loadCategoryCache() {
+        if (cacheLoaded) return;
+        try {
+          const res = await fetch('/mod/static/subcategory_cache.json');
+          const cacheData = await res.json();
+          
+          for (const [itemId, cacheItem] of Object.entries(cacheData)) {
+            if (cacheItem.name && cacheItem.name !== "获取中..." && cacheItem.id) {
+              const translatedCategory = Translator.translateCategory(cacheItem.name);
+              categoryCache.set(String(itemId), {
+                category: translatedCategory,
+                catid: cacheItem.id
+              });
+            }
+          }
+          cacheLoaded = true;
+          console.log('分类缓存加载完成，有效条目数:', categoryCache.size);
+        } catch (err) {
+          console.warn('加载分类缓存失败，将使用后端API:', err);
+          cacheLoaded = true;
+        }
       }
-      ensureTimer();
-    }
 
-    //确保轮询定时器运行
-    function ensureTimer() {
-      if (!pollTimer) pollTimer = setInterval(pollPendingCategories, Config.POLL_INTERVAL);
-    }
-
-    //如果队列为空则停止定时器
-    function stopTimerIfEmpty() {
-      if (pendingIds.size === 0 && pollTimer) {
-        clearInterval(pollTimer);
-        pollTimer = null;
+      // 获取分类信息（先查缓存）
+      function getCategoryInfo(itemId) {
+        const idStr = String(itemId);
+        return categoryCache.get(idStr) || null;
       }
-    }
 
-    //轮询处理待分类信息，批量请求分类信息并更新UI，处理重试逻辑
-    async function pollPendingCategories() {
-      if (!pendingIds.size) {
-        stopTimerIfEmpty();
-        return;
+      // 添加分类ID到轮询队列
+      function add(id) {
+        id = String(id);
+        
+        // 先检查前端缓存
+        const cachedInfo = getCategoryInfo(id);
+        if (cachedInfo) {
+          // 缓存命中，直接更新UI
+          UI.updateCategoryElement(id, cachedInfo);
+          return;
+        }
+        
+        // 缓存未命中，走原有逻辑
+        if (!pendingIds.has(id)) {
+          pendingIds.add(id);
+          pendingTries.set(id, 0);
+        }
+        ensureTimer();
       }
-      const ids = [...pendingIds];
-      try {
-        const payload = await Api.fetchSubcat(ids);
-        const data = Translator.translateContent(payload);
-        ids.forEach(id => {
-          const info = data?.[id] || data?.[String(id)];
-          if (info?.category) {
-            // 成功获取分类信息
-            UI.updateCategoryElement(id, info);
+
+      // 轮询处理待分类信息，批量请求分类信息并更新UI，处理重试逻辑
+      async function pollPendingCategories() {
+        if (!pendingIds.size) {
+          stopTimerIfEmpty();
+          return;
+        }
+        
+        const ids = [...pendingIds];
+        const uncachedIds = [];
+        
+        // 批量检查缓存
+        for (const id of ids) {
+          const cachedInfo = getCategoryInfo(id);
+          if (cachedInfo) {
+            // 缓存命中，直接更新并移除待处理队列
+            UI.updateCategoryElement(id, cachedInfo);
             pendingIds.delete(id);
             pendingTries.delete(id);
           } else {
-            // 分类信息为空，增加重试次数
+            uncachedIds.push(id);
+          }
+        }
+        
+        if (uncachedIds.length === 0) {
+          stopTimerIfEmpty();
+          return;
+        }
+        
+        try {
+          const payload = await Api.fetchSubcat(uncachedIds);
+          const data = payload; // 已经在Api.fetchSubcat中翻译过了
+          uncachedIds.forEach(id => {
+            const info = data?.[id] || data?.[String(id)];
+            if (info?.category) {
+              UI.updateCategoryElement(id, info);
+              pendingIds.delete(id);
+              pendingTries.delete(id);
+            } else {
+              const tries = (pendingTries.get(id) || 0) + 1;
+              if (tries >= Config.MAX_TRIES) {
+                UI.updateCategoryElement(id, null);
+                pendingIds.delete(id);
+                pendingTries.delete(id);
+              } else {
+                pendingTries.set(id, tries);
+              }
+            }
+          });
+        } catch (err) {
+          console.error('分类请求失败:', err);
+          uncachedIds.forEach(id => {
             const tries = (pendingTries.get(id) || 0) + 1;
             if (tries >= Config.MAX_TRIES) {
-              // 达到最大重试次数，显示未知分类
               UI.updateCategoryElement(id, null);
               pendingIds.delete(id);
               pendingTries.delete(id);
             } else {
               pendingTries.set(id, tries);
             }
-          }
-        });
-      } catch (err) {
-        console.error('分类请求失败:', err);
-        // 请求失败，增加重试次数
-        ids.forEach(id => {
-          const tries = (pendingTries.get(id) || 0) + 1;
-          if (tries >= Config.MAX_TRIES) {
-            UI.updateCategoryElement(id, null);
-            pendingIds.delete(id);
-            pendingTries.delete(id);
-          } else {
-            pendingTries.set(id, tries);
-          }
-        });
-      } finally {
-        stopTimerIfEmpty();
+          });
+        } finally {
+          stopTimerIfEmpty();
+        }
       }
-    }
 
-    return { add, pollPendingCategories };
+      // 确保轮询定时器运行
+      function ensureTimer() {
+        if (!pollTimer) pollTimer = setInterval(pollPendingCategories, Config.POLL_INTERVAL);
+      }
+
+      // 如果队列为空则停止定时器
+      function stopTimerIfEmpty() {
+        if (pendingIds.size === 0 && pollTimer) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+        }
+      }
+
+      return { add, pollPendingCategories, loadCategoryCache, getCategoryInfo };
   })();
-
   // ================================================== 翻译模块 ==================================================
   //翻译模块
   const Translator = (() => {
@@ -250,14 +311,14 @@
       }
     }
 
-    //翻译分类名称
+    //翻译分类名称功能
     function translateCategory(category) {
       if (!isLoaded || !category) return category;
       const key = category.toLowerCase();
       return translationMap.get(key) || category;
     }
 
-    //翻译Mod名称
+    //翻译Mod名称功能
     function translateModName(name) {
       if (!isLoaded || !name) return name;
       let result = name;
@@ -285,7 +346,7 @@
       return result;
     }
 
-    //翻译内容数据
+    //执行翻译内容数据
     function translateContent(data) {
       if (!isLoaded) return data;
       if (Array.isArray(data)) {
@@ -329,7 +390,6 @@
     const loader = DOM.LOADER;
     let lastLayoutSize = { w: 0, h: 0 }; // 上次布局时的容器尺寸
 
-    // ---------- 骨架屏相关函数 ----------
     //显示骨架屏占位符
     function showSkeleton(count = Config.PER_SKELETON) {
       const fragment = document.createDocumentFragment();
@@ -359,7 +419,6 @@
       layoutMasonry();
     }
 
-    // ---------- 卡片创建函数 ----------
     //创建Mod卡片元素
     function createCard(mod) {
       const card = document.createElement('article');
@@ -381,8 +440,27 @@
             </a>
         </h3>
       `;
+      // 在创建卡片时检查分类缓存
+      let categoryInfo = null;
+      let categoryText = Config.STRINGS.GETTING;
+      let categoryClass = 'pending';
+      let categoryHref = mod.catid ? `https://gamebanana.com/mods/cats/${mod.catid}` : '#';
+      
+      if (mod.category && mod.category !== Config.STRINGS.GETTING) {
+        // 如果mod数据中已有分类信息，直接使用
+        categoryText = mod.category;
+        categoryClass = '';
+      } else {
+        // 检查前端缓存
+        const cachedInfo = CategoryPoller.getCategoryInfo(mod.id);
+        if (cachedInfo) {
+          categoryText = cachedInfo.category;
+          categoryClass = '';
+          categoryInfo = cachedInfo;
+          categoryHref = cachedInfo.catid ? `https://gamebanana.com/mods/cats/${cachedInfo.catid}` : '#';
+        }
+      }
 
-      // 卡片主体HTML
       const bodyHtml = `
         <div class="card-body">
             <div>
@@ -398,10 +476,10 @@
             <div class="row-stats">
                 <div class="row">
                     <div class="chips">
-                        <a class="chip category ${(!mod.category || mod.category === Config.STRINGS.GETTING) ? 'pending' : ''}" 
-                           href="${mod.catid ? `https://gamebanana.com/mods/cats/${mod.catid}` : '#'}" 
+                        <a class="chip category ${categoryClass}" 
+                           href="${categoryHref}" 
                            data-id="${mod.id}">
-                            ${escapeHtml(mod.category || Config.STRINGS.GETTING)}
+                            ${escapeHtml(categoryText)}
                         </a>
                     </div>
                 </div>
@@ -419,15 +497,14 @@
       if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
       // 如果分类信息正在获取中，添加到轮询队列
-      const categoryElement = card.querySelector('.category');
-      if (categoryElement?.textContent.trim() === Config.STRINGS.GETTING) {
-        CategoryPoller.add(categoryElement.dataset.id);
-      }
+    const categoryElement = card.querySelector('.category');
+    if (categoryElement?.classList.contains('pending')) {
+      CategoryPoller.add(categoryElement.dataset.id);
+    }
 
       return card;
     }
 
-    // ---------- 工具函数 ----------
     //HTML转义函数
     function escapeHtml(str) {
       return String(str)
@@ -524,7 +601,6 @@
       container.style.height = `${Math.max(...columnHeights) || 0}px`;
     }
 
-    // ---------- 容器操作函数 ----------
     //添加卡片或替换骨架屏
     function appendCardOrReplaceSkeleton(card, skeletons, index) {
       const skeleton = skeletons && skeletons[index];
@@ -537,7 +613,6 @@
       }
     }
 
-    // ---------- 加载指示器函数 ----------
     //显示或隐藏加载指示器
     function showLoader(show, text) {
       if (!loader) return;
@@ -1001,12 +1076,15 @@
       if (DOM.SENTINEL) observer.observe(DOM.SENTINEL);
     }
 
-    //初始化翻译器并开始加载数据
+    //初始化翻译器与分类缓存并开始加载数据
     async function initTranslatorAndStart() {
-      Translator.loadTranslationTable();
+      // 先加载翻译表，再加载分类缓存（因为缓存需要翻译）
+      await Translator.loadTranslationTable();
+      await CategoryPoller.loadCategoryCache();
+      
+      // 初始预加载：尝试加载2页以模拟原始行为
       await loadThreePages(true);
     }
-
     //DOM加载完成后的初始化
     function initOnDOMContentLoaded() {
       initTranslatorAndStart().catch(e => console.error(e));
