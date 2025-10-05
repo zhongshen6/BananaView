@@ -1,5 +1,5 @@
-# 版本v0.83，每次更新代码就将版本号加0.01
-
+# 版本v0.85，每次更新代码就将版本号加0.01
+#将缓存文件获取到前端，减少向后端的申请
 #重要
 
 #增加更多界面，mod详情
@@ -16,14 +16,14 @@ import json
 import os
 from threading import Lock
 import requests
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent  # 获取当前文件所在目录的绝对路径
 API_URL = "https://gamebanana.com/apiv11/Game/8552/Subfeed"
 DETAIL_URL = "https://api.gamebanana.com/Core/Item/Data"
-CACHE_FILE = "subcategory_cache.json"
+CACHE_FILE = BASE_DIR / "static" / "subcategory_cache.json"
 
-# 添加线程锁保护缓存操作
-cache_lock = Lock()
-
+cache_lock = Lock()  # 添加线程锁保护缓存操作
 subcategory_cache = {}
 fetch_category_enabled = True  # 是否获取分类开关
 
@@ -54,56 +54,12 @@ def save_cache():
     except Exception as e:
         log(f"缓存文件保存失败: {e}")
 
-#    ===================================================--- 分类获取逻辑 
-def fetch_subcategory_async(item_id): 
-    if not fetch_category_enabled:
-        return
-    log(f"开始获取分类: {item_id}")
-    try:
-        url = f"{DETAIL_URL}?itemtype=Mod&itemid={item_id}&fields=Category().name,catid"
-        res = requests.get(url, timeout=6)
-        res.raise_for_status()
-        j = res.json()
-        if isinstance(j, list) and len(j) >= 2:
-            # 成功：只写 name/id，不写时间戳
-            with cache_lock:
-                subcategory_cache[str(item_id)] = {
-                    "name": j[0],
-                    "id": j[1]
-                }
-            save_cache()
-            log(f"获取成功: {item_id} -> {j[0]}, {j[1]}")
-        else:
-            log(f"获取失败，数据格式异常: {item_id}")
-            with cache_lock:
-                # 失败：标记获取中，写入时间戳（秒级整数）
-                subcategory_cache[str(item_id)] = {
-                    "name": "获取中...",
-                    "id": None,
-                    "ts": int(time.time())
-                }
-            save_cache()
-    except Exception as e:
-        log(f"获取异常: {item_id} -> {e}")
-        with cache_lock:
-            # 异常：同样写“获取中...”带时间戳
-            subcategory_cache[str(item_id)] = {
-                "name": "获取中...",
-                "id": None,
-                "ts": int(time.time())
-            }
-        save_cache()
-
 
 # generate_translations.py - 生成前端翻译表的脚本
 def create_frontend_translation_table():
-    # 默认翻译表路径
-    default_file = "static/words.json"
-    # 自定义翻译表路径
-    custom_file = "static/custom-words.json"
-    # 输出文件路径
-    output_file = "static/words-frontend.json"
-    
+    default_file = BASE_DIR / "static" / "words.json"
+    custom_file = BASE_DIR / "static" / "custom-words.json"
+    output_file = BASE_DIR / "static" / "words-frontend.json"
     combined_words = []
     
     # 读取默认翻译表
@@ -165,6 +121,46 @@ create_frontend_translation_table()
 
 
    #========================================================分类获取api
+def fetch_subcategory_async(item_id): 
+    if not fetch_category_enabled:
+        return
+    log(f"开始获取分类: {item_id}")
+    try:
+        url = f"{DETAIL_URL}?itemtype=Mod&itemid={item_id}&fields=Category().name,catid"
+        res = requests.get(url, timeout=6)
+        res.raise_for_status()
+        j = res.json()
+        if isinstance(j, list) and len(j) >= 2:
+            # 成功：只写 name/id，不写时间戳
+            with cache_lock:
+                subcategory_cache[str(item_id)] = {
+                    "name": j[0],
+                    "id": j[1]
+                }
+            save_cache()
+            log(f"获取成功: {item_id} -> {j[0]}, {j[1]}")
+        else:
+            log(f"获取失败，数据格式异常: {item_id}")
+            with cache_lock:
+                # 失败：标记获取中，写入时间戳（秒级整数）
+                subcategory_cache[str(item_id)] = {
+                    "name": "获取中...",
+                    "id": None,
+                    "ts": int(time.time())
+                }
+            save_cache()
+    except Exception as e:
+        log(f"获取异常: {item_id} -> {e}")
+        with cache_lock:
+            # 异常：同样写“获取中...”带时间戳
+            subcategory_cache[str(item_id)] = {
+                "name": "获取中...",
+                "id": None,
+                "ts": int(time.time())
+            }
+        save_cache()
+
+
 CATEGORY_TTL = 600  # 10分钟过期
 
 @app.route('/mod/api/subcat')
