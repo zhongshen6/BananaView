@@ -506,8 +506,6 @@ const Settings = (() => {
       return card;
     }
 
-
-
     //HTML转义函数
     function escapeHtml(str) {
       return String(str)
