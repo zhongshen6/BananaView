@@ -237,13 +237,15 @@ body{
 .chip{ font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(15,23,36,0.04); color:#0b1220; text-decoration:none; }
 .chip.pending{ opacity:0.7; background:linear-gradient(90deg, rgba(108,123,255,0.06), rgba(74,222,128,0.03)); }
 .statsMini{ font-size:10px; color:var(--muted);flex-shrink: 0;min-width: 80px;  }
-/* === NSFW / SFW 标签样式（添加到 style.css） === */
-.thumb .nsfw-tag,
-.thumb .sfw-tag {
+/* === 半透明 NSFW / SFW 标签（默认放左上；单列 horizontal 时移动到正文右上） === */
+
+/* 基本样式：作为 card 的绝对定位子元素 */
+.card .nsfw-tag,
+.card .sfw-tag {
   position: absolute;
   top: 8px;
   left: 8px;
-  padding: 4px 7px;
+  padding: 4px 8px;
   font-size: 12px;
   font-weight: 700;
   color: #fff;
@@ -252,18 +254,39 @@ body{
   pointer-events: none;
   user-select: none;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
-  box-shadow: 0 6px 14px rgba(8,12,20,0.12);
+  letter-spacing: 0.3px;
+  box-shadow: 0 8px 20px rgba(8,12,20,0.12);
+  opacity: 0.86; /* 半透明感（可微调） */
+  transition: transform .18s ease, top .18s ease, left .18s ease, right .18s ease, opacity .18s ease;
 }
 
-/* 红色：含内容评级 / 可能 NSFW */
-.thumb .nsfw-tag {
-  background-color: rgba(220, 38, 38, 0.96);
+/* 红色半透明（NSFW） */
+.card .nsfw-tag {
+  background-color: rgba(220, 38, 38, 0.75); /* 半透明红 */
 }
 
-/* 绿色：安全（SFW） */
-.thumb .sfw-tag {
-  background-color: rgba(16, 185, 129, 0.96);
+/* 绿色半透明（SFW） */
+.card .sfw-tag {
+  background-color: rgba(16, 185, 129, 0.75); /* 半透明绿 */
+}
+
+/* 单列 / 横向模式：把标签移动到 card-body 的右上方 */
+/* 依据你的布局，card.horizontal 有 padding-top:28px（保留空间给标题），
+   因此把标签往下移动一些并靠右展示 */
+.card.horizontal .nsfw-tag,
+.card.horizontal .sfw-tag {
+  top: 36px;        /* 下移到正文区域上方（相对 card） */
+  right: 12px;      /* 贴近右侧 */
+  left: auto;       /* 取消左对齐 */
+  transform: none;
+}
+
+/* 进一步微调：在横向模式，若 card-body 有填充或需要局部相对定位，
+   可以将 card-body 设置为 position: relative，以便后续更精确定位（非必须） */
+.card.horizontal .card-body {
+  /* 保留默认行为；如果需要，可开启相对定位：
+     position: relative;
+  */
 }
 
 

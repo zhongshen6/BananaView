@@ -413,15 +413,14 @@
       layoutMasonry();
     }
 
-    // 创建Mod卡片元素（完整实现，增加 nsfw/sfw 标签及 data-nsfw 属性）
+    // 创建Mod卡片元素（完整实现，半透明标签；在单列模式 card.horizontal 时将标签放到正文右上）
     function createCard(mod) {
       const card = document.createElement('article');
       card.className = 'card mod-card';
       card.dataset.id = mod.id;
-      // 方便后续扩展（过滤/模糊/样式控制）
       card.dataset.nsfw = mod.nsfw ? 'true' : 'false';
 
-      // 标签 HTML（红色 NSFW / 绿色 SFW）
+      // 标签 HTML（我们把标签作为 card 的直接子元素，方便通过 CSS 在不同布局中定位）
       const tagHtml = mod.nsfw
         ? `<span class="nsfw-tag">NSFW</span>`
         : `<span class="sfw-tag">SFW</span>`;
@@ -430,10 +429,8 @@
       const thumbHtml = mod.thumb
         ? `<a class="thumb" href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
              <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
-             ${tagHtml}
            </a>`
         : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;">
-             ${tagHtml}
              <div style="padding:18px 12px;">无图</div>
            </div>`;
 
@@ -492,7 +489,8 @@
         </div>
       `;
 
-      card.innerHTML = `${thumbHtml}${titleHtml}${bodyHtml}`;
+      // 把 tagHtml 放在最前面（作为 card 的直接子节点），后面插入 thumb/title/body
+      card.innerHTML = `${tagHtml}${thumbHtml}${titleHtml}${bodyHtml}`;
 
       // 图片加载完成后重新布局（保持原有行为）
       const image = card.querySelector('.thumb img');
@@ -506,6 +504,7 @@
 
       return card;
     }
+
 
 
     //HTML转义函数
