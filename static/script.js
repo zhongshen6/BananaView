@@ -1,6 +1,3 @@
-//v0.85
-//将缓存文件获取到前端，减少向后端的申请
-
 (() => {
   'use strict';
 
@@ -49,55 +46,56 @@
   // ================================================== 设置模块 ==================================================
   //设置管理模块
 
-  const Settings = (() => {
-    const STORAGE_KEY = 'mods_settings_v1'; // 本地存储键名
-    let state = {
-      thumbQuality: Config.DEFAULT_THUMB_QUALITY, // 缩略图质量
-      columnCount: 0, // 列数(0表示自动)
-      userId: '', // 用户ID
-    };
+const Settings = (() => {
+  const STORAGE_KEY = 'mods_settings_v1'; // 本地存储键名
+  let state = {
+    thumbQuality: Config.DEFAULT_THUMB_QUALITY, // 缩略图质量
+    columnCount: 0, // 列数(0表示自动)
+    userId: '', // 用户ID
+    nsfwMode: 'show',
+  };
 
-    //从本地存储加载设置
-    function load() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          state = Object.assign(state, parsed);
-        }
-      } catch (e) {
-        console.warn('Settings load error', e);
+  //从本地存储加载设置
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        state = Object.assign(state, parsed);
       }
-      return state;
+    } catch (e) {
+      console.warn('Settings load error', e);
     }
+    return state;
+  }
 
-    //保存设置到本地存储
-    function save() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (e) {
-        console.warn('Settings save error', e);
-      }
+  //保存设置到本地存储
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.warn('Settings save error', e);
     }
+  }
 
-    //获取指定设置项的值
-    function get(key) {
-      return state[key];
-    }
+  //获取指定设置项的值
+  function get(key) {
+    return state[key];
+  }
 
-    //设置指定项的值并保存
-    function set(key, val) {
-      state[key] = val;
-      save();
-    }
+  //设置指定项的值并保存
+  function set(key, val) {
+    state[key] = val;
+    save();
+  }
 
-    //获取所有设置
-    function all() {
-      return state;
-    }
+  //获取所有设置
+  function all() {
+    return state;
+  }
 
-    return { load, save, get, set, all };
-  })();
+  return { load, save, get, set, all };
+})();
 
   // ================================================== Api模块 ==================================================
   //负责构建API URL和执行网络请求
@@ -381,10 +379,7 @@
   })();
 
   // ================================================== UI模块 ==================================================
-  /**
-   * 用户界面模块
-   * 负责DOM渲染、布局管理和UI状态控制
-   */
+  //用户界面模块，负责DOM渲染、布局管理和UI状态控制
   const UI = (() => {
     const container = DOM.MODS_CONTAINER;
     const loader = DOM.LOADER;
@@ -419,20 +414,28 @@
       layoutMasonry();
     }
 
-    //创建Mod卡片元素
+    // 创建Mod卡片元素（完整实现，半透明标签；在单列模式 card.horizontal 时将标签放到正文右上）
     function createCard(mod) {
       const card = document.createElement('article');
       card.className = 'card mod-card';
       card.dataset.id = mod.id;
+      card.dataset.nsfw = mod.nsfw ? 'true' : 'false';
 
-      // 缩略图HTML
+      // 标签 HTML（我们把标签作为 card 的直接子元素，方便通过 CSS 在不同布局中定位）
+      const tagHtml = mod.nsfw
+        ? `<span class="nsfw-tag">NSFW</span>`
+        : `<span class="sfw-tag">SFW</span>`;
+
+      // 缩略图 HTML（若有缩略图则为链接，否则显示无图占位）
       const thumbHtml = mod.thumb
         ? `<a class="thumb" href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
-              <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
+             <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
            </a>`
-        : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);">无图</div>`;
+        : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;">
+             <div style="padding:18px 12px;">无图</div>
+           </div>`;
 
-      // 标题HTML
+      // 标题 HTML
       const titleHtml = `
         <h3 class="title">
             <a href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
@@ -440,24 +443,21 @@
             </a>
         </h3>
       `;
-      // 在创建卡片时检查分类缓存
-      let categoryInfo = null;
+
+      // 分类处理：优先使用 mod.category，否则等待 CategoryPoller 补全
       let categoryText = Config.STRINGS.GETTING;
       let categoryClass = 'pending';
       let categoryHref = mod.catid ? `https://gamebanana.com/mods/cats/${mod.catid}` : '#';
-      
+
       if (mod.category && mod.category !== Config.STRINGS.GETTING) {
-        // 如果mod数据中已有分类信息，直接使用
         categoryText = mod.category;
         categoryClass = '';
       } else {
-        // 检查前端缓存
         const cachedInfo = CategoryPoller.getCategoryInfo(mod.id);
         if (cachedInfo) {
           categoryText = cachedInfo.category;
           categoryClass = '';
-          categoryInfo = cachedInfo;
-          categoryHref = cachedInfo.catid ? `https://gamebanana.com/mods/cats/${cachedInfo.catid}` : '#';
+          if (cachedInfo.catid) categoryHref = `https://gamebanana.com/mods/cats/${cachedInfo.catid}`;
         }
       }
 
@@ -490,17 +490,18 @@
         </div>
       `;
 
-      card.innerHTML = `${thumbHtml}${titleHtml}${bodyHtml}`;
+      // 把 tagHtml 放在最前面（作为 card 的直接子节点），后面插入 thumb/title/body
+      card.innerHTML = `${tagHtml}${thumbHtml}${titleHtml}${bodyHtml}`;
 
-      // 图片加载完成后重新布局
+      // 图片加载完成后重新布局（保持原有行为）
       const image = card.querySelector('.thumb img');
       if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
       // 如果分类信息正在获取中，添加到轮询队列
-    const categoryElement = card.querySelector('.category');
-    if (categoryElement?.classList.contains('pending')) {
-      CategoryPoller.add(categoryElement.dataset.id);
-    }
+      const categoryElement = card.querySelector('.category');
+      if (categoryElement?.classList.contains('pending')) {
+        CategoryPoller.add(categoryElement.dataset.id);
+      }
 
       return card;
     }
@@ -620,6 +621,41 @@
       if (text) loader.textContent = text;
     }
 
+    // UI 模块内新增：根据 nsfwMode 对现有卡片进行处理
+    function applyNSFWPolicy(mode = 'hide') {
+      try {
+        const cards = Array.from(container.querySelectorAll('.mod-card'));
+        cards.forEach(card => {
+          const isNsfw = card.dataset.nsfw === 'true';
+          // 清理之前的标记
+          card.classList.remove('nsfw-hidden', 'nsfw-blur');
+
+          if (!isNsfw) {
+            // 非 NSFW 卡片保持默认
+            card.style.display = ''; // 恢复显示（如之前被隐藏）
+          } else {
+            // NSFW 卡片：按策略处理
+            if (mode === 'show') {
+              card.style.display = '';
+            } else if (mode === 'blur') {
+              card.style.display = '';
+              card.classList.add('nsfw-blur'); // CSS 负责模糊表现
+            } else if (mode === 'hide') {
+              card.style.display = 'none';
+            }
+          }
+        });
+
+        // 重新布局
+        requestAnimationFrame(() => {
+          layoutMasonry();
+        });
+      } catch (e) {
+        console.error('applyNSFWPolicy error', e);
+      }
+    }
+
+
     return {
       showSkeleton,
       clearSkeleton,
@@ -627,7 +663,8 @@
       appendCardOrReplaceSkeleton,
       layoutMasonry,
       updateCategoryElement,
-      showLoader
+      showLoader,
+      applyNSFWPolicy
     };
   })();
 
@@ -641,37 +678,65 @@
       if (!container) return;
       const thumb = container.querySelector('.slider-thumb');
       const options = container.querySelectorAll('.slider-option');
+      const count = options.length;
+      const optionWidth = 50; 
+      container.style.width = `${optionWidth * count}px`;
 
-      // 加载保存的值或使用默认值
+      function updateThumb(idx) {
+        if (!thumb) return;
+        const actualOptionWidth = container.clientWidth / count || optionWidth;
+        thumb.style.width = `${Math.max(actualOptionWidth - 4, 8)}px`;
+        thumb.style.left = `${actualOptionWidth * idx + 2}px`;
+      }
+
+      // 暴露给外部调用：首次显示或窗口 resize 时触发
+      container._recalcThumb = () => {
+        const idx = Array.from(options).findIndex(o => o.classList.contains('active'));
+        if (idx !== -1) updateThumb(idx);
+      };
+
       let savedValue = localStorage.getItem(valueKey);
       if (savedValue === null && options[0]) savedValue = options[0].dataset.value;
 
-      //更新滑块UI状态
       function updateUI(val) {
         const idx = Array.from(options).findIndex(o => o.dataset.value === String(val));
         if (idx === -1) return;
-        if (thumb) thumb.style.left = `calc(${idx * 50}% + 3px)`;
         options.forEach(opt => opt.classList.remove('active'));
         options[idx].classList.add('active');
+        updateThumb(idx);
       }
 
-      // 绑定选项点击事件
       options.forEach(option => option.addEventListener('click', () => {
         const v = option.dataset.value;
         localStorage.setItem(valueKey, v);
         Settings.set(valueKey, v);
-        if (valueKey === 'columnCount') UI.layoutMasonry(); // 列数改变时重新布局
         updateUI(v);
+
+        if (valueKey === 'nsfwMode') {
+          UI.applyNSFWPolicy(Settings.get('nsfwMode'));
+          UI.layoutMasonry();
+        }
+        if (valueKey === 'columnCount') UI.layoutMasonry();
       }));
+
+      window.addEventListener('resize', () => container._recalcThumb && container._recalcThumb());
 
       updateUI(savedValue);
     }
 
-    //绑定设置模态框事件
-      function bindSettingsModal() {
+    // 绑定设置模态框事件
+    function bindSettingsModal() {
       const { SETTINGS_BTN, SETTINGS_MODAL, CLOSE_SETTINGS } = DOM;
       if (SETTINGS_BTN && SETTINGS_MODAL && CLOSE_SETTINGS) {
-        SETTINGS_BTN.addEventListener('click', () => SETTINGS_MODAL.classList.add('show'));
+        SETTINGS_BTN.addEventListener('click', () => {
+          SETTINGS_MODAL.classList.add('show');
+          // 延迟调用 _recalcThumb，保证容器可见
+          setTimeout(() => {
+            document.querySelectorAll('.slider-container').forEach(c => {
+              if (typeof c._recalcThumb === 'function') c._recalcThumb();
+            });
+          }, 80);
+        });
         CLOSE_SETTINGS.addEventListener('click', () => SETTINGS_MODAL.classList.remove('show'));
         SETTINGS_MODAL.addEventListener('click', event => { 
           if (event.target === SETTINGS_MODAL) SETTINGS_MODAL.classList.remove('show'); 
@@ -877,6 +942,8 @@
     function initSliders() {
       initSlider('thumbQualitySlider', 'thumbQuality');
       initSlider('columnCountSlider', 'columnCount');
+      initSlider('nsfwSlider', 'nsfwMode');
+
     }
 
     //初始化所有控件
@@ -935,7 +1002,7 @@
       return `${year}-${month}-${day}`;
     }
 
-    //核心函数：获取并渲染一页Mod数据
+    // 核心函数：获取并渲染一页Mod数据（完整实现，保持原逻辑，渲染后应用 NSFW 策略）
     async function loadMods() {
       if (loading || noMore) return;
       loading = true;
@@ -1015,6 +1082,9 @@
             // 忽略缩略图处理错误
           }
 
+          // 新增 nsfw 字段：_bHasContentRatings 为 true 表示存在内容评级（NSFW）
+          const nsfwFlag = !!source?._bHasContentRatings;
+
           mods.push({
             id: item_id,
             name: source?._sName,
@@ -1028,10 +1098,11 @@
             likes: source?._nLikeCount || 0,
             comments: source?._nCommentCount || source?._nPostCount || 0,
             views: source?._nViewCount || 0,
+            nsfw: nsfwFlag
           });
         }
 
-        // 翻译Mod数据
+        // 翻译Mod数据（若已加载翻译器）
         const translatedMods = Translator.isLoaded() ? Translator.translateContent(mods) : mods;
 
         // 创建并添加卡片
@@ -1041,6 +1112,12 @@
         });
 
         UI.layoutMasonry();
+
+        // 新增：渲染完成后应用 NSFW 策略（立即生效）
+        (function applyNsfwPolicyAfterRender() {
+          const nsfwMode = localStorage.getItem('nsfwMode') || Settings.get('nsfwMode') || 'show';
+          UI.applyNSFWPolicy(nsfwMode);
+        })();
 
         // 处理分类信息获取
         if (categoryIdsToFetch.length) {
