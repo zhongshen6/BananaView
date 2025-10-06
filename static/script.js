@@ -1,6 +1,3 @@
-//v0.85
-//将缓存文件获取到前端，减少向后端的申请
-
 (() => {
   'use strict';
 
@@ -381,10 +378,7 @@
   })();
 
   // ================================================== UI模块 ==================================================
-  /**
-   * 用户界面模块
-   * 负责DOM渲染、布局管理和UI状态控制
-   */
+  //用户界面模块，负责DOM渲染、布局管理和UI状态控制
   const UI = (() => {
     const container = DOM.MODS_CONTAINER;
     const loader = DOM.LOADER;
@@ -419,20 +413,31 @@
       layoutMasonry();
     }
 
-    //创建Mod卡片元素
+    // 创建Mod卡片元素（完整实现，增加 nsfw/sfw 标签及 data-nsfw 属性）
     function createCard(mod) {
       const card = document.createElement('article');
       card.className = 'card mod-card';
       card.dataset.id = mod.id;
+      // 方便后续扩展（过滤/模糊/样式控制）
+      card.dataset.nsfw = mod.nsfw ? 'true' : 'false';
 
-      // 缩略图HTML
+      // 标签 HTML（红色 NSFW / 绿色 SFW）
+      const tagHtml = mod.nsfw
+        ? `<span class="nsfw-tag">NSFW</span>`
+        : `<span class="sfw-tag">SFW</span>`;
+
+      // 缩略图 HTML（若有缩略图则为链接，否则显示无图占位）
       const thumbHtml = mod.thumb
         ? `<a class="thumb" href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
-              <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
+             <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
+             ${tagHtml}
            </a>`
-        : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);">无图</div>`;
+        : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;">
+             ${tagHtml}
+             <div style="padding:18px 12px;">无图</div>
+           </div>`;
 
-      // 标题HTML
+      // 标题 HTML
       const titleHtml = `
         <h3 class="title">
             <a href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
@@ -440,24 +445,21 @@
             </a>
         </h3>
       `;
-      // 在创建卡片时检查分类缓存
-      let categoryInfo = null;
+
+      // 分类处理：优先使用 mod.category，否则等待 CategoryPoller 补全
       let categoryText = Config.STRINGS.GETTING;
       let categoryClass = 'pending';
       let categoryHref = mod.catid ? `https://gamebanana.com/mods/cats/${mod.catid}` : '#';
-      
+
       if (mod.category && mod.category !== Config.STRINGS.GETTING) {
-        // 如果mod数据中已有分类信息，直接使用
         categoryText = mod.category;
         categoryClass = '';
       } else {
-        // 检查前端缓存
         const cachedInfo = CategoryPoller.getCategoryInfo(mod.id);
         if (cachedInfo) {
           categoryText = cachedInfo.category;
           categoryClass = '';
-          categoryInfo = cachedInfo;
-          categoryHref = cachedInfo.catid ? `https://gamebanana.com/mods/cats/${cachedInfo.catid}` : '#';
+          if (cachedInfo.catid) categoryHref = `https://gamebanana.com/mods/cats/${cachedInfo.catid}`;
         }
       }
 
@@ -492,18 +494,19 @@
 
       card.innerHTML = `${thumbHtml}${titleHtml}${bodyHtml}`;
 
-      // 图片加载完成后重新布局
+      // 图片加载完成后重新布局（保持原有行为）
       const image = card.querySelector('.thumb img');
       if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
       // 如果分类信息正在获取中，添加到轮询队列
-    const categoryElement = card.querySelector('.category');
-    if (categoryElement?.classList.contains('pending')) {
-      CategoryPoller.add(categoryElement.dataset.id);
-    }
+      const categoryElement = card.querySelector('.category');
+      if (categoryElement?.classList.contains('pending')) {
+        CategoryPoller.add(categoryElement.dataset.id);
+      }
 
       return card;
     }
+
 
     //HTML转义函数
     function escapeHtml(str) {
@@ -935,7 +938,7 @@
       return `${year}-${month}-${day}`;
     }
 
-    //核心函数：获取并渲染一页Mod数据
+    // 核心函数：获取并渲染一页Mod数据（完整实现，新增 nsfw 字段）
     async function loadMods() {
       if (loading || noMore) return;
       loading = true;
@@ -1015,6 +1018,9 @@
             // 忽略缩略图处理错误
           }
 
+          // 新增 nsfw 字段：_bHasContentRatings 为 true 表示存在内容评级（NSFW）
+          const nsfwFlag = !!source?._bHasContentRatings;
+
           mods.push({
             id: item_id,
             name: source?._sName,
@@ -1028,10 +1034,11 @@
             likes: source?._nLikeCount || 0,
             comments: source?._nCommentCount || source?._nPostCount || 0,
             views: source?._nViewCount || 0,
+            nsfw: nsfwFlag
           });
         }
 
-        // 翻译Mod数据
+        // 翻译Mod数据（若已加载翻译器）
         const translatedMods = Translator.isLoaded() ? Translator.translateContent(mods) : mods;
 
         // 创建并添加卡片
@@ -1060,6 +1067,7 @@
         DOM.LOADER && (DOM.LOADER.style.display = noMore ? 'block' : 'none');
       }
     }
+
 
     //加载多页数据的辅助函数
     async function loadThreePages(isInitial = false) {
