@@ -110,7 +110,7 @@ const Settings = (() => {
         case 'updated':
           return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=updated&_csvModelInclusions=Mod&_nPage=${pageNum}`;
         case 'subscriptions': {
-          const userId = localStorage.getItem('userId') || Settings.get('userId');
+          const userId = Settings.get('userId');
           if (!userId) return null;
           return `https://gamebanana.com/apiv11/Member/${userId}/Subscriptions?_nPage=${pageNum}`;
         }
@@ -209,30 +209,13 @@ const Settings = (() => {
         }
         
         const ids = [...pendingIds];
-        const uncachedIds = [];
-        
-        // 批量检查缓存
-        for (const id of ids) {
-          const cachedInfo = getCategoryInfo(id);
-          if (cachedInfo) {
-            // 缓存命中，直接更新并移除待处理队列
-            UI.updateCategoryElement(id, cachedInfo);
-            pendingIds.delete(id);
-            pendingTries.delete(id);
-          } else {
-            uncachedIds.push(id);
-          }
-        }
-        
-        if (uncachedIds.length === 0) {
-          stopTimerIfEmpty();
-          return;
-        }
-        
+        console.log(`开始分类轮询，待处理ID数量: ${pendingIds.size}`);
+
         try {
-          const payload = await Api.fetchSubcat(uncachedIds);
-          const data = payload; // 已经在Api.fetchSubcat中翻译过了
-          uncachedIds.forEach(id => {
+          const payload = await Api.fetchSubcat(ids);
+          const data = payload;
+          console.log(`分类轮询完成，成功处理: ${Object.keys(data || {}).length} 个分类`);
+          ids.forEach(id => {
             const info = data?.[id] || data?.[String(id)];
             if (info?.category) {
               UI.updateCategoryElement(id, info);
@@ -251,7 +234,7 @@ const Settings = (() => {
           });
         } catch (err) {
           console.error('分类请求失败:', err);
-          uncachedIds.forEach(id => {
+          ids.forEach(id => {
             const tries = (pendingTries.get(id) || 0) + 1;
             if (tries >= Config.MAX_TRIES) {
               UI.updateCategoryElement(id, null);
@@ -268,7 +251,10 @@ const Settings = (() => {
 
       // 确保轮询定时器运行
       function ensureTimer() {
-        if (!pollTimer) pollTimer = setInterval(pollPendingCategories, Config.POLL_INTERVAL);
+        if (!pollTimer) {
+          pollTimer = setInterval(pollPendingCategories, Config.POLL_INTERVAL);
+          console.log('分类轮询定时器启动，间隔:', Config.POLL_INTERVAL, 'ms');
+        }
       }
 
       // 如果队列为空则停止定时器
@@ -276,6 +262,7 @@ const Settings = (() => {
         if (pendingIds.size === 0 && pollTimer) {
           clearInterval(pollTimer);
           pollTimer = null;
+          console.log('分类轮询定时器停止');
         }
       }
 
@@ -546,7 +533,7 @@ const Settings = (() => {
     // ---------- 瀑布流布局函数 ----------
     //计算当前应显示的列数
     function getColumnCount() {
-      const userColumns = parseInt(localStorage.getItem('columnCount')) || Settings.get('columnCount') || 0;
+      const userColumns = Settings.get('columnCount') || 0;
       if (userColumns === 1) return 1; // 用户明确设置为1列
       const width = container.clientWidth;
       // 响应式列数计算
@@ -695,7 +682,7 @@ const Settings = (() => {
         if (idx !== -1) updateThumb(idx);
       };
 
-      let savedValue = localStorage.getItem(valueKey);
+      let savedValue = Settings.get(valueKey);
       if (savedValue === null && options[0]) savedValue = options[0].dataset.value;
 
       function updateUI(val) {
@@ -748,7 +735,7 @@ const Settings = (() => {
     function bindUserIdInput() {
       const input = DOM.userIdInput;
       if (!input) return;
-      const saved = localStorage.getItem('userId') || Settings.get('userId');
+      const saved = Settings.get('userId');
       if (saved) input.value = saved;
 
       // 输入框失去焦点时验证并保存
@@ -760,7 +747,7 @@ const Settings = (() => {
             Settings.set('userId', val);
           } else {
             alert(Config.STRINGS.USERID_NOT_NUM);
-            input.value = localStorage.getItem('userId') || '';
+            input.value = Settings.get('userId') || '';
           }
         }
       });
@@ -1011,7 +998,7 @@ const Settings = (() => {
       const skeletons = UI.showSkeleton(skeletonCount);
 
       try {
-        const quality = localStorage.getItem('thumbQuality') || Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
+        const quality = Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
         const url = Api.getApiUrl(currentMode, page);
         if (!url) throw new Error('无效的 API 地址或缺少 userId（订阅模式）');
 
@@ -1115,15 +1102,13 @@ const Settings = (() => {
 
         // 新增：渲染完成后应用 NSFW 策略（立即生效）
         (function applyNsfwPolicyAfterRender() {
-          const nsfwMode = localStorage.getItem('nsfwMode') || Settings.get('nsfwMode') || 'show';
+          const nsfwMode = Settings.get('nsfwMode') || 'show';
           UI.applyNSFWPolicy(nsfwMode);
         })();
 
         // 处理分类信息获取
         if (categoryIdsToFetch.length) {
           categoryIdsToFetch.forEach(id => CategoryPoller.add(id));
-          // 立即尝试获取以提升用户体验
-          CategoryPoller.pollPendingCategories();
         }
 
         loading = false;
@@ -1148,36 +1133,47 @@ const Settings = (() => {
       }
     }
 
-    //初始化无限滚动观察器
-    function initIntersectionObserver() {
-      if (DOM.SENTINEL) observer.observe(DOM.SENTINEL);
+    async function initializeApp() {
+      try {
+        console.log('🚀 开始初始化应用...');
+        
+        // 1. 加载设置
+        Settings.load();
+        
+        // 2. 初始化控件（不依赖其他模块）
+        Controls.initAll();
+        
+        // 3. 先加载翻译表（必须最先完成）
+        await Translator.loadTranslationTable();
+        console.log('✅ 翻译表加载完成');
+        
+        // 4. 然后加载分类缓存
+        await CategoryPoller.loadCategoryCache();
+        console.log('✅ 分类缓存加载完成');
+        
+        // 5. 初始化无限滚动观察器
+        if (DOM.SENTINEL) {
+          observer.observe(DOM.SENTINEL);
+        }
+        
+        // 6. 最后开始加载Mod数据（确保翻译表已就绪）
+        await loadThreePages(true);
+        
+        console.log('🎉 应用初始化完成');
+        
+      } catch (error) {
+        console.error('❌ 初始化失败:', error);
+        UI.showLoader(true, '初始化失败，请刷新页面');
+      }
     }
-
-    //初始化翻译器与分类缓存并开始加载数据
-    async function initTranslatorAndStart() {
-      // 先加载翻译表，再加载分类缓存（因为缓存需要翻译）
-      await Translator.loadTranslationTable();
-      await CategoryPoller.loadCategoryCache();
-      
-      // 初始预加载：尝试加载2页以模拟原始行为
-      await loadThreePages(true);
-    }
-    //DOM加载完成后的初始化
-    function initOnDOMContentLoaded() {
-      initTranslatorAndStart().catch(e => console.error(e));
-      Controls.initAll();
-      initIntersectionObserver();
-    }
-
-    return { initOnDOMContentLoaded, setMode };
+    return { initializeApp, setMode };
   })();
 
   // ================================================== 初始化 ==================================================
   //DOM加载完成后初始化设置和主应用
   
   document.addEventListener('DOMContentLoaded', () => {
-    Settings.load();
-    App.initOnDOMContentLoaded();
+    App.initializeApp(); // 通过 App 模块调用
   });
 
 })();
