@@ -534,7 +534,7 @@ const Settings = (() => {
     //计算当前应显示的列数
     function getColumnCount() {
       const userColumns = Settings.get('columnCount') || 0;
-      if (userColumns === 1) return 1; // 用户明确设置为1列
+      if (userColumns === 1 || userColumns === '1') return 1; // 用户明确设置为1列
       const width = container.clientWidth;
       // 响应式列数计算
       if (width <= Config.DEFAULT_COLUMN_BREAKPOINTS.sm) return 2;
@@ -695,7 +695,6 @@ const Settings = (() => {
 
       options.forEach(option => option.addEventListener('click', () => {
         const v = option.dataset.value;
-        localStorage.setItem(valueKey, v);
         Settings.set(valueKey, v);
         updateUI(v);
 
