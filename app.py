@@ -1,13 +1,4 @@
-# 版本v0.89，每次更新代码就将版本号加0.01
-
-#重要
-
-#增加更多界面，mod详情
-#增加nsfw标识
-
-#可选
-#缓存未命中时，后端api调用速度过快 - 已修复
-#页面缓存
+# 版本v0.94，每次更新代码就将版本号加0.01
 
 from flask import Flask, render_template, jsonify, request
 import time
@@ -19,25 +10,24 @@ import requests
 from pathlib import Path
 import queue
 
-BASE_DIR = Path(__file__).resolve().parent  # 获取当前文件所在目录的绝对路径
+BASE_DIR = Path(__file__).resolve().parent
 API_URL = "https://gamebanana.com/apiv11/Game/8552/Subfeed"
 DETAIL_URL = "https://api.gamebanana.com/Core/Item/Data"
 CACHE_FILE = BASE_DIR / "static" / "subcategory_cache.json"
+WORDS_URL = "http://dataset.genshin-dictionary.com/words.json"  # 直接使用HTTP
 
-cache_lock = Lock()  # 添加线程锁保护缓存操作
+cache_lock = Lock()
 subcategory_cache = {}
-fetch_category_enabled = True  # 是否获取分类开关
+fetch_category_enabled = True
 
-# 添加请求速率限制相关变量
 category_queue = queue.Queue()
 rate_limit_lock = Lock()
 last_request_time = 0
-MIN_REQUEST_INTERVAL = 0.2  # 最小请求间隔 200ms (5次/秒)
+MIN_REQUEST_INTERVAL = 0.2
 
 def log(msg):
     print(f"[DEBUG {time.strftime('%H:%M:%S')}] {msg}")
 
-#    ===================================================--- 缓存管理逻辑 
 def load_cache():
     global subcategory_cache
     if os.path.exists(CACHE_FILE):
@@ -61,13 +51,54 @@ def save_cache():
     except Exception as e:
         log(f"缓存文件保存失败: {e}")
 
+def update_translation_table():
+    """从远程URL更新中英对照表 - 简化版"""
+    default_file = BASE_DIR / "static" / "words.json"
+    
+    log("开始更新中英对照表...")
+    
+    # 直接使用HTTP协议，因为已知它工作正常
+    try:
+        # 设置兼容性头部
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json',
+            'Accept-Encoding': 'gzip, deflate'
+        }
+        
+        response = requests.get(WORDS_URL, timeout=30, headers=headers)
+        response.raise_for_status()
+        remote_words = response.json()
+        
+        # 保存到本地默认翻译表
+        with open(default_file, "w", encoding="utf-8") as f:
+            json.dump(remote_words, f, ensure_ascii=False, indent=2)
+        
+        log(f"中英对照表更新成功，条目数: {len(remote_words)}")
+        return True
+    except Exception as e:
+        log(f"中英对照表更新失败: {e}")
+        
+        # 如果更新失败但本地已有文件，仍然继续
+        if os.path.exists(default_file):
+            log("使用本地已有的翻译表")
+            return True
+        else:
+            log("没有可用的翻译表")
+            return False
 
-# generate_translations.py - 生成前端翻译表的脚本
 def create_frontend_translation_table():
     default_file = BASE_DIR / "static" / "words.json"
     custom_file = BASE_DIR / "static" / "custom-words.json"
     output_file = BASE_DIR / "static" / "words-frontend.json"
     combined_words = []
+    
+    # 检查默认翻译表是否存在
+    if not os.path.exists(default_file):
+        log("默认翻译表不存在，尝试更新...")
+        if not update_translation_table():
+            log("无法获取翻译表，前端翻译表生成失败")
+            return
     
     # 读取默认翻译表
     if os.path.exists(default_file):
@@ -75,9 +106,9 @@ def create_frontend_translation_table():
             with open(default_file, "r", encoding="utf-8") as f:
                 default_words = json.load(f)
                 combined_words.extend(default_words)
-            print(f"已加载默认翻译表，条目数: {len(default_words)}")
+            log(f"已加载默认翻译表，条目数: {len(default_words)}")
         except Exception as e:
-            print(f"加载默认翻译表失败: {e}")
+            log(f"加载默认翻译表失败: {e}")
             return
     
     # 读取自定义翻译表
@@ -86,22 +117,21 @@ def create_frontend_translation_table():
             with open(custom_file, "r", encoding="utf-8") as f:
                 custom_words = json.load(f)
                 combined_words.extend(custom_words)
-            print(f"已加载自定义翻译表，条目数: {len(custom_words)}")
+            log(f"已加载自定义翻译表，条目数: {len(custom_words)}")
         except Exception as e:
-            print(f"加载自定义翻译表失败: {e}")
+            log(f"加载自定义翻译表失败: {e}")
     else:
-        print("未找到自定义翻译表，将只使用默认翻译表")
+        log("未找到自定义翻译表，将只使用默认翻译表")
     
     # 创建精简版，只保留必要字段
     simplified_words = []
-    seen = set()  # 用于去重
+    seen = set()
     
     for word in combined_words:
         en = word.get("en", "").strip('"')
         zhCN = word.get("zhCN", "")
         
         if en and zhCN:
-            # 检查是否已经存在相同的英文词条
             if en.lower() not in seen:
                 seen.add(en.lower())
                 simplified_words.append({
@@ -114,46 +144,40 @@ def create_frontend_translation_table():
         with open(output_file, "w", encoding="utf-8") as f:
             json.dump(simplified_words, f, ensure_ascii=False, indent=2)
         
-        print(f"已创建前端翻译表，总条目数: {len(simplified_words)}")
-        print(f"已保存到: {output_file}")
+        log(f"已创建前端翻译表，总条目数: {len(simplified_words)}")
+        log(f"已保存到: {output_file}")
     except Exception as e:
-        print(f"保存前端翻译表失败: {e}")
+        log(f"保存前端翻译表失败: {e}")
 
-#    ===================================================--- 速率限制的分类获取
 def rate_limited_fetch(item_id):
-    """带速率限制的分类获取函数"""
     global last_request_time
     
     with rate_limit_lock:
         current_time = time.time()
         time_since_last_request = current_time - last_request_time
         
-        # 如果距离上次请求时间太短，等待足够的时间
         if time_since_last_request < MIN_REQUEST_INTERVAL:
             sleep_time = MIN_REQUEST_INTERVAL - time_since_last_request
             log(f"速率限制: 等待 {sleep_time:.2f} 秒后请求 {item_id}")
             time.sleep(sleep_time)
         
-        # 更新最后请求时间
         last_request_time = time.time()
     
-    # 执行实际的API请求
     fetch_subcategory_async(item_id)
 
 def category_worker():
-    """分类获取工作线程，从队列中获取任务并处理"""
     log("分类获取工作线程已启动")
     while True:
         try:
             item_id = category_queue.get()
-            if item_id is None:  # 退出信号
+            if item_id is None:
                 break
             log(f"工作线程处理分类请求: {item_id}")
             rate_limited_fetch(item_id)
             category_queue.task_done()
         except Exception as e:
             log(f"工作线程异常: {e}")
-            time.sleep(1)  # 发生异常时稍作休息
+            time.sleep(1)
 
 def fetch_subcategory_async(item_id): 
     if not fetch_category_enabled:
@@ -165,7 +189,6 @@ def fetch_subcategory_async(item_id):
         res.raise_for_status()
         j = res.json()
         if isinstance(j, list) and len(j) >= 2:
-            # 成功：只写 name/id，不写时间戳
             with cache_lock:
                 subcategory_cache[str(item_id)] = {
                     "name": j[0],
@@ -176,7 +199,6 @@ def fetch_subcategory_async(item_id):
         else:
             log(f"获取失败，数据格式异常: {item_id}")
             with cache_lock:
-                # 失败：标记获取中，写入时间戳（秒级整数）
                 subcategory_cache[str(item_id)] = {
                     "name": "获取中...",
                     "id": None,
@@ -186,7 +208,6 @@ def fetch_subcategory_async(item_id):
     except Exception as e:
         log(f"获取异常: {item_id} -> {e}")
         with cache_lock:
-            # 异常：同样写"获取中..."带时间戳
             subcategory_cache[str(item_id)] = {
                 "name": "获取中...",
                 "id": None,
@@ -196,18 +217,22 @@ def fetch_subcategory_async(item_id):
 
 app = Flask(__name__, static_url_path='/mod/static')
 
-# 在应用启动时加载缓存
+log("应用启动初始化...")
 load_cache()
-# 生成精简版翻译表
-create_frontend_translation_table()
 
-# 启动分类获取工作线程
+log("开始更新翻译表...")
+if update_translation_table():
+    log("翻译表更新成功，开始构建精简表...")
+    create_frontend_translation_table()
+else:
+    log("翻译表更新失败，尝试使用现有文件构建精简表...")
+    create_frontend_translation_table()
+
 worker_thread = threading.Thread(target=category_worker, daemon=True)
 worker_thread.start()
 log("分类获取工作线程已启动")
 
-#    ===================================================--- 分类获取api
-CATEGORY_TTL = 600  # 10分钟过期
+CATEGORY_TTL = 600
 
 @app.route('/mod/api/subcat')
 def api_subcat():
@@ -225,7 +250,7 @@ def api_subcat():
     
     now = int(time.time())
     result = {}
-    expire_seconds = 600  # 10分钟过期
+    expire_seconds = 600
     
     for item_id in ids:
         key = str(item_id)
@@ -237,22 +262,18 @@ def api_subcat():
             with cache_lock:
                 subcategory_cache[key] = {"status": "pending", "ts": now}
             save_cache()
-            # 使用队列提交任务，而不是直接启动线程
             category_queue.put(item_id)
             log(f"首次请求，提交到分类队列: {item_id}")
             continue
         
-        # ✅ 分类已成功获取
         if val.get("name") and val.get("name") != "获取中...":
             result[item_id] = {"category": val["name"], "catid": val.get("id")}
             log(f"缓存命中: {item_id} -> {val['name']}")
             continue
         
-        # ⚠️ "获取中..." 状态
         ts = val.get("ts")
         if ts:
             if now - int(ts) > expire_seconds:
-                # 超时 → 删除缓存，下次触发重新获取
                 log(f"缓存过期: {item_id}, 删除记录")
                 with cache_lock:
                     if key in subcategory_cache:
@@ -261,7 +282,6 @@ def api_subcat():
             else:
                 log(f"缓存获取中未过期: {item_id}")
 
-    
     return jsonify(result)
 
 @app.route("/mod/")
