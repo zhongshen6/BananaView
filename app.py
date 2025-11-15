@@ -1,4 +1,4 @@
-# 版本v0.88，每次更新代码就将版本号加0.01
+# 版本v0.89，每次更新代码就将版本号加0.01
 
 #重要
 
@@ -6,7 +6,7 @@
 #增加nsfw标识
 
 #可选
-#缓存未命中时，后端api调用速度过快
+#缓存未命中时，后端api调用速度过快 - 已修复
 #页面缓存
 
 from flask import Flask, render_template, jsonify, request
@@ -17,6 +17,7 @@ import os
 from threading import Lock
 import requests
 from pathlib import Path
+import queue
 
 BASE_DIR = Path(__file__).resolve().parent  # 获取当前文件所在目录的绝对路径
 API_URL = "https://gamebanana.com/apiv11/Game/8552/Subfeed"
@@ -26,6 +27,12 @@ CACHE_FILE = BASE_DIR / "static" / "subcategory_cache.json"
 cache_lock = Lock()  # 添加线程锁保护缓存操作
 subcategory_cache = {}
 fetch_category_enabled = True  # 是否获取分类开关
+
+# 添加请求速率限制相关变量
+category_queue = queue.Queue()
+rate_limit_lock = Lock()
+last_request_time = 0
+MIN_REQUEST_INTERVAL = 0.2  # 最小请求间隔 200ms (5次/秒)
 
 def log(msg):
     print(f"[DEBUG {time.strftime('%H:%M:%S')}] {msg}")
@@ -111,16 +118,43 @@ def create_frontend_translation_table():
         print(f"已保存到: {output_file}")
     except Exception as e:
         print(f"保存前端翻译表失败: {e}")
-app = Flask(__name__, static_url_path='/mod/static')
 
-# 在应用启动时加载缓存
-load_cache()
-# 生成精简版翻译表
-create_frontend_translation_table()
+#    ===================================================--- 速率限制的分类获取
+def rate_limited_fetch(item_id):
+    """带速率限制的分类获取函数"""
+    global last_request_time
+    
+    with rate_limit_lock:
+        current_time = time.time()
+        time_since_last_request = current_time - last_request_time
+        
+        # 如果距离上次请求时间太短，等待足够的时间
+        if time_since_last_request < MIN_REQUEST_INTERVAL:
+            sleep_time = MIN_REQUEST_INTERVAL - time_since_last_request
+            log(f"速率限制: 等待 {sleep_time:.2f} 秒后请求 {item_id}")
+            time.sleep(sleep_time)
+        
+        # 更新最后请求时间
+        last_request_time = time.time()
+    
+    # 执行实际的API请求
+    fetch_subcategory_async(item_id)
 
+def category_worker():
+    """分类获取工作线程，从队列中获取任务并处理"""
+    log("分类获取工作线程已启动")
+    while True:
+        try:
+            item_id = category_queue.get()
+            if item_id is None:  # 退出信号
+                break
+            log(f"工作线程处理分类请求: {item_id}")
+            rate_limited_fetch(item_id)
+            category_queue.task_done()
+        except Exception as e:
+            log(f"工作线程异常: {e}")
+            time.sleep(1)  # 发生异常时稍作休息
 
-
-   #========================================================分类获取api
 def fetch_subcategory_async(item_id): 
     if not fetch_category_enabled:
         return
@@ -152,7 +186,7 @@ def fetch_subcategory_async(item_id):
     except Exception as e:
         log(f"获取异常: {item_id} -> {e}")
         with cache_lock:
-            # 异常：同样写“获取中...”带时间戳
+            # 异常：同样写"获取中..."带时间戳
             subcategory_cache[str(item_id)] = {
                 "name": "获取中...",
                 "id": None,
@@ -160,7 +194,19 @@ def fetch_subcategory_async(item_id):
             }
         save_cache()
 
+app = Flask(__name__, static_url_path='/mod/static')
 
+# 在应用启动时加载缓存
+load_cache()
+# 生成精简版翻译表
+create_frontend_translation_table()
+
+# 启动分类获取工作线程
+worker_thread = threading.Thread(target=category_worker, daemon=True)
+worker_thread.start()
+log("分类获取工作线程已启动")
+
+#    ===================================================--- 分类获取api
 CATEGORY_TTL = 600  # 10分钟过期
 
 @app.route('/mod/api/subcat')
@@ -191,8 +237,9 @@ def api_subcat():
             with cache_lock:
                 subcategory_cache[key] = {"status": "pending", "ts": now}
             save_cache()
-            threading.Thread(target=fetch_subcategory_async, args=(item_id,), daemon=True).start()
-            log(f"首次请求，启动异步抓取: {item_id}")
+            # 使用队列提交任务，而不是直接启动线程
+            category_queue.put(item_id)
+            log(f"首次请求，提交到分类队列: {item_id}")
             continue
         
         # ✅ 分类已成功获取
@@ -217,13 +264,9 @@ def api_subcat():
     
     return jsonify(result)
 
-
-
 @app.route("/mod/")
 def index():
     return render_template('index.html')
-
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)
