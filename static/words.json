@@ -1,5 +1,5953 @@
 [
   {
+    "en": "Irmin",
+    "ja": "エルミン / イルミン",
+    "zhCN": "伊尔明",
+    "zhTW": "伊爾明",
+    "notes": "カーンルイア黒日王朝時代の君主「黒王」。「エルミン」「イルミン」の表記ゆれあり。",
+    "tags": [
+      "khaenriah",
+      "character-sub"
+    ],
+    "id": "irmin",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2022-01-01"
+  },
+  {
+    "en": "Irminsul (Vinster King)",
+    "ja": "イルミンズール",
+    "zhCN": "伊尔明苏尔",
+    "zhTW": "伊爾明蘇爾",
+    "notesEn": "※The original name does not have (Vinster King). Added due to constraints of key generation.",
+    "notes": "カーンルイア黒日王朝時代の君主「黒王」。※英語の名前には (Vinster King) はついていません。システム制約によりキーを重複させないための処置です。",
+    "notesZh": "※原英文名字不包括（Vinster King）。这是为了防止由于系统限制而出现重复密钥的措施。",
+    "tags": [
+      "khaenriah",
+      "character-sub"
+    ],
+    "id": "irminsul-vinster-king",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Tholindis",
+    "ja": "ソリンディス",
+    "zhCN": "索琳蒂丝",
+    "zhTW": "索琳蒂絲",
+    "tags": [
+      "khaenriah",
+      "character-sub"
+    ],
+    "notes": "魔人任務「存在しない国」「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「不存在的国土」「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「不存在的國土」「回望湮滅的月光」中的登場角色。",
+    "id": "tholindis",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Thorkell",
+    "ja": "トルケル",
+    "zhCN": "索凯尔",
+    "zhTW": "索凱爾",
+    "tags": [
+      "khaenriah",
+      "character-sub"
+    ],
+    "notes": "魔人任務「存在しない国」に登場する人物",
+    "notesZh": "魔神任务「不存在的国土」中的登场角色。",
+    "notesZhTW": "魔神任務「不存在的國土」中的登場角色。",
+    "id": "thorkell",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Orlog",
+    "ja": "ウーロ",
+    "zhCN": "乌洛",
+    "zhTW": "烏洛",
+    "tags": [
+      "khaenriah",
+      "character-sub"
+    ],
+    "notes": "魔人任務「存在しない国」「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「不存在的国土」「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「不存在的國土」「回望湮滅的月光」中的登場角色。",
+    "id": "orlog",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Vinster King",
+    "ja": "黒王",
+    "zhCN": "黑王",
+    "zhTW": "黑王",
+    "tags": [
+      "khaenriah",
+      "title"
+    ],
+    "notes": "黒日王朝の君主の称号",
+    "id": "vinster-king",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Frithr",
+    "ja": "フレル",
+    "zhCN": "芙蕾尔",
+    "zhTW": "芙蕾爾",
+    "tags": [
+      "khaenriah",
+      "character-sub"
+    ],
+    "notes": "魔人任務「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「回望湮滅的月光」中的登場角色。",
+    "id": "frithr",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Maalaus",
+    "ja": "メイラ",
+    "zhCN": "梅拉",
+    "zhTW": "梅拉",
+    "notes": "伴月紀聞「月のそばの小さな画家・１」「月のそばの小さな画家・２」に登場する月霊",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "maalaus",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Radimir",
+    "ja": "ラジミール",
+    "zhCN": "拉季米尔",
+    "zhTW": "拉季米爾",
+    "notes": "魔人任務「存在しない国」に登場する人物。ライトキーパー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "radimir",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Fevroniya",
+    "ja": "フェルニア",
+    "zhCN": "费卢妮娅",
+    "zhTW": "費盧妮婭",
+    "notes": "魔人任務「存在しない国」に登場するファデュイ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "character-sub"
+    ],
+    "id": "fevroniya",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Ozerov",
+    "ja": "オゼロフ",
+    "zhCN": "奥泽洛夫",
+    "zhTW": "奧澤洛夫",
+    "notes": "魔人任務「存在しない国」に登場するファデュイ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "character-sub"
+    ],
+    "id": "ozerov",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Sinuhe",
+    "ja": "シヌヘ",
+    "zhCN": "辛努海",
+    "zhTW": "辛努海",
+    "notes": "魔人任務「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「回望湮滅的月光」中的登場角色。",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "sinuhe",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Uncle Anpu",
+    "ja": "アンプおじさん",
+    "zhCN": "安普叔",
+    "zhTW": "安普叔",
+    "notes": "「アアル村」村長",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "uncle-anpu",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Manetho",
+    "ja": "マネト",
+    "zhCN": "梅涅托",
+    "zhTW": "梅涅托",
+    "notes": "魔人任務「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「回望湮滅的月光」中的登場角色。",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "manetho",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Katayoun",
+    "ja": "カタユン",
+    "zhCN": "卡塔扬",
+    "zhTW": "卡塔揚",
+    "notes": "魔人任務「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「回望湮滅的月光」中的登場角色。",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "katayoun",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Arif",
+    "ja": "アリーフ",
+    "zhCN": "阿里夫",
+    "zhTW": "阿里夫",
+    "notes": "魔人任務「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「回望湮滅的月光」中的登場角色。",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "arif",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Nizar",
+    "ja": "ニザール",
+    "zhCN": "尼泽尔",
+    "zhTW": "尼澤爾",
+    "notes": "魔人任務「消えた月光に想いを馳せて」に登場する人物",
+    "notesZh": "魔神任务「回望湮灭的月光」中的登场角色。",
+    "notesZhTW": "魔神任務「回望湮滅的月光」中的登場角色。",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "nizar",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Wings of Companionship",
+    "ja": "見守りの翼",
+    "zhCN": "守候之翼",
+    "zhTW": "守候之翼",
+    "pronunciationJa": "みまもりのつばさ",
+    "id": "wings-of-companionship",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Descension",
+    "ja": "降臨の翼",
+    "zhCN": "降临之翼",
+    "zhTW": "降臨之翼",
+    "pronunciationJa": "こうりんのつばさ",
+    "notes": "PS4/PS5ユーザのみ入手可能な風の翼",
+    "id": "wings-of-descension",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Delicacies",
+    "ja": "盛宴の翼",
+    "zhCN": "肴馔之翼",
+    "zhTW": "餚饌之翼",
+    "pronunciationJa": "せいえんのつばさ",
+    "notes": "中国および日本においてケンタッキーとのコラボで配布された風の翼",
+    "id": "wings-of-delicacies",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Fate's Course Intertwined",
+    "ja": "交錯する運命の翼",
+    "zhCN": "命轨爻错之翼",
+    "zhTW": "命軌爻錯之翼",
+    "pronunciationJa": "こうさくするうんめいのつばさ",
+    "id": "wings-of-fates-course-intertwined",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Universitas Magistrorum",
+    "ja": "深秘院",
+    "zhCN": "深秘院",
+    "zhTW": "深秘院",
+    "pronunciationJa": "しんぴいん",
+    "tags": [
+      "khaenriah",
+      "organization"
+    ],
+    "id": "universitas-magistrorum",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "A Nation That Doesn't Exist",
+    "ja": "存在しない国",
+    "zhCN": "不存在的国土",
+    "zhTW": "不存在的國土",
+    "pronunciationJa": "そんざいしないくに",
+    "tags": [
+      "nodkrai",
+      "quest-archon"
+    ],
+    "notes": "空月の歌 第三幕",
+    "id": "a-nation-that-doesnt-exist",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "An Elegy for Faded Moonlight",
+    "ja": "消えた月光に想いを馳せて",
+    "zhCN": "回望湮灭的月光",
+    "zhTW": "回望湮滅的月光",
+    "pronunciationJa": "きえたげっこうにおもいをはせて",
+    "tags": [
+      "nodkrai",
+      "quest-archon"
+    ],
+    "notes": "空月の歌 第四幕",
+    "id": "an-elegy-for-faded-moonlight",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Lightkeepers' Oath",
+    "ja": "ライトキーパーの誓い",
+    "zhCN": "执灯人誓言",
+    "zhTW": "執燈人誓言",
+    "pronunciationJa": "ライトキーパーのちかい",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "lightkeepers-oath",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "May the Moonlight Connect Us",
+    "ja": "月光が我らを結ばん",
+    "zhCN": "月光联系你我",
+    "zhTW": "月光聯絡你我",
+    "pronunciationJa": "げっこうがわれらをむすばん",
+    "notes": "伴月紀聞・1で発生するクエスト、又は霜月の子の間で用いられる挨拶",
+    "tags": [
+      "nodkrai",
+      "quest-world",
+      "dialogue"
+    ],
+    "id": "may-the-moonlight-connect-us",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "The Artist By the Moon's Side (II)",
+    "ja": "月のそばの小さな画家・２",
+    "zhCN": "伴月的小画家·其二",
+    "zhTW": "伴月的小畫家·其二",
+    "pronunciationJa": "つきのそばのちいさながか・に",
+    "notes": "伴月紀聞・2で発生するクエスト",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "the-artist-by-the-moons-side-ii",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Saurian Sojourn",
+    "ja": "サウリアンギミック",
+    "zhCN": "龙龙同游",
+    "zhTW": "龍龍同遊",
+    "tags": [
+      "event"
+    ],
+    "notesEn": "Limited Time Event in v6.1(Luna II)",
+    "notes": "v6.1(Luna II) 期間限定イベント",
+    "notesZh": "v6.1(Luna II) 中的限时活动",
+    "id": "saurian-sojourn",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Komina",
+    "ja": "コミナ",
+    "zhCN": "科米娜",
+    "zhTW": "科米娜",
+    "tags": [
+      "event",
+      "character-sub",
+      "natlan"
+    ],
+    "notes": "v6.1(Luna II) 期間限定イベント「サウリアンギミック」に登場する人物",
+    "id": "komina",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Kweku",
+    "ja": "クウェク",
+    "zhCN": "克维库",
+    "zhTW": "克維庫",
+    "tags": [
+      "event",
+      "character-sub",
+      "natlan"
+    ],
+    "notes": "v6.1(Luna II) 期間限定イベント「サウリアンギミック」に登場する人物",
+    "id": "kweku",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Assistant Instructor Yehyeh",
+    "ja": "「イェーイェー副教官」",
+    "zhCN": "「耶耶副教官」",
+    "zhTW": "「耶耶副教官」",
+    "tags": [
+      "event",
+      "character-sub",
+      "natlan"
+    ],
+    "notes": "v6.1(Luna II) 期間限定イベント「サウリアンギミック」に登場するテペトル仔竜",
+    "id": "assistant-instructor-yehyeh",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-11-08"
+  },
+  {
+    "en": "Lightgleaner's Journey",
+    "ja": "旅の写真に輝きを",
+    "zhCN": "旅途拾光集",
+    "zhTW": "旅途拾光集",
+    "pronunciationJa": "たびのしゃしんにかがやきを",
+    "tags": [
+      "event"
+    ],
+    "notesEn": "Limited Time Event in v6.0(Luna I)",
+    "notes": "v6.0(Luna I) 期間限定イベント",
+    "notesZh": "v6.0(Luna I) 中的限时活动",
+    "id": "lightgleaners-journey",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Dodoco's Blow-Up-Erative Bomb-Nanza",
+    "ja": "ドドコドッカン大乱闘",
+    "zhCN": "嘟嘟可爆轰大乱斗",
+    "zhTW": "嘟嘟可爆轟大亂鬥",
+    "pronunciationJa": "ドドコドッカンだいらんとう",
+    "tags": [
+      "event"
+    ],
+    "notesEn": "Limited Time Event in v6.0(Luna I)",
+    "notes": "v6.0(Luna I) 期間限定イベント",
+    "notesZh": "v6.0(Luna I) 中的限时活动",
+    "id": "dodocos-blow-up-erative-bomb-nanza",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Rainbow's End: Silvery Flux",
+    "ja": "西の彼方の宝物・満ちゆく月",
+    "zhCN": "虹旅藏金·朔望流辉",
+    "zhTW": "虹旅藏金·朔望流輝",
+    "tags": [
+      "event"
+    ],
+    "notesEn": "Limited Time Event in v6.0(Luna I)",
+    "notes": "v6.0(Luna I) 期間限定イベント(ログインボーナス)",
+    "notesZh": "v6.0(Luna I) 中的限时活动",
+    "id": "rainbows-end-silvery-flux",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Clink Clank Clash",
+    "ja": "カチャカチャ大作戦",
+    "zhCN": "叮铃哐啷大作战",
+    "zhTW": "叮鈴哐啷大作戰",
+    "pronunciationJa": "カチャカチャだいさくせん",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notesEn": "Limited Time Event in v6.0(Luna I)",
+    "notes": "v6.0(Luna I) 期間限定イベント",
+    "notesZh": "v6.0(Luna I) 中的限时活动",
+    "id": "clink-clank-clash",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Pursue and Strike! The Out-of-Control Flier",
+    "ja": "追撃！ 暴走ユニット！",
+    "zhCN": "追击! 失控飞兵!",
+    "zhTW": "追撃! 失控飛兵!",
+    "pronunciationJa": "ついげき ぼうそうユニット",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notesEn": "v6.0(Luna I) Sub-events of the Limited Time Event \"Clink Clank Clash\"",
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」の子イベント",
+    "notesZh": "限时活动「叮铃哐啷大作战」v6.0(Luna I) 子活动",
+    "id": "pursue-and-strike-the-out-of-control-flier",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Boom! Blast! Power Test!",
+    "ja": "ドッカン！ 威力テスト",
+    "zhCN": "轰隆! 测试威力!",
+    "zhTW": "轟隆! 測試威力!",
+    "pronunciationJa": "ドッカン いりょくテスト",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notesEn": "v6.0(Luna I) Sub-events of the Limited Time Event \"Clink Clank Clash\"",
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」の子イベント",
+    "notesZh": "限时活动「叮铃哐啷大作战」v6.0(Luna I) 子活动",
+    "id": "boom-blast-power-test",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Seek and Find! Machines on the Fritz!",
+    "ja": "探せ！ ボロボロロボット！",
+    "zhCN": "寻踪! 故障机器!",
+    "zhTW": "尋蹤! 故障機器!",
+    "pronunciationJa": "さがせ ボロボロロボット",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notesEn": "v6.0(Luna I) Sub-events of the Limited Time Event \"Clink Clank Clash\"",
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」の子イベント",
+    "notesZh": "限时活动「叮铃哐啷大作战」v6.0(Luna I) 子活动",
+    "id": "seek-and-find-machines-on-the-fritz",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Quietly Now! Sneaky Sneaking Sneaks!",
+    "ja": "シーッ！ 潜入ロボット！",
+    "zhCN": "静音! 谋械潜行!",
+    "zhTW": "靜音! 謀械潜行!",
+    "pronunciationJa": "シーッ せんにゅうロボット",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notesEn": "v6.0(Luna I) Sub-events of the Limited Time Event \"Clink Clank Clash\"",
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」の子イベント",
+    "notesZh": "限时活动「叮铃哐啷大作战」v6.0(Luna I) 子活动",
+    "id": "quietly-now-sneaky-sneaking-sneaks",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Misplaced Creativity",
+    "ja": "失われた創造性",
+    "zhCN": "走失的创意",
+    "zhTW": "走失的創意",
+    "pronunciationJa": "うしなわれたそうぞうせい",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」内のストーリー",
+    "id": "misplaced-creativity",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "A Mysterious Outsourced Contract",
+    "ja": "外注の秘密保持に関して",
+    "zhCN": "外包的保密事项",
+    "zhTW": "外包的保密事項",
+    "pronunciationJa": "がいちゅうのひみつほじにかんして",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」内のストーリー",
+    "id": "a-mysterious-outsourced-contract",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "An Adventurer's Woes",
+    "ja": "冒険者の悩み",
+    "zhCN": "冒险家的烦恼",
+    "zhTW": "冒險家的煩惱",
+    "pronunciationJa": "ぼうけんしゃのなやみ",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」内のストーリー",
+    "id": "an-adventurers-woes",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Backup Plans",
+    "ja": "予備プラン",
+    "zhCN": "备用法案",
+    "zhTW": "備用法案",
+    "pronunciationJa": "よびプラン",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」内のストーリー",
+    "id": "backup-plans",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Unwritten Rules",
+    "ja": "暗黙のルール",
+    "zhCN": "暗处的规则",
+    "zhTW": "暗處的規則",
+    "pronunciationJa": "あんもくのルール",
+    "tags": [
+      "event",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」内のストーリー",
+    "id": "unwritten-rules",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Clink Clank Legion",
+    "ja": "カチャカチャ軍団",
+    "zhCN": "叮铃哐啷軍团",
+    "zhTW": "叮鈴哐啷軍團",
+    "pronunciationJa": "カチャカチャぐんだん",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」に登場するキャラクター",
+    "id": "clink-clank-legion",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Krum-Clank 70 percent Sweet",
+    "ja": "カンカン・アマサヒカエメ",
+    "zhCN": "铛铛七分甜",
+    "zhTW": "鐺鐺七分甜",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」に登場するキャラクター",
+    "id": "krum-clank-70-percent-sweet",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Zip-Zap Spy-Bot Number 1",
+    "ja": "ビュンビュンスパイ1号",
+    "zhCN": "㕲㕲㕲间谋1号",
+    "zhTW": "㕲㕲㕲間謀1號",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」に登場するキャラクター",
+    "id": "zip-zap-spy-bot-number-1",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Ginette",
+    "ja": "ジェネット",
+    "zhCN": "茜涅特",
+    "zhTW": "茜涅特",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai",
+      "fontaine"
+    ],
+    "notes": "ナシャタウンにいる人物。v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」ではカチャカチャ・クルムカケ工房にいる",
+    "id": "ginette",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sarin",
+    "ja": "サリーン",
+    "zhCN": "萨林",
+    "zhTW": "薩林",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai"
+    ],
+    "notes": "ナシャタウンにいる人物。v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」ではカチャカチャ・クルムカケ工房にいる",
+    "id": "sarin",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Gaudenty",
+    "ja": "ゴウデンティ",
+    "zhCN": "格乌登提",
+    "zhTW": "格烏登提",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai"
+    ],
+    "notes": "ナシャタウンにいる人物。v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」ではカチャカチャ・クルムカケ工房にいる",
+    "id": "gaudenty",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Asikko",
+    "ja": "アシッコ",
+    "zhCN": "阿斯科",
+    "zhTW": "阿斯科",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」に登場する人物。闇市の商人",
+    "id": "asikko",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sedile",
+    "ja": "セディル",
+    "zhCN": "瑟琪",
+    "zhTW": "瑟琪",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai",
+      "fontaine"
+    ],
+    "notes": "エリュシー村にいるメリュジーヌ。v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」に登場",
+    "id": "sedile",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Eustachy",
+    "ja": "ユースタチ",
+    "zhCN": "尤斯塔奇",
+    "zhTW": "尤斯塔奇",
+    "tags": [
+      "event",
+      "character-sub",
+      "nodkrai",
+      "fontaine"
+    ],
+    "notes": "v6.0(Luna I) 期間限定イベント「カチャカチャ大作戦」に登場する人物",
+    "id": "eustachy",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Ujola Cat",
+    "ja": "キャット・ヨーラ",
+    "zhCN": "尤约拉猫",
+    "zhTW": "尤約拉貓",
+    "notes": "v6.0(Luna I) 期間限定イベント「西の彼方の宝物・満ちゆく月」配布アイテム",
+    "tags": [
+      "event",
+      "item"
+    ],
+    "id": "ujola-cat",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Rotor Hovering Daybed",
+    "ja": "空飛ぶくつろぎクッション",
+    "zhCN": "旋翼浮空憩榻",
+    "zhTW": "旋翼浮空憩榻",
+    "pronunciationJa": "そらとぶくつろぎクッション",
+    "notes": "v6.0(Luna I) 期間限定イベント「西の彼方の宝物・満ちゆく月」配布アイテム",
+    "tags": [
+      "event",
+      "item"
+    ],
+    "id": "rotor-hovering-daybed",
+    "updatedAt": "2025-11-08",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Chard Lombro",
+    "ja": "アザザ・ランボロ",
+    "zhCN": "阿莎莎·郎勃罗",
+    "zhTW": "阿莎莎·郎勃羅",
+    "notes": "カチャカチャ・クルムカケ工房にいる集合ロボット",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "chard-lombro",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Adina",
+    "ja": "アデナ",
+    "zhCN": "阿德娜",
+    "zhTW": "阿德娜",
+    "notes": "世界任務「迷子の子どもの語り」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "adina",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Rijeka",
+    "ja": "リェカ",
+    "zhCN": "莉洁卡",
+    "zhTW": "莉潔卡",
+    "notes": "世界任務「回帰する微かな光」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "rijeka",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Hidimbi",
+    "ja": "ヒディンバ",
+    "zhCN": "希丁芭",
+    "zhTW": "希丁芭",
+    "tags": [
+      "nodkrai",
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "hidimbi",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Smoked Fish Steak",
+    "ja": "燻製フィッシュステーキ",
+    "zhCN": "烟熏鱼排",
+    "zhTW": "煙燻魚排",
+    "pronunciationJa": "くんせいフィッシュステーキ",
+    "tags": [
+      "food"
+    ],
+    "id": "smoked-fish-steak",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Sugar Sculpture: Flins",
+    "ja": "飴細工・フリンズ",
+    "zhCN": "糖雕·菲林斯",
+    "zhTW": "糖雕·菲林斯",
+    "pronunciationJa": "あめざいく・フリンズ",
+    "notes": "チームにフリンズが加入した状態でナシャタウンにいるウナーヤタに話しかけると貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-flins",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Long Night Alight",
+    "ja": "長き夜に燃ゆる炎",
+    "zhCN": "长夜燃火",
+    "zhTW": "長夜燃火",
+    "tags": [
+      "food",
+      "nodkrai"
+    ],
+    "notesEn": "Flins'es specialty",
+    "notes": "フリンズのオリジナル料理",
+    "notesZh": "菲林斯的特色料理",
+    "id": "long-night-alight",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Frosted Axehead Fish",
+    "ja": "フロストアックスフィッシュ",
+    "zhCN": "冷冽巨斧鱼",
+    "zhTW": "冷冽巨斧魚",
+    "tags": [
+      "item"
+    ],
+    "id": "frosted-axehead-fish",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Nightgaze Crystal-Eye",
+    "ja": "夜色デメニギス",
+    "zhCN": "夜色明眼鱼",
+    "zhTW": "夜色明眼魚",
+    "tags": [
+      "item"
+    ],
+    "id": "nightgaze-crystal-eye",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Memento Kamera",
+    "ja": "メメント写真機",
+    "zhCN": "回忆捕手留影机",
+    "zhTW": "回忆捕手留影机",
+    "pronunciationJa": "メメントしゃしんき",
+    "tags": [
+      "event",
+      "item"
+    ],
+    "id": "memento-kamera",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Bounty Token: Trickster's Red Satin",
+    "ja": "賞金稼ぎの証：詐欺師の赤い絹",
+    "zhCN": "悬赏证物: 欺诈师的红绸",
+    "zhTW": "懸賞證物: 欺詐師的紅綢",
+    "pronunciationJa": "しょうきんかせぎのあかし さぎしのあかいきぬ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "notes": "賞金首「ヒディンバ」の討伐証拠品",
+    "id": "bounty-token-tricksters-red-satin",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Bounty Token: Lady's Brooch",
+    "ja": "賞金稼ぎの証：淑女のブローチ",
+    "zhCN": "悬赏证物: 淑女的胸针",
+    "zhTW": "懸賞證物: 淑女的胸針",
+    "pronunciationJa": "しょうきんかせぎのあかし しゅくじょのブローチ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "notes": "賞金首「密輸者：新鉄塩会」の討伐証拠品",
+    "id": "bounty-token-ladys-brooch",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Bounty Token: Mud-Stained Handguard",
+    "ja": "賞金稼ぎの証：泥染めの鍔",
+    "zhCN": "悬赏证物: 泥染的刀镡",
+    "zhTW": "懸賞證物: 泥染的刀鐔",
+    "pronunciationJa": "しょうきんかせぎのあかし どろぞめのつば",
+    "notes": "賞金首「海乱鬼：権八」の討伐証拠品",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "bounty-token-mud-stained-handguard",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Aino's Toolbox",
+    "ja": "アイノの工具箱",
+    "zhCN": "爱诺的工具箱",
+    "zhTW": "愛諾的工具箱",
+    "pronunciationJa": "アイノのこうぐばこ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "ainos-toolbox",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Ineffa's Toolbox",
+    "ja": "イネファの工具箱",
+    "zhCN": "伊涅芙的工具箱",
+    "zhTW": "伊涅芙的工具箱",
+    "pronunciationJa": "イネファのこうぐばこ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "ineffas-toolbox",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of First Flight",
+    "ja": "始まりの翼",
+    "zhCN": "初始之翼",
+    "zhTW": "初始之翼",
+    "pronunciationJa": "はじまりのつばさ",
+    "notes": "魔神任務序章第一幕「風を捕まえる異邦人」内で入手",
+    "tags": [
+      "mondstadt"
+    ],
+    "id": "wings-of-first-flight",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Azure Wind",
+    "ja": "蒼天清風の翼",
+    "zhCN": "苍天清风之翼",
+    "zhTW": "蒼天清風之翼",
+    "pronunciationJa": "そうてんせいふうのつばさ",
+    "notes": "モンド評判がLv8の報酬",
+    "tags": [
+      "mondstadt"
+    ],
+    "id": "wings-of-azure-wind",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Golden Flight",
+    "ja": "金琮天行の翼",
+    "zhCN": "金琮天行之翼",
+    "zhTW": "金琮天行之翼",
+    "pronunciationJa": "きんそうてんこうのつばさ",
+    "notes": "璃月評判がLv8の報酬",
+    "tags": [
+      "liyue"
+    ],
+    "id": "wings-of-golden-flight",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Concealing Snow",
+    "ja": "雲隠れの翼",
+    "zhCN": "雪隐之翼",
+    "zhTW": "雪隱之翼",
+    "pronunciationJa": "くもがくれのつばさ",
+    "notes": "ドラゴンスパインの「冬忍びの樹」奉納Lv12の報酬",
+    "tags": [
+      "mondstadt"
+    ],
+    "id": "wings-of-concealing-snow",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of the Stormstrider",
+    "ja": "雷騰雲奔の翼",
+    "zhCN": "雷腾云奔之翼",
+    "zhTW": "雷騰雲奔之翼",
+    "pronunciationJa": "らいてんうんほんのつばさ",
+    "notes": "稲妻評判がLv10の報酬",
+    "tags": [
+      "inazuma"
+    ],
+    "id": "wings-of-the-stormstrider",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of the Forest",
+    "ja": "樹花爛漫の翼",
+    "zhCN": "森郁花繁之翼",
+    "zhTW": "森鬱花繁之翼",
+    "pronunciationJa": "じゅからんまんのつばさ",
+    "notes": "スメール評判がLv10のの報酬",
+    "tags": [
+      "sumeru"
+    ],
+    "id": "wings-of-the-forest",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Merciful, Wrathful Waters",
+    "ja": "慈水怒濤の翼",
+    "zhCN": "慈水怒涛之翼",
+    "zhTW": "慈水怒濤之翼",
+    "pronunciationJa": "じすいどとうのつばさ",
+    "notes": "フォンテーヌ評判がLv10の報酬",
+    "tags": [
+      "fontaine"
+    ],
+    "id": "wings-of-merciful-wrathful-waters",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of Soaring Flame",
+    "ja": "燎原烈火の翼",
+    "zhCN": "烈火腾燎之翼",
+    "zhTW": "烈火騰燎之翼",
+    "pronunciationJa": "りょうげんれっかのつばさ",
+    "notes": "ナタの「こだまの子」「懸木の民」「流泉の衆」「花翼の集」「謎煙の主」部族評判がすべてLv4の報酬",
+    "tags": [
+      "natlan"
+    ],
+    "id": "wings-of-soaring-flame",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Wings of the Silent Moon",
+    "ja": "夜来泊月の翼",
+    "zhCN": "夜驻月停之翼",
+    "zhTW": "夜駐月停之翼",
+    "pronunciationJa": "やらいはくげつのつばさ",
+    "notes": "ナドクライの「伴月紀聞・３」クリアの報酬",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "wings-of-the-silent-moon",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "The Lost Child's Tale",
+    "ja": "迷子の子どもの語り",
+    "zhCN": "迷路孩童的诉说",
+    "zhTW": "迷路孩童的訴說",
+    "pronunciationJa": "まいごのこどものかたり",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "the-lost-childs-tale",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "The Chef's Tale",
+    "ja": "料理人の語り",
+    "zhCN": "厨子的诉说",
+    "zhTW": "廚師的訴說",
+    "pronunciationJa": "りょうりにんのかたり",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "the-chefs-tale",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Her Past",
+    "ja": "彼女の過去",
+    "zhCN": "她的过去",
+    "zhTW": "她的過去",
+    "pronunciationJa": "かのじょのかこ",
+    "notes": "伴月紀聞・1で発生するクエスト",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "her-past",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "The Artist By the Moon's Side (I)",
+    "ja": "月のそばの小さな画家・1",
+    "zhCN": "伴月的小画家·其一",
+    "zhTW": "伴月的小畫家·其一",
+    "pronunciationJa": "つきのそばのちいさながか・いち",
+    "notes": "伴月紀聞・1で発生するクエスト",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "the-artist-by-the-moons-side-i",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Moonlight Sonata",
+    "ja": "月光のソナタ",
+    "zhCN": "月光奏鸣曲",
+    "zhTW": "月光奏鳴曲",
+    "pronunciationJa": "げっこうのソナタ",
+    "notes": "伴月紀聞・1で発生するクエスト",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "moonlight-sonata",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Homecoming's Faint Glow",
+    "ja": "回帰する微かな光",
+    "zhCN": "归家的微光",
+    "zhTW": "歸家的微光",
+    "pronunciationJa": "かいきするかすかなひかり",
+    "notes": "伴月紀聞・1で発生するクエスト",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "homecomings-faint-glow",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Silvermoon Hall: Selenic Chronicles",
+    "ja": "銀月の庭・伴月紀聞",
+    "zhCN": "银月之庭·伴月纪闻",
+    "zhTW": "銀月之庭·伴月紀聞",
+    "pronunciationJa": "ぎんげつのにわ・ばんげつきぶん",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "silvermoon-hall-selenic-chronicles",
+    "updatedAt": "2025-10-12",
+    "createdAt": "2025-10-12"
+  },
+  {
+    "en": "Lushne",
+    "ja": "ルシーネ",
+    "zhCN": "鲁什涅",
+    "zhTW": "魯什涅",
+    "notes": "ナシャタウンにいる人物。世界任務「哀しき鈴の音」に登場するライトキーパー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "lushne",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sukhovykh",
+    "ja": "スホヴィーク",
+    "zhCN": "苏霍维赫",
+    "zhTW": "蘇霍維赫",
+    "notes": "ナシャタウンにいる人物。世界任務「哀しき鈴の音」に登場するライトキーパー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "sukhovykh",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Richeza",
+    "ja": "リチェザ",
+    "zhCN": "丽切娅",
+    "zhTW": "麗切婭",
+    "notes": "「スプリング・ヴィレッジ」店員",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "richeza",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Sigurd",
+    "ja": "ジグルド",
+    "zhCN": "西格德",
+    "zhTW": "西格德",
+    "notes": "世界任務「哀しき鈴の音」に登場する人物。元ライトキーパー。ナド・クライの地方伝説の1人",
+    "tags": [
+      "nodkrai",
+      "character-sub",
+      "enemy",
+      "enemy-legend"
+    ],
+    "id": "sigurd",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Common Axehead Fish",
+    "ja": "コモンアックスフィッシュ",
+    "zhCN": "无奇巨斧鱼",
+    "zhTW": "無奇巨斧魚",
+    "tags": [
+      "item"
+    ],
+    "id": "common-axehead-fish",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Blazing Axehead Fish",
+    "ja": "バーニングアックスフィッシュ",
+    "zhCN": "炽铁巨斧鱼",
+    "zhTW": "熾鐵巨斧魚",
+    "tags": [
+      "item"
+    ],
+    "id": "blazing-axehead-fish",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Veggie Mauler Shark",
+    "ja": "サイショクゲキオコザメ",
+    "zhCN": "素素凶凶鲨",
+    "zhTW": "素素凶凶鯊",
+    "tags": [
+      "item"
+    ],
+    "id": "veggie-mauler-shark",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Berry Bait",
+    "ja": "ソマルの餌",
+    "zhCN": "槲梭饵",
+    "zhTW": "槲梭餌",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "berry-bait",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Refreshing Lakka Bait",
+    "ja": "清白の餌",
+    "zhCN": "清白饵",
+    "zhTW": "清白餌",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "refreshing-lakka-bait",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Undying One's Mourning Bell",
+    "ja": "不死者の弔鐘",
+    "zhCN": "不死者的哀铃",
+    "zhTW": "不死者的哀鈴",
+    "pronunciationJa": "ふししゃのちょうしょう",
+    "notes": "世界任務「哀しき鈴の音」で使用するアイテム",
+    "tags": [
+      "item"
+    ],
+    "id": "undying-ones-mourning-bell",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "A Horn Unwinded",
+    "ja": "未だ鳴らざる笛",
+    "zhCN": "未吹响的号角",
+    "zhTW": "未吹響的號角",
+    "notes": "世界任務「哀しき鈴の音」で使用するアイテム",
+    "pronunciationJa": "いまだならざるふえ",
+    "tags": [
+      "item"
+    ],
+    "id": "a-horn-unwinded",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Dyed Tassel",
+    "ja": "染められし羽兜",
+    "zhCN": "被浸染的缨盔",
+    "zhTW": "被浸染的纓盔",
+    "notes": "世界任務「哀しき鈴の音」で使用するアイテム",
+    "pronunciationJa": "そめられしうとう / そめられしはねかぶと",
+    "tags": [
+      "item"
+    ],
+    "id": "dyed-tassel",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "\"Muratans\"",
+    "ja": "「ムーナタ」",
+    "zhCN": "穆纳塔",
+    "zhTW": "穆納塔",
+    "notes": "世界任務「最後のテノチズトク人」で淵上から語られた情報でテノチズトク人の末裔。原神セレベンツ(漫画)のムーナタ人と同一民族",
+    "tags": [
+      "natlan",
+      "organization"
+    ],
+    "id": "muratans",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-08-17"
+  },
+  {
+    "en": "The Bell of Mouring Echoes",
+    "ja": "哀しき鈴の音",
+    "zhCN": "哀铃的余响",
+    "zhTW": "哀鈴的餘響",
+    "pronunciationJa": "かなしきすずのね",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "the-bell-of-mouring-echoes",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Bullseye!",
+    "ja": "真ん中に的中！",
+    "zhCN": "正中靶心！",
+    "zhTW": "正中靶心！",
+    "pronunciationJa": "まんなかにてきちゅう",
+    "tags": [
+      "quest-daily",
+      "nodkrai"
+    ],
+    "id": "bullseye",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Moonlit Dash",
+    "ja": "月流奔走",
+    "zhCN": "月流奔引",
+    "zhTW": "月流奔引",
+    "pronunciationJa": "げつりゅうほんそう",
+    "tags": [
+      "quest-daily",
+      "nodkrai"
+    ],
+    "id": "moonlit-dash",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Even Steel Can't Stop Them",
+    "ja": "鉄も無用",
+    "zhCN": "铁亦无用",
+    "zhTW": "鐵亦無用",
+    "pronunciationJa": "てつもむよう",
+    "tags": [
+      "quest-daily",
+      "nodkrai"
+    ],
+    "id": "even-steel-cant-stop-them",
+    "updatedAt": "2025-10-01",
+    "createdAt": "2025-10-01"
+  },
+  {
+    "en": "Lost Mooncourt",
+    "ja": "失われた月の庭",
+    "zhCN": "失落的月庭",
+    "zhTW": "失落的月庭",
+    "pronunciationJa": "うしなわれたつきのにわ",
+    "tags": [
+      "nodkrai",
+      "domain"
+    ],
+    "id": "lost-mooncourt",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Frostladen Machinery",
+    "ja": "霜つく機軸",
+    "zhCN": "霜凝的机枢",
+    "zhTW": "霜凝的機樞",
+    "pronunciationJa": "しもつくきじく",
+    "tags": [
+      "nodkrai",
+      "domain"
+    ],
+    "id": "frostladen-machinery",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Lightless Capital",
+    "ja": "光なき深都",
+    "zhCN": "无光的深都",
+    "zhTW": "無光的深都",
+    "pronunciationJa": "ひかりなきしんと",
+    "tags": [
+      "nodkrai",
+      "domain"
+    ],
+    "id": "lightless-capital",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "The Game Before the Gate",
+    "ja": "扉に通ずる対局",
+    "zhCN": "门扉前的弈局",
+    "zhTW": "門扉前的弈局",
+    "pronunciationJa": "とびらにつうずるたいきょく",
+    "notes": "昇揚のキングと昇華のクイーンによる巨大なチェス盤の対局",
+    "tags": [
+      "enemy-boss",
+      "mondstadt"
+    ],
+    "id": "the-game-before-the-gate",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Kunckle Duckle",
+    "ja": "ボコボコダック",
+    "zhCN": "重拳出击鸭",
+    "zhTW": "重拳出撃鴨",
+    "tags": [
+      "nodkrai",
+      "enemy",
+      "enemy-boss"
+    ],
+    "id": "kunckle-duckle",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Radiant Moonfly",
+    "ja": "集光の幻月蝶",
+    "zhCN": "蕴光月幻蝶",
+    "zhTW": "蘊光月幻蝶",
+    "pronunciationJa": "しゅうこうのげんげつちょう",
+    "tags": [
+      "nodkrai",
+      "enemy",
+      "enemy-boss"
+    ],
+    "id": "radiant-moonfly",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Crab Tsar",
+    "ja": "「カニ皇帝」",
+    "zhCN": "「蟹沙皇」",
+    "zhTW": "「蟹沙皇」",
+    "pronunciationJa": "カニこうてい",
+    "notes": "月下見聞「鏡と迷宮と国王」に登場するキャラクター。ナド・クライの地方伝説の1体で、重甲ヤドカニの変異体",
+    "tags": [
+      "nodkrai",
+      "enemy",
+      "enemy-legend"
+    ],
+    "id": "crab-tsar",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Blazing Brilliance: Frostnight Scion",
+    "ja": "灼熱・霜夜の継霊者",
+    "zhCN": "灼烜·霜夜灵嗣",
+    "zhTW": "灼烜·霜夜靈嗣",
+    "pronunciationJa": "しゃくねつ・そうやのけいれいしゃ",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "blazing-brilliance-frostnight-scion",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Gleaming Charge: Frostnight Scion",
+    "ja": "輝電・霜夜の継霊者",
+    "zhCN": "辉电·霜夜灵嗣",
+    "zhTW": "輝電·霜夜靈嗣",
+    "pronunciationJa": "きでん・そうやのけいれいしゃ",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "gleaming-charge-frostnight-scion",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Tangled Vines: Frostnight Scion",
+    "ja": "蔓草・霜夜の継霊者",
+    "zhCN": "蔓结·霜夜灵嗣",
+    "zhTW": "蔓結·霜夜靈嗣",
+    "pronunciationJa": "まんそう・そうやのけいれいしゃ / つるくさ・そうやのけいれいしゃ",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "tangled-vines-frostnight-scion",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Icy Crystal: Frostnight Scion",
+    "ja": "氷晶・霜夜の継霊者",
+    "zhCN": "凌晶·霜夜灵嗣",
+    "zhTW": "凌晶·霜夜靈嗣",
+    "pronunciationJa": "ひょうしょう・そうやのけいれいしゃ",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "icy-crystal-frostnight-scion",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Wilderness Exile",
+    "ja": "ワイルド・ワンダラー",
+    "zhCN": "荒野幽徒",
+    "zhTW": "荒野幽徒",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "wilderness-exile",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Wilderness Hunter",
+    "ja": "ワイルド・マッドウォーリアー",
+    "zhCN": "荒野狂狩士",
+    "zhTW": "荒野狂狩士",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "wilderness-hunter",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Line Trooper",
+    "ja": "ファデュイ特務隊・戦列兵",
+    "zhCN": "愚人众特辖队·线列军",
+    "zhTW": "愚人眾特轄隊·線列軍",
+    "pronunciationJa": "ファデュイとくむたい・せんれつへい",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-line-trooper",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Support Trooper",
+    "ja": "ファデュイ特務隊・重撃兵",
+    "zhCN": "愚人众特辖队·支援兵",
+    "zhTW": "愚人眾特轄隊·支援兵",
+    "pronunciationJa": "ファデュイとくむたい・じゅうげきへい",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-support-trooper",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Grenadier",
+    "ja": "ファデュイ特務隊・銃士",
+    "zhCN": "愚人众特辖队·榴铳手",
+    "zhTW": "愚人眾特轄隊·榴銃手",
+    "pronunciationJa": "ファデュイとくむたい・じゅうし",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-grenadier",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Vanguard",
+    "ja": "ファデュイ特務隊・前衛",
+    "zhCN": "愚人众特辖队·先锋士",
+    "zhTW": "愚人眾特轄隊·先鋒士",
+    "pronunciationJa": "ファデュイとくむたい・ぜんえい",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-vanguard",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Medic",
+    "ja": "ファデュイ特務隊・衛生兵",
+    "zhCN": "愚人众特辖队·疗愈师",
+    "zhTW": "愚人眾特轄隊·療癒師",
+    "pronunciationJa": "ファデュイとくむたい・えいせいへい",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-medic",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Bombardier",
+    "ja": "ファデュイ特務隊・擲弾兵",
+    "zhCN": "愚人众特辖队·掷弹兵",
+    "zhTW": "愚人眾特轄隊·擲彈兵",
+    "pronunciationJa": "ファデュイとくむたい・てきだんへい",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-bombardier",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Fireblade Shock Trooper",
+    "ja": "ファデュイ特務隊・突撃兵・ファイアーブレイド",
+    "zhCN": "愚人众特辖队·火刃突击队",
+    "zhTW": "愚人眾特轄隊·火刃突擊隊",
+    "pronunciationJa": "ファデュイとくむたい・とくげきへい・ファイアーブレイド",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-fireblade-shock-trooper",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Hailstorm Cannoneer",
+    "ja": "ファデュイ特務隊・重砲兵・ヘイルストーム",
+    "zhCN": "愚人众特辖队·冰雹重炮手",
+    "zhTW": "愚人眾特轄隊·冰雹重炮手",
+    "pronunciationJa": "ファデュイとくむたい・じゅうほうへい・ヘイルストーム",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-hailstorm-cannoneer",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Oprichniki Thunderblitz Gvardiya",
+    "ja": "ファデュイ特務隊・近衛兵・サンダーブリッツ",
+    "zhCN": "愚人众特辖队·雷霰近卫军",
+    "zhTW": "愚人眾特轄隊·雷霰近衛軍",
+    "pronunciationJa": "ファデュイとくむたい・このえへい・サンダーブリッツ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "oprichniki-thunderblitz-gvardiya",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Close Combat Storm Landcruiser",
+    "ja": "陸巡艇・近接攻撃型",
+    "zhCN": "巡陆艇·近战攻坚型",
+    "zhTW": "巡陸艇·近戰攻堅型",
+    "pronunciationJa": "りくじゅんてい・きんせつこうげきがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "close-combat-storm-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Close Combat Scout Landcruiser",
+    "ja": "陸巡艇・近接斥候型",
+    "zhCN": "巡陆艇·近战斥候型",
+    "zhTW": "巡陸艇·近戰斥候型",
+    "pronunciationJa": "りくじゅんてい・きんせつせっこうがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "close-combat-scout-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Force Recon Storm Landcruiser",
+    "ja": "陸巡艇・偵察攻撃型",
+    "zhCN": "巡陆艇·强侦攻坚型",
+    "zhTW": "巡陸艇·強偵攻堅型",
+    "pronunciationJa": "りくじゅんてい・ていさつこうげきがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "force-recon-storm-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Force Recon Scout Landcruiser",
+    "ja": "陸巡艇・偵察斥候型",
+    "zhCN": "巡陆艇·强侦斥候型",
+    "zhTW": "巡陸艇·強偵斥候型",
+    "pronunciationJa": "りくじゅんてい・ていさつせっこうがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "force-recon-scout-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Force Recon Ground Effect Landcruiser",
+    "ja": "陸巡艇・偵察ホバー型",
+    "zhCN": "巡陆艇·强侦地效型",
+    "zhTW": "巡陸艇·強偵地效型",
+    "pronunciationJa": "りくじゅんてい・ていさつホバーがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "force-recon-ground-effect-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Cutting Edge All-Purpose Storm Landcruiser",
+    "ja": "陸巡艇・最新万能攻撃型",
+    "zhCN": "巡陆艇·尖端全能攻坚型",
+    "zhTW": "巡陸艇·尖端全能攻堅型",
+    "pronunciationJa": "りくじゅんてい・さいしんばんのうこうげきがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "cutting-edge-all-purpose-storm-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Cutting Edge All-Purpose Scout Landcruiser",
+    "ja": "陸巡艇・最新万能斥候型",
+    "zhCN": "巡陆艇·尖端全能斥候型",
+    "zhTW": "巡陸艇·尖端全能斥候型",
+    "pronunciationJa": "りくじゅんてい・ばんのうせっこうがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "cutting-edge-all-purpose-scout-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Cutting Edge Fire Support Ground Effect Landcruiser",
+    "ja": "陸巡艇・最新火力ホバー型",
+    "zhCN": "巡陆艇·尖端火力地效型",
+    "zhTW": "巡陸艇·尖端火力地效型",
+    "pronunciationJa": "りくじゅんてい・さいしんかりょくホバーがた",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "enemy"
+    ],
+    "id": "cutting-edge-fire-support-ground-effect-landcruiser",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Radiant Antelope",
+    "ja": "集光の幻羊",
+    "zhCN": "蕴光奇羊",
+    "zhTW": "蕴光奇羊",
+    "pronunciationJa": "しゅうこうのげんよう",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "radiant-antelope",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Radiant Bladehorn",
+    "ja": "集光のブレイドライノ",
+    "zhCN": "蕴光刃犀",
+    "zhTW": "蘊光刃犀",
+    "pronunciationJa": "しゅうこうのブレイドライノ",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "radiant-bladehorn",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Radiant Lunapod",
+    "ja": "集光の螺施蛸",
+    "zhCN": "蕴光璇蛸",
+    "zhTW": "蘊光璇蛸",
+    "pronunciationJa": "しゅうこうのらせだこ",
+    "tags": [
+      "nodkrai",
+      "enemy"
+    ],
+    "id": "radiant-lunapod",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "The Flagship",
+    "ja": "フラッグシップ",
+    "zhCN": "旗舰",
+    "zhTW": "旗艦",
+    "notes": "ナシャタウンのバー・ホテル",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "the-flagship",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Speranza",
+    "ja": "スペランザ",
+    "zhCN": "斯偑兰扎",
+    "zhTW": "斯偑蘭扎",
+    "notes": "ナシャタウンの食堂",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "speranza",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Mead-Boy",
+    "ja": "ミードボーイ",
+    "zhCN": "蜜酒小子",
+    "zhTW": "蜜酒小子",
+    "notes": "ナシャタウンの店",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "mead-boy",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Nuts \"N\" Nuts",
+    "ja": "ナッツ＆ナット",
+    "zhCN": "坚果与螺钉",
+    "zhTW": "堅果與螺釘",
+    "notes": "ナシャタウンの店",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "nuts-n-nuts",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Mimisbrunnr Books",
+    "ja": "ミミール書店",
+    "zhCN": "秘谜书屋",
+    "zhTW": "秘謎書屋",
+    "notes": "ナシャタウンの店",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "mimisbrunnr-books",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Voynich Guild",
+    "ja": "ヴォイニッチ商会",
+    "zhCN": "伏尼契商会",
+    "zhTW": "伏尼契商會",
+    "pronunciationJa": "ヴォイニッチしょうかい",
+    "notes": "ナシャタウンの店",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "voynich-guild",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-01-01"
+  },
+  {
+    "en": "Vesnici Proleca Greenhouse",
+    "ja": "スプリング・ヴィレッジ",
+    "zhCN": "春景花房",
+    "zhTW": "春景花房",
+    "notes": "ナシャタウンの店",
+    "tags": [
+      "nodkrai",
+      "facility"
+    ],
+    "id": "vesnici-proleca-greenhouse",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Northland Bank",
+    "ja": "北国銀行",
+    "zhCN": "北国银行",
+    "zhTW": "北國銀行",
+    "pronunciationJa": "きたくにぎんこう",
+    "tags": [
+      "snezhnaya",
+      "liyue",
+      "fontaine",
+      "nodkrai",
+      "facility"
+    ],
+    "id": "northland-bank",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2022-01-01"
+  },
+  {
+    "en": "Sniffer Moles",
+    "ja": "クンクンモグラ",
+    "zhCN": "嗅嗅鼹鼠",
+    "zhTW": "嗅嗅鼹鼠",
+    "notes": "世界任務「転職はいつも不安になる」に登場するモグラ",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "quest-world"
+    ],
+    "id": "sniffer-moles",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Tassel Jelly",
+    "ja": "花房クラゲ",
+    "zhCN": "花缨水母",
+    "zhTW": "花纓水母",
+    "pronunciationJa": "はなぶさクラゲ",
+    "notes": "月下見聞「空へと飛ぶ約束」に登場する空中浮遊クラゲ",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "quest-selenic"
+    ],
+    "id": "tassel-jelly",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Luonnotar",
+    "ja": "ルオンノタル",
+    "zhCN": "努昂诺塔",
+    "zhTW": "努昂諾塔",
+    "notes": "魔人任務「白銀の浪と蒼林の舞」に登場する月霊",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "quest-archon"
+    ],
+    "id": "luonnotar",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Kuuhenki",
+    "ja": "月霊",
+    "zhCN": "月灵",
+    "zhTW": "月靈",
+    "pronunciationJa": "げつれい",
+    "notes": "ナド・クライに生息する仙霊",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "kuuhenki",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Dualblaze Longplume Ibis",
+    "ja": "照羽トキ",
+    "zhCN": "双辉长翎鹮",
+    "zhTW": "雙輝長翎䴉",
+    "pronunciationJa": "しょううトキ",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "dualblaze-longplume-ibis",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Crimson-Necked Longplume Ibis",
+    "ja": "赤首長羽トキ",
+    "zhCN": "丹颈长翎鹮",
+    "zhTW": "丹頸長翎䴉",
+    "pronunciationJa": "あかくびちょううトキ",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "crimson-necked-longplume-ibis",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Azure-Necked Longplume Ibis",
+    "ja": "青首長羽トキ",
+    "zhCN": "青颈长翎鹮",
+    "zhTW": "青頸長翎䴉",
+    "pronunciationJa": "あおくびちょううトキ",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "azure-necked-longplume-ibis",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Puffin",
+    "ja": "ガケツノメドリ",
+    "zhCN": "海崖鹦",
+    "zhTW": "海崖鸚",
+    "pronunciationJa": "てりばねトキ",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "puffin",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Snow Weasel",
+    "ja": "雪隠れのイタチ",
+    "zhCN": "雪隐鼬",
+    "zhTW": "雪隱鼬",
+    "pronunciationJa": "ゆきがくれのイタチ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "snow-weasel",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Red-Tailed Weasel",
+    "ja": "赤尾イタチ",
+    "zhCN": "红尾鼬",
+    "zhTW": "紅尾鼬",
+    "pronunciationJa": "あかおイタチ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "red-tailed-weasel",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Boot Weasel",
+    "ja": "ブーツイタチ",
+    "zhCN": "靴子鼬",
+    "zhTW": "靴子鼬",
+    "pronunciationJa": "ブーツイタチ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "boot-weasel",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Masked Weasel",
+    "ja": "仮面イタチ",
+    "zhCN": "面具鼬",
+    "zhTW": "面具鼬",
+    "pronunciationJa": "かめんイタチ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "masked-weasel",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Chestnut Goat",
+    "ja": "栗皮ヤギ",
+    "zhCN": "栗栗羊",
+    "zhTW": "慄慄羊",
+    "pronunciationJa": "くりかわヤギ",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "chestnut-goat",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Chestnut Goat: Berry Jam",
+    "ja": "栗皮ヤギ・ベリージャム",
+    "zhCN": "栗栗羊·莓莓果酱",
+    "zhTW": "慄慄羊·莓莓果醬",
+    "pronunciationJa": "くりかわヤギベリージャム",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "chestnut-goat-berry-jam",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Chestnut Goat: Cool Mint",
+    "ja": "栗皮ヤギ・ヒンヤリミント",
+    "zhCN": "栗栗羊·冰冰薄荷",
+    "zhTW": "慄慄羊·冰冰薄荷",
+    "pronunciationJa": "くりかわヤギヒンヤリミント",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "chestnut-goat-cool-mint",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Dusky Goat",
+    "ja": "黄昏ヤギ",
+    "zhCN": "暮暮羊",
+    "zhTW": "暮暮羊",
+    "pronunciationJa": "たそがれヤギ",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "dusky-goat",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Chic Badger",
+    "ja": "モサモサアナグマ",
+    "zhCN": "帔髦獾",
+    "zhTW": "帔髦獾",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "chic-badger",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Rimehorn Deer",
+    "ja": "ツノシカ",
+    "zhCN": "凛角鹿",
+    "zhTW": "凜角鹿",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "rimehorn-deer",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Moonglow Firefly",
+    "ja": "月蛍",
+    "zhCN": "月萤虫",
+    "zhTW": "月螢蟲",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "moonglow-firefly",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Atapetra Conch",
+    "ja": "古代シーマイマイ",
+    "zhCN": "古石螺",
+    "zhTW": "古石螺",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "atapetra-conch",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Rock Crab",
+    "ja": "岩ヤドカニ",
+    "zhCN": "岩居蟹",
+    "zhTW": "岩居蟹",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "rock-crab",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Crimson Rock Crab",
+    "ja": "赤岩ヤドカニ",
+    "zhCN": "赤红岩居蟹",
+    "zhTW": "赤紅岩居蟹",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "crimson-rock-crab",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Azure Rock Crab",
+    "ja": "青岩ヤドカニ",
+    "zhCN": "碧蓝岩居蟹",
+    "zhTW": "碧藍岩居蟹",
+    "tags": [
+      "nodkrai",
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "azure-rock-crab",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Sun Crab",
+    "ja": "太陽ガニ",
+    "zhCN": "太阳蟹",
+    "zhTW": "太陽蟹",
+    "pronunciationJa": "たいようガニ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "sun-crab",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Ocean Crab",
+    "ja": "紺青ガニ",
+    "zhCN": "海蓝蟹",
+    "zhTW": "海藍蟹",
+    "pronunciationJa": "こんじょうガニ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "ocean-crab",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Pale Red Crab",
+    "ja": "薄紅ガニ",
+    "zhCN": "薄红蟹",
+    "zhTW": "薄紅蟹",
+    "pronunciationJa": "うすべにガニ",
+    "tags": [
+      "living-being",
+      "sereniteapot"
+    ],
+    "id": "pale-red-crab",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Frostfin Whale",
+    "ja": "フロストフィンイルカ",
+    "zhCN": "霜鳍鲸",
+    "zhTW": "霜鰭鯨",
+    "tags": [
+      "nodkrai",
+      "living-being"
+    ],
+    "id": "frostfin-whale",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Paha Isle",
+    "ja": "パハ島",
+    "zhCN": "帕哈岛",
+    "zhTW": "帕哈島",
+    "pronunciationJa": "パハとう",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "paha-isle",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Final Night Cemetery",
+    "ja": "夜明かしの墓",
+    "zhCN": "终夜长茔",
+    "zhTW": "終夜長塋",
+    "pronunciationJa": "よあかしのはか",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "final-night-cemetery",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "North Harbor",
+    "ja": "北の港",
+    "zhCN": "北港",
+    "zhTW": "北港",
+    "pronunciationJa": "きたのみなと",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "north-harbor",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Maroon Basin",
+    "ja": "クリムゾン・ソルトマーシュ",
+    "zhCN": "緋沙鹽沼",
+    "zhTW": "緋沙鹽沼",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "maroon-basin",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Kuuvahki Experimental Design Bureau",
+    "ja": "クーヴァキ実験設計局",
+    "zhCN": "月矩力试验设计局",
+    "zhTW": "月矩力試驗設計局",
+    "pronunciationJa": "クーヴァキじっけんせっけいきょく",
+    "tags": [
+      "nodkrai",
+      "location",
+      "organization",
+      "facility"
+    ],
+    "id": "kuuvahki-experimental-design-bureau",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "South Harbor",
+    "ja": "南の港",
+    "zhCN": "南港",
+    "zhTW": "南港",
+    "pronunciationJa": "みなみのみなと",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "south-harbor",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Hiisi Island",
+    "ja": "ヒーシ島",
+    "zhCN": "希汐岛",
+    "zhTW": "希汐島",
+    "pronunciationJa": "ヒーシとう",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "hiisi-island",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-04-12"
+  },
+  {
+    "en": "Sanctum of the Oathkeeper",
+    "ja": "誓いを守る者の整地",
+    "zhCN": "守誓者的圣所",
+    "zhTW": "守誓者的聖所",
+    "pronunciationJa": "ちかいをまもるもののせいち",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "sanctum-of-the-oathkeeper",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Silvermoon Hall",
+    "ja": "銀月の庭",
+    "zhCN": "银月之庭",
+    "zhTW": "銀月之庭",
+    "pronunciationJa": "ぎんげつのにわ",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "silvermoon-hall",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Light-Bathed Platform",
+    "ja": "浴光の大地",
+    "zhCN": "沐光之台",
+    "zhTW": "沐光之臺",
+    "pronunciationJa": "よっこうのだいち",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "light-bathed-platform",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Crab Tsar's Palace",
+    "ja": "カニの主の宮殿",
+    "zhCN": "蟹之主的宫殿",
+    "zhTW": "蟹之主的宮殿",
+    "pronunciationJa": "かにのあるじのきゅうでん",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "crab-tsars-palace",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Thunderclap Reef",
+    "ja": "グレートサンダーリーフ",
+    "zhCN": "雷圖礁",
+    "zhTW": "雷图礁",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "thunderclap-reef",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Frostmoon Enclave",
+    "ja": "霜月の里",
+    "zhCN": "霜月之坊",
+    "zhTW": "霜月之坊",
+    "pronunciationJa": "そうげつのさと",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "frostmoon-enclave",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Lempo Isle",
+    "ja": "レンポ島",
+    "zhCN": "伦波岛",
+    "zhTW": "倫波島",
+    "pronunciationJa": "レンポとう",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "lempo-isle",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Nothing Passage",
+    "ja": "空寂の回廊",
+    "zhCN": "空寂走廊",
+    "zhTW": "空寂走廊",
+    "pronunciationJa": "くうじゃくのかいろう",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "nothing-passage",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Starsand Shoal",
+    "ja": "スターダストビーチ",
+    "zhCN": "星砂滩",
+    "zhTW": "星砂灘",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "starsand-shoal",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Blue Amber Lake",
+    "ja": "青い琥珀",
+    "zhCN": "蓝珀湖",
+    "zhTW": "藍珀湖",
+    "pronunciationJa": "あおいこはく",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "blue-amber-lake",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Eye of Kratti",
+    "ja": "ケラティの眼",
+    "zhCN": "刻拉蒂之眼",
+    "zhTW": "刻拉蒂之眼",
+    "pronunciationJa": "ケラティのめ",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "eye-of-kratti",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Barrowmoss Barrens",
+    "ja": "ボーンモス荒原",
+    "zhCN": "苔骨荒原",
+    "zhTW": "苔骨荒原",
+    "pronunciationJa": "ボーンモスこうげん",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "barrowmoss-barrens",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Clink-Clank Krumkake Craftshop",
+    "ja": "カチャカチャ・クルムカケ工房",
+    "zhCN": "叮铃哐啷蛋卷工坊",
+    "zhTW": "叮鈴哐啷蛋卷工坊",
+    "pronunciationJa": "カチャカチャ・クルムカケこうぼう",
+    "tags": [
+      "nodkrai",
+      "location",
+      "organization"
+    ],
+    "id": "clink-clank-krumkake-craftshop",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-04-12"
+  },
+  {
+    "en": "Nasha Town",
+    "ja": "ナシャタウン",
+    "zhCN": "那夏镇",
+    "zhTW": "那夏鎮",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "nasha-town",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "LightKeepers",
+    "ja": "ライトキーバー",
+    "zhCN": "执灯人",
+    "zhTW": "執燈人",
+    "tags": [
+      "nodkrai",
+      "organization"
+    ],
+    "id": "lightkeepers",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-04-12"
+  },
+  {
+    "en": "Frostmoon Scions",
+    "ja": "霜月の子",
+    "zhCN": "霜月之子",
+    "zhTW": "霜月之子",
+    "pronunciationJa": "しもつきのこ",
+    "tags": [
+      "nodkrai",
+      "organization"
+    ],
+    "id": "frostmoon-scions",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-04-12"
+  },
+  {
+    "en": "Destiny Drawn",
+    "ja": "「縁結びの願掛け」",
+    "zhCN": "「相缘绘愿」",
+    "zhTW": "「相縁繪願」",
+    "notes": "稲妻の鳴神大社で「のんびり旅手帳」に出会う人物の願掛け",
+    "tags": [
+      "inazuma"
+    ],
+    "id": "destiny-drawn",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "The Wild Hunt",
+    "ja": "ワイルドハント",
+    "zhCN": "狂猎",
+    "zhTW": "狂獵",
+    "notes": "アビスに冒された亡霊が出現する現象",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "the-wild-hunt",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-04-12"
+  },
+  {
+    "en": "Kuuvahki",
+    "ja": "クーヴァキ",
+    "zhCN": "月矩力",
+    "zhTW": "月矩力",
+    "notes": "ナド・クライの至る所にある特殊な力。赤と青の光からエネルギーを得ることが出来る",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "kuuvahki",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Relic",
+    "ja": "聖物",
+    "zhCN": "圣物",
+    "zhTW": "聖物",
+    "notes": "霜月の里に祀られていた宝物。月髄のこと",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "relic",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Moon Marrow",
+    "ja": "月髄",
+    "zhCN": "月髓",
+    "zhTW": "月髓",
+    "notes": "霜月の里に祀られていた宝物。月の三女神の一人「恒月の女神」の遺骸",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "moon-marrow",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Lucky Spin",
+    "ja": "ラッキールーレット",
+    "zhCN": "好运速转",
+    "zhTW": "好運速轉",
+    "notes": "ナシャタウンの「スペランザ」敷地にある運勢占い",
+    "tags": [
+      "inazuma"
+    ],
+    "id": "lucky-spin",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Hibernation Chamber on the spaceship",
+    "ja": "宇宙船スリープポッド",
+    "zhCN": "飞船休眠仓",
+    "zhTW": "飛船休眠艙",
+    "pronunciationJa": "うちゅうせんスリープポッド",
+    "tags": [
+      "nodkrai"
+    ],
+    "id": "hibernation-chamber-on-the-spaceship",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-07-03"
+  },
+  {
+    "en": "Eternal Moon",
+    "ja": "恒月",
+    "zhCN": "恒月",
+    "zhTW": "恒月",
+    "pronunciationJa": "ごうげつ",
+    "notes": "かつて存在した天空の3つの月のひとつ。天理との戦争により砕け、いくつかの破片はファデュイの手によりナド・クライに落下した",
+    "id": "eternal-moon",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Iridescent Moon",
+    "ja": "虹月",
+    "zhCN": "虹月",
+    "zhTW": "虹月",
+    "pronunciationJa": "こうげつ",
+    "notes": "かつて存在した天空の3つの月のひとつ。天理との戦争により砕けた",
+    "id": "iridescent-moon",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Frost Moon",
+    "ja": "霜月",
+    "zhCN": "霜月",
+    "zhTW": "霜月",
+    "notes": "天空の3つの月のひとつで、天理との戦争でも砕けずに残った。偽りの空により隠蔽されている",
+    "pronunciationJa": "そうげつ",
+    "id": "frost-moon",
+    "updatedAt": "2025-09-29",
+    "createdAt": "2025-09-29"
+  },
+  {
+    "en": "Silken Moon's Serenade",
+    "ja": "月を紡ぐ夜の歌",
+    "zhCN": "纺月的夜歌",
+    "zhTW": "紡月的夜歌",
+    "pronunciationJa": "つきをつむぐよるのうた",
+    "tags": [
+      "artifact"
+    ],
+    "id": "silken-moons-serenade",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Night of the Sky's Unveiling",
+    "ja": "天穹の顕現せし夜",
+    "zhCN": "穹境示现之夜",
+    "zhTW": "穹境示現之夜",
+    "pronunciationJa": "てんきゅうのけんげんせしよる",
+    "tags": [
+      "artifact"
+    ],
+    "id": "night-of-the-skys-unveiling",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "\"Moon Maiden\"",
+    "ja": "「月の少女」",
+    "zhCN": "「月之少女」",
+    "zhTW": "「月之少女」",
+    "pronunciationJa": "つきのしょうじょ",
+    "notes": "コロンビーナの「霜月の子」での呼ばれ方",
+    "tags": [
+      "fatui",
+      "nodkrai",
+      "title",
+      "character-main",
+      "how-to-call"
+    ],
+    "id": "moon-maiden",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Pulonia",
+    "ja": "プロンニア",
+    "zhCN": "普隆尼亚",
+    "zhTW": "普隆尼亞",
+    "notes": "「傀儡」と行動を共にする大型ロボット",
+    "tags": [
+      "fatui",
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "pulonia",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Katheryne",
+    "ja": "キャサリン",
+    "zhCN": "凯瑟琳",
+    "zhTW": "凱瑟琳",
+    "notes": "冒険者協会の受付",
+    "tags": [
+      "character-sub"
+    ],
+    "id": "katheryne",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2022-01-01"
+  },
+  {
+    "en": "Rerir",
+    "ja": "レリル",
+    "zhCN": "雷利尔",
+    "zhTW": "雷利爾",
+    "tags": [
+      "khaenriah",
+      "nodkrai",
+      "character-sub"
+    ],
+    "notes": "月の狩人の俗名を持つ。カーンルイアの五大罪人のひとり",
+    "notesZh": "「猎月人」的本名。坎瑞亚的五大罪人之一。",
+    "notesZhTW": "「獵月人」的本名。坎瑞亞的五大罪人之一。",
+    "id": "rerir",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2024-07-06"
+  },
+  {
+    "en": "Rächer of Solnari",
+    "ja": "月の狩人",
+    "zhCN": "猎月人",
+    "zhTW": "獵月人",
+    "pronunciationJa": "つきのかりゅうど",
+    "tags": [
+      "khaenriah",
+      "nodkrai",
+      "character-sub"
+    ],
+    "notes": "レリルの俗名。カーンルイアの五大罪人のひとり",
+    "notesZh": "雷利尔的称号。坎瑞亚的五大罪人之一。",
+    "notesZhTW": "雷利爾的稱號。坎瑞亞的五大罪人之一。",
+    "id": "racher-of-solnari",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2024-07-06"
+  },
+  {
+    "en": "Little Tobot",
+    "ja": "小さなロボット",
+    "zhCN": "小机器人",
+    "zhTW": "小機器人",
+    "pronunciationJa": "ちいさなロボット",
+    "notes": "イネファと一緒に行動している小型ロボット「ビルギッタ」のこと。アイノは「ピポピポ」と呼んでいる",
+    "tags": [
+      "natlan",
+      "nodkrai",
+      "character-sub",
+      "how-to-call"
+    ],
+    "id": "little-tobot",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-17"
+  },
+  {
+    "en": "Birgitta",
+    "ja": "ビルギッタ",
+    "zhCN": "薇尔琪塔",
+    "zhTW": "薇爾琪塔",
+    "notes": "イネファと一緒に行動している小型ロボット。アイノは「ピポピポ」と呼んでいる",
+    "tags": [
+      "natlan",
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "birgitta",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Anja",
+    "ja": "アンジェア",
+    "zhCN": "安洁娅",
+    "zhTW": "安潔婭",
+    "notes": "「燧石の鋒」冒険団団員",
+    "tags": [
+      "natlan",
+      "character-sub"
+    ],
+    "id": "anja",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Papar",
+    "ja": "パパール",
+    "zhCN": "帕帕",
+    "zhTW": "帕帕",
+    "notes": "世界任務「最後のテノチズトク人」に登場する人物。ナタの地方伝説の1人でもある。彼の会話に出て来る「海内くん」は「淵上」と称するものと同一人物",
+    "tags": [
+      "natlan",
+      "character-sub",
+      "enemy",
+      "enemy-legend"
+    ],
+    "id": "papar",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-17"
+  },
+  {
+    "en": "Moon Godness",
+    "ja": "月神",
+    "zhCN": "月神",
+    "zhTW": "月神",
+    "pronunciationJa": "げっしん",
+    "tags": [
+      "nodkrai",
+      "title"
+    ],
+    "id": "moon-godness",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Moonchanter",
+    "ja": "詠月使",
+    "zhCN": "咏月使",
+    "zhTW": "詠月使",
+    "pronunciationJa": "えいげつし",
+    "notes": "「霜月の子」の指導者。ラウマの職位",
+    "tags": [
+      "nodkrai",
+      "title"
+    ],
+    "id": "moonchanter",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kuutar",
+    "ja": "クータル",
+    "zhCN": "库塔尔",
+    "zhTW": "庫塔爾",
+    "notes": "コロンビーナの「霜月の子」での呼ばれ方",
+    "tags": [
+      "fatui",
+      "nodkrai",
+      "character-main",
+      "how-to-call"
+    ],
+    "id": "kuutar",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lauma",
+    "ja": "ラウマ",
+    "zhCN": "菈乌玛",
+    "zhTW": "菈烏瑪",
+    "notesEn": "Leader of \"Frostmoon Scions\" and Moonchanter",
+    "notes": "「霜月の子」の指導者。詠月使",
+    "notesZh": "「霜月之子」的领导者。咏月使",
+    "tags": [
+      "nodkrai",
+      "character-main"
+    ],
+    "id": "lauma",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Nefer",
+    "ja": "ネフェル",
+    "zhCN": "奈芙尔",
+    "zhTW": "奈芙爾",
+    "notesEn": "Owner of \"Curatorium of Secrets\"",
+    "notes": "「秘聞の館」オーナー",
+    "notesZh": "「秘闻馆」的主人",
+    "tags": [
+      "nodkrai",
+      "sumeru",
+      "character-main"
+    ],
+    "id": "nefer",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Flins",
+    "ja": "フリンズ",
+    "zhCN": "菲林斯",
+    "zhTW": "菲林斯",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-main"
+    ],
+    "id": "flins",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Kyryll Chudomirovich Flins",
+    "ja": "キリル・チュードミロヴィッチ・フリンズ",
+    "zhCN": "克里洛·楚德米洛维奇·菲林斯",
+    "zhTW": "克里洛·楚德米洛維奇·菲林斯",
+    "notesEn": "Full name of Flins",
+    "notes": "フリンズのフルネーム",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-main"
+    ],
+    "id": "kyryll-chudomirovich-flins",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-05"
+  },
+  {
+    "en": "Ratimir",
+    "ja": "ラディミール",
+    "zhCN": "拉蒂米尔",
+    "zhTW": "拉蒂米爾",
+    "notes": "ナシャタウンにいる人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "ratimir",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Anfisa",
+    "ja": "アンフィサ",
+    "zhCN": "安菲莎",
+    "zhTW": "安菲莎",
+    "notes": "ナシャタウンにいるファデュイ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "character-sub"
+    ],
+    "id": "anfisa",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Onegov",
+    "ja": "オネーゴフ",
+    "zhCN": "奥涅戈夫",
+    "zhTW": "奥涅戈夫",
+    "notes": "ナシャタウンにいるファデュイ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "character-sub"
+    ],
+    "id": "onegov",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Jalo",
+    "ja": "ヤーロ",
+    "zhCN": "雅洛",
+    "zhTW": "雅洛",
+    "notes": "ナシャタウンにいる人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "jalo",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Zinaida",
+    "ja": "ズィナイダ",
+    "zhCN": "齐娜伊达",
+    "zhTW": "齊娜伊達",
+    "notes": "ナシャタウンにいる人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "zinaida",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Manez",
+    "ja": "マネッズ",
+    "zhCN": "马涅茨",
+    "zhTW": "馬涅茨",
+    "notes": "ナシャタウンにいる人物。港務管理人",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "manez",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Yrjo",
+    "ja": "ヨルホー",
+    "zhCN": "约霍",
+    "zhTW": "約霍",
+    "notes": "ナシャタウンにいる人物。港務官",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "yrjo",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Reko",
+    "ja": "レコ",
+    "zhCN": "雷科",
+    "zhTW": "雷科",
+    "notes": "ナシャタウンにいる人物。ジュエリー職人",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "reko",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lyylikki",
+    "ja": "リーリキ",
+    "zhCN": "莉莉希",
+    "zhTW": "莉莉希",
+    "notes": "世界任務「食事は大事」に登場する人物。ナシャタウンにいる「霜月の子」信者",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "lyylikki",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kantor",
+    "ja": "カントール",
+    "zhCN": "坎托尔",
+    "zhTW": "坎托爾",
+    "notes": "ナシャタウンにいる人物。「霜月の子」信者",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "kantor",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Golitsyna",
+    "ja": "ゴリツィーナ",
+    "zhCN": "歌尔琴娜",
+    "zhTW": "歌爾琴娜",
+    "notes": "「ミードボーイ」店主",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "golitsyna",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Liouba",
+    "ja": "リューバ",
+    "zhCN": "利鸟芭",
+    "zhTW": "利鳥芭",
+    "notes": "ナシャタウンにいる人物",
+    "tags": [
+      "nodkrai",
+      "fontaine",
+      "character-sub"
+    ],
+    "id": "liouba",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Iratxa",
+    "ja": "エレッサ",
+    "zhCN": "爱莱莎",
+    "zhTW": "愛萊莎",
+    "notes": "ナシャタウンにいるメリュジーヌ",
+    "tags": [
+      "nodkrai",
+      "fontaine",
+      "character-sub"
+    ],
+    "id": "iratxa",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Hunajatta",
+    "ja": "ウナーヤタ",
+    "zhCN": "乌娜亚塔",
+    "zhTW": "烏娜亞塔",
+    "notes": "ナシャタウンにいる人物。飴細工屋",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "hunajatta",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Jujian",
+    "ja": "居簡",
+    "zhCN": "居简",
+    "zhTW": "居簡",
+    "notes": "ナシャタウンにいる商人",
+    "tags": [
+      "nodkrai",
+      "liyue",
+      "character-sub"
+    ],
+    "id": "jujian",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Tarno",
+    "ja": "タルノ",
+    "zhCN": "塔尔诺",
+    "zhTW": "塔爾諾",
+    "notes": "「ヴォイニッチ商会」スタッフ",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "tarno",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Cairuo",
+    "ja": "采若",
+    "zhCN": "采若",
+    "zhTW": "采若",
+    "notes": "「ナッツ＆ナット」食料品商人",
+    "tags": [
+      "nodkrai",
+      "liyue",
+      "character-sub"
+    ],
+    "id": "cairuo",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lestocq",
+    "ja": "レストーク",
+    "zhCN": "莱斯托克",
+    "zhTW": "萊斯托克",
+    "notes": "「ナッツ＆ナット」エンジニア。ナドクライの合成台管理者",
+    "tags": [
+      "nodkrai",
+      "fontaine",
+      "character-sub"
+    ],
+    "id": "lestocq",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Arkhyp",
+    "ja": "アルシップ",
+    "zhCN": "阿尔希普",
+    "zhTW": "阿爾希普",
+    "notes": "「ロッサム工房」鍛冶職人",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "arkhyp",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lyulka",
+    "ja": "リュカ",
+    "zhCN": "柳佳",
+    "zhTW": "柳佳",
+    "notes": "「ロッサム工房」研究員",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "lyulka",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Limppu",
+    "ja": "リンプ",
+    "zhCN": "林布",
+    "zhTW": "林布",
+    "notes": "ナシャタウンにいる商人",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "limppu",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Jarosznski",
+    "ja": "ヤロンスキー",
+    "zhCN": "亚洛辛斯基",
+    "zhTW": "亞洛辛斯基",
+    "notes": "ナシャタウンにある北国銀行のマネージャー",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-sub"
+    ],
+    "id": "jarosznski",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Katya",
+    "ja": "カーチャ",
+    "notes": "「スペランザ」店主",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "katya",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Mikko",
+    "ja": "ミッコ",
+    "zhCN": "米科",
+    "zhTW": "米科",
+    "notes": "「スペランザ」受付",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "mikko",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Maisie",
+    "ja": "メイジー",
+    "zhCN": "玫熙",
+    "zhTW": "玫熙",
+    "notes": "「スペランザ」受付",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "maisie",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Jurva",
+    "ja": "ユルヴァ",
+    "zhCN": "尤尔瓦",
+    "zhTW": "尤爾瓦",
+    "notes": "「スペランザ」特別料理人",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "jurva",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Pavlov",
+    "ja": "パブロフ",
+    "zhCN": "巴甫洛夫",
+    "zhTW": "巴甫洛夫",
+    "notes": "「スペランザ」の看板犬",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "pavlov",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Dhabit",
+    "ja": "サビト",
+    "zhCN": "萨维特",
+    "zhTW": "薩維特",
+    "notes": "「ミミール書店」店主",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "dhabit",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Paavo",
+    "ja": "パーヴォ",
+    "zhCN": "帕霍",
+    "zhTW": "帕霍",
+    "notes": "「フラッグシップ」受付",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "paavo",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Demyan",
+    "ja": "デミアン",
+    "zhCN": "德米安",
+    "zhTW": "德米安",
+    "notes": "「フラッグシップ」バーテンダー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "demyan",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Leszek",
+    "ja": "レゼック",
+    "zhCN": "勒塞克",
+    "zhTW": "勒塞克",
+    "notes": "「フラッグシップ」スタッフ",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "leszek",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kruchek",
+    "ja": "クルーチェク",
+    "zhCN": "克鲁切",
+    "zhTW": "克魯切",
+    "notes": "「フラッグシップ」でリクルート活動しているファデュイ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "character-sub"
+    ],
+    "id": "kruchek",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Ashru",
+    "ja": "アシュル",
+    "zhCN": "阿舎鲁",
+    "zhTW": "阿舎魯",
+    "notes": "「秘聞の館」の受付猫",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "ashru",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Hedvika",
+    "ja": "ヘドウィカ",
+    "zhCN": "海德薇卡",
+    "zhTW": "海德薇卡",
+    "notes": "ナド・クライの漁師",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "hedvika",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Ognjen",
+    "ja": "オグニェン",
+    "zhCN": "奥尼扬",
+    "zhTW": "奥尼揚",
+    "notes": "魔人任務「白銀の浪と蒼林の舞」に登場するファデュイ",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "ognjen",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Oiva",
+    "ja": "オイヴァ",
+    "zhCN": "奥伊瓦",
+    "zhTW": "奥伊瓦",
+    "notes": "魔人任務「白銀の浪と蒼林の舞」に登場するファデュイ",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "oiva",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Vilemina",
+    "ja": "ウィルミナ",
+    "zhCN": "薇尔米娜",
+    "zhTW": "薇爾米娜",
+    "notes": "魔人任務「白銀の浪と蒼林の舞」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "vilemina",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Aarto",
+    "ja": "アールト",
+    "zhCN": "阿尔托",
+    "zhTW": "阿爾托",
+    "notes": "魔人任務「白銀の浪と蒼林の舞」に登場するファデュイ",
+    "tags": [
+      "nodkrai",
+      "fatui",
+      "character-sub"
+    ],
+    "id": "aarto",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kasha",
+    "ja": "カーシャ",
+    "zhCN": "卡夏",
+    "zhTW": "卡夏",
+    "notes": "月下見聞「戸口にある石」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "kasha",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Maite",
+    "ja": "マイテ",
+    "zhCN": "梅蒂",
+    "zhTW": "梅蒂",
+    "notes": "月下見聞「鏡と迷宮と国王」に登場する人物。フルネームはマイテ・ヴェロー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "maite",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Verna",
+    "ja": "ヴィーナ",
+    "zhCN": "维娜",
+    "zhTW": "維娜",
+    "notes": "月下見聞「 緑の島のために…」に登場する人物。フルネームはヴィーナ・チェンカ",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "verna",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Aila",
+    "ja": "アイラ",
+    "zhCN": "爱依菈",
+    "zhTW": "愛依菈",
+    "notes": "月下見聞「鏡と迷宮と国王」「 緑の島のために…」「これから始まる物語」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "aila",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Rahetar",
+    "ja": "ラフタル",
+    "zhCN": "莱赫妲尔",
+    "zhTW": "萊赫妲爾",
+    "notes": "「霜月の子」の司祭",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "rahetar",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Ehrnrooth",
+    "ja": "アンローズ",
+    "zhCN": "安洛丝",
+    "zhTW": "安洛絲",
+    "notes": "「霜月の子」の司祭",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "ehrnrooth",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sarakka",
+    "ja": "サライカ",
+    "zhCN": "莎莱卡",
+    "zhTW": "莎萊卡",
+    "notes": "「霜月の子」の司祭",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "sarakka",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Reetta",
+    "ja": "レイダ",
+    "zhCN": "莉伊妲",
+    "zhTW": "莉伊妲",
+    "notes": "「霜月の子」の信者",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "reetta",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Krodo",
+    "ja": "コロード",
+    "zhCN": "科罗德",
+    "zhTW": "科羅德",
+    "notes": "「霜月の子」の信者",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "krodo",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Rebane",
+    "ja": "レヴァーニ",
+    "zhCN": "蕾瓦妮",
+    "zhTW": "蕾瓦妮",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "rebane",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kapy",
+    "ja": "カプイ",
+    "zhCN": "加普依",
+    "zhTW": "加普依",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "kapy",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kaarina",
+    "ja": "カアリナ",
+    "zhCN": "加莉娜",
+    "zhTW": "加莉娜",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "kaarina",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Eveliina",
+    "ja": "エベリナ",
+    "zhCN": "爱维琳",
+    "zhTW": "愛維琳",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "eveliina",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kukkia",
+    "ja": "クッキア",
+    "zhCN": "库齐娅",
+    "zhTW": "庫齊婭",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "kukkia",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sousi",
+    "ja": "スーシ",
+    "zhCN": "索西",
+    "zhTW": "索西",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物。ライトキーパー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "sousi",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Hintsa",
+    "ja": "ヒンツァ",
+    "zhCN": "辛查",
+    "zhTW": "辛查",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "hintsa",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Kauro",
+    "ja": "カウロ",
+    "zhCN": "卡乌洛",
+    "zhTW": "卡烏洛",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "kauro",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Tuija",
+    "ja": "トゥィヤ",
+    "zhCN": "图伊佳",
+    "zhTW": "圖伊佳",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "tuija",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Dobrawa",
+    "ja": "ドブラワ",
+    "zhCN": "多布菈娃",
+    "zhTW": "多布菈娃",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "dobrawa",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Mojca",
+    "ja": "モヒーカ",
+    "zhCN": "莫季佳",
+    "zhTW": "莫季佳",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "mojca",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Satajalka",
+    "ja": "サタヤルカ",
+    "zhCN": "萨塔贾卡",
+    "zhTW": "薩塔賈卡",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "satajalka",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Onni",
+    "ja": "オンニ",
+    "zhCN": "奥尼",
+    "zhTW": "奥尼",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "onni",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Rauha",
+    "ja": "ラウハ",
+    "zhCN": "拉沃夏",
+    "zhTW": "拉沃夏",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "rauha",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Korhonen",
+    "ja": "コルホネン",
+    "zhCN": "科尔霍寧",
+    "zhTW": "科爾霍寧",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "korhonen",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Zvoni",
+    "ja": "スヴォーニ",
+    "zhCN": "兹沃妮",
+    "zhTW": "茲沃妮",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物。ライトキーパー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "zvoni",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sieciech",
+    "ja": "シエチェフ",
+    "zhCN": "泽西切",
+    "zhTW": "澤西切",
+    "notes": "魔神任務「塵と灯のエレジー」に登場する人物。ライトキーパー",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "sieciech",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Vaino",
+    "ja": "ヴァイノ",
+    "zhCN": "瓦伊诺",
+    "zhTW": "瓦伊諾",
+    "notes": "世界任務「転職はいつも不安になる」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "vaino",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sisko",
+    "ja": "シスコ",
+    "zhCN": "茜斯柯",
+    "zhTW": "茜斯柯",
+    "notes": "世界任務「転職はいつも不安になる」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "sisko",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Bozena",
+    "ja": "ボゼーナ",
+    "zhCN": "波泽娜",
+    "zhTW": "波澤娜",
+    "notes": "世界任務「転職はいつも不安になる」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "bozena",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lalli",
+    "ja": "ライリー",
+    "zhCN": "莱里",
+    "zhTW": "萊里",
+    "notes": "世界任務「転職はいつも不安になる」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "lalli",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Tolfin",
+    "ja": "ドルフィン",
+    "zhCN": "托尔芬",
+    "zhTW": "托爾芬",
+    "notes": "月下見聞「密告の心」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "tolfin",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Zhorik Shesternin",
+    "ja": "ジェリック・ジェストニン",
+    "zhCN": "卓里克·谢斯特宁",
+    "zhTW": "卓里克·謝斯特寧",
+    "notes": "月下見聞「密告の心」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-sub"
+    ],
+    "id": "zhorik-shesternin",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Danyusha Shesternin",
+    "ja": "ダニョーシャ・シェストニン",
+    "zhCN": "丹尤莎·谢斯特宁",
+    "zhTW": "丹尤莎·謝斯特寧",
+    "notes": "月下見聞「密告の心」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-sub"
+    ],
+    "id": "danyusha-shesternin",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Netochka",
+    "ja": "ニェドチカ",
+    "zhCN": "涅朵奇卡",
+    "zhTW": "涅朵奇卡",
+    "notes": "月下見聞「靴職人の子はいつも裸足！」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-sub"
+    ],
+    "id": "netochka",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Raskolnikov",
+    "ja": "ラスコルニコフ",
+    "zhCN": "拉斯科尔尼科夫",
+    "zhTW": "拉斯科爾尼科夫",
+    "notes": "月下見聞「靴職人の子はいつも裸足！」に登場するファデュイ。ナド・クライの地方伝説の1人",
+    "tags": [
+      "nodkrai",
+      "snezhnaya",
+      "character-sub",
+      "fatui",
+      "enemy",
+      "enemy-legend"
+    ],
+    "id": "raskolnikov",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Fanngel",
+    "ja": "ヴァンガー",
+    "zhCN": "方格尔",
+    "zhTW": "方格爾",
+    "notes": "月下見聞「研究の原動力」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "fanngel",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Auni",
+    "ja": "アウニ",
+    "zhCN": "奥妮",
+    "zhTW": "奥妮",
+    "notes": "月下見聞「モレー谷の仲間たち」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "auni",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Macola",
+    "ja": "マコラ",
+    "zhCN": "马科拉",
+    "zhTW": "馬科拉",
+    "notes": "月下見聞「慎重派？ それとも直感派？」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "fontaine",
+      "character-sub"
+    ],
+    "id": "macola",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Anezka",
+    "ja": "アニツカ",
+    "zhCN": "安妮兹卡",
+    "zhTW": "安妮茲卡",
+    "notes": "月下見聞「慎重派？ それとも直感派？」に登場する人物",
+    "tags": [
+      "nodkrai",
+      "fontaine",
+      "character-sub"
+    ],
+    "id": "anezka",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Bobik",
+    "ja": "ボビック",
+    "zhCN": "博比克",
+    "zhTW": "博比克",
+    "notes": "月下見聞「慎重派？ それとも直感派？」に登場するキャラクター。民間輸送装置",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "bobik",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Allochika",
+    "ja": "アロチカ",
+    "zhCN": "阿洛契卡",
+    "zhTW": "阿洛契卡",
+    "notes": "月下見聞「慎重派？ それとも直感派？」に登場するファデュイ",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "allochika",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Eternal Moon Goddess",
+    "ja": "恒月の女神",
+    "zhCN": "恒月女神",
+    "zhTW": "恆月女神",
+    "pronunciationJa": "ごうげつのめがみ",
+    "notes": "かつて存在した月の三女神の一人",
+    "tags": [
+      "title"
+    ],
+    "id": "eternal-moon-goddess",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Precision Kuuvahki Stamping Die",
+    "ja": "精密クーヴァキダック金型",
+    "zhCN": "精密型月矩力冲鸭模具",
+    "zhTW": "精密型月矩力衝鴨模具",
+    "pronunciationJa": "せいみつクーヴァキダックかながた",
+    "tags": [
+      "nodkrai",
+      "drop-boss"
+    ],
+    "id": "precision-kuuvahki-stamping-die",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lightbearing Scale-Feather",
+    "ja": "採光の鱗羽",
+    "zhCN": "承光的鳞羽",
+    "zhTW": "承光的鱗羽",
+    "pronunciationJa": "さいこうのりんう",
+    "tags": [
+      "nodkrai",
+      "drop-boss"
+    ],
+    "id": "lightbearing-scale-feather",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Broken Drive Shaft",
+    "ja": "破損した駆動軸",
+    "zhCN": "毁损机轴",
+    "zhTW": "毀損機軸",
+    "pronunciationJa": "はそんしたくどうじく",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "broken-drive-shaft",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Reinforced Drive Shaft",
+    "ja": "強固な駆動軸",
+    "zhCN": "加固机轴",
+    "zhTW": "加固機軸",
+    "pronunciationJa": "きょうこなくどうじく",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "reinforced-drive-shaft",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Precision Drive Shaft",
+    "ja": "精巧な駆動軸",
+    "zhCN": "精制机轴",
+    "zhTW": "精製機軸",
+    "pronunciationJa": "せいこうなくどうじく",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "precision-drive-shaft",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Tattered Warrant",
+    "ja": "破損した徽章",
+    "zhCN": "磨损的执凭",
+    "zhTW": "磨損的執憑",
+    "pronunciationJa": "はそんしたきしょう",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "tattered-warrant",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Immaculate Warrant",
+    "ja": "精巧な徽章",
+    "zhCN": "精致的执凭",
+    "zhTW": "精緻的執憑",
+    "pronunciationJa": "せいこうなきしょう",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "immaculate-warrant",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Frost-Etched Warrant",
+    "ja": "霜刻の徽章",
+    "zhCN": "霜镌的执凭",
+    "zhTW": "霜鐫的執憑",
+    "pronunciationJa": "そうこくのきしょう",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "frost-etched-warrant",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Frostnight's Glimmer",
+    "ja": "霜夜の残光",
+    "zhCN": "霜夜的残照",
+    "zhTW": "霜夜的殘照",
+    "pronunciationJa": "そうやのざんこう",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "frostnights-glimmer",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Frostnight's Glow",
+    "ja": "霜夜の柔光",
+    "zhCN": "霜夜的柔辉",
+    "zhTW": "霜夜的柔輝",
+    "pronunciationJa": "そうやのにゅうこう",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "frostnights-glow",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Frostnight's Glory",
+    "ja": "霜夜の栄華",
+    "zhCN": "霜夜的煌荣",
+    "zhTW": "霜夜的煌榮",
+    "pronunciationJa": "そうやのえいが",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "frostnights-glory",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lightless Bone",
+    "ja": "失光の骨片",
+    "zhCN": "失光块骨",
+    "zhTW": "失光塊骨",
+    "pronunciationJa": "しっこうのこっぺん",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "lightless-bone",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Glowing Remains",
+    "ja": "淡光の遺骨",
+    "zhCN": "稀光遗骼",
+    "zhTW": "稀光遺骼",
+    "pronunciationJa": "たんこうのいこつ",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "glowing-remains",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Radiant Exoskeleton",
+    "ja": "輝光の外殻",
+    "zhCN": "繁光躯外骸",
+    "zhTW": "繁光軀外骸",
+    "pronunciationJa": "きこうのがいかく",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "radiant-exoskeleton",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Mistshroud Manifestation",
+    "ja": "暗き霧の欠片",
+    "zhCN": "幽雾化形",
+    "zhTW": "幽霧化形",
+    "pronunciationJa": "くらききりのかけら",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "mistshroud-manifestation",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Mistshroud Plate",
+    "ja": "暗き霧の鎧",
+    "zhCN": "幽雾片甲",
+    "zhTW": "幽霧片甲",
+    "pronunciationJa": "くらききりのよろい",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "mistshroud-plate",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Mistshroud Helmet",
+    "ja": "暗き霧の兜",
+    "zhCN": "幽雾兜盔",
+    "zhTW": "幽霧兜盔",
+    "pronunciationJa": "くらききりのかぶと",
+    "tags": [
+      "nodkrai",
+      "drop"
+    ],
+    "id": "mistshroud-helmet",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Borderland Crispbread",
+    "ja": "辺境クリスプ・ブレッド",
+    "zhCN": "边地薄饼",
+    "zhTW": "邊地薄餅",
+    "pronunciationJa": "へんきょうクリスプ・ブレッド",
+    "tags": [
+      "food"
+    ],
+    "id": "borderland-crispbread",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lakkaberry Madame",
+    "ja": "鳥肉のホワイトベリー漬け焼き",
+    "zhCN": "白灵果酿鸡",
+    "zhTW": "白靈果釀雞",
+    "pronunciationJa": "とりにくのホワイトベリーつけやき",
+    "tags": [
+      "food"
+    ],
+    "id": "lakkaberry-madame",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Dualblaze Longplume Ibis",
+    "ja": "飴細工・照羽トキ",
+    "zhCN": "糖雕·双辉长翎鹮",
+    "zhTW": "糖雕·雙輝長翎䴉",
+    "pronunciationJa": "あめざいく・しょうはトキ",
+    "notes": "ナシャタウンにいるウナーヤタに話しかけるとランダムで貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-dualblaze-longplume-ibis",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Frostfin Whale",
+    "ja": "飴細工・フロストフィンイルカ",
+    "zhCN": "糖雕·霜鳍鲸",
+    "zhTW": "糖雕·霜鰭鯨",
+    "pronunciationJa": "あめざいく・フロストフィンイルカ",
+    "notes": "ナシャタウンにいるウナーヤタに話しかけるとランダムで貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-frostfin-whale",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Chic Badger",
+    "ja": "飴細工・モサモサアナグマ",
+    "zhCN": "糖雕·帔髦獾",
+    "zhTW": "糖雕·帔髦獾",
+    "pronunciationJa": "あめざいく・モサモサアナグマ",
+    "notes": "ナシャタウンにいるウナーヤタに話しかけるとランダムで貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-chic-badger",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Puffin",
+    "ja": "飴細工・ガケツノメドリ",
+    "zhCN": "糖雕·海崖鹦",
+    "zhTW": "糖雕·海崖鸚",
+    "pronunciationJa": "あめざいく・ガケツノメドリ",
+    "notes": "ナシャタウンにいるウナーヤタに話しかけるとランダムで貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-puffin",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Rimehorn Deer",
+    "ja": "飴細工・ツノシカ",
+    "zhCN": "糖雕·凛角鹿",
+    "zhTW": "糖雕·凜角鹿",
+    "pronunciationJa": "あめざいく・ツノシカ",
+    "notes": "ナシャタウンにいるウナーヤタに話しかけるとランダムで貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-rimehorn-deer",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Aino",
+    "ja": "飴細工・アイノ",
+    "zhCN": "糖雕·爱诺",
+    "zhTW": "糖雕·愛諾",
+    "pronunciationJa": "あめざいく・アイノ",
+    "notes": "チームにアイノが加入した状態でナシャタウンにいるウナーヤタに話しかけると貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-aino",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Ineffa",
+    "ja": "飴細工・イネファ",
+    "zhCN": "糖雕·伊涅芙",
+    "zhTW": "糖雕·伊涅芙",
+    "pronunciationJa": "あめざいく・イネファ",
+    "notes": "チームにイネファが加入した状態でナシャタウンにいるウナーヤタに話しかけると貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-ineffa",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sugar Sculpture: Lauma",
+    "ja": "飴細工・ラウマ",
+    "zhCN": "糖雕·菈乌玛",
+    "zhTW": "糖雕·菈烏瑪",
+    "pronunciationJa": "あめざいく・ラウマ",
+    "notes": "チームにラウマが加入した状態でナシャタウンにいるウナーヤタに話しかけると貰える飴細工。期限は24時間",
+    "tags": [
+      "food"
+    ],
+    "id": "sugar-sculpture-lauma",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Midsommar Torte",
+    "ja": "ソマルケーキ",
+    "zhCN": "夏槲蛋糕",
+    "zhTW": "夏槲蛋糕",
+    "tags": [
+      "food"
+    ],
+    "id": "midsommar-torte",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Fruit Tandem Turnovers",
+    "ja": "ツインベリーロール",
+    "zhCN": "双果卷",
+    "zhTW": "雙果捲",
+    "tags": [
+      "food"
+    ],
+    "id": "fruit-tandem-turnovers",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Crispy Roast",
+    "ja": "カリカリステーキ",
+    "zhCN": "脆脆烤肉",
+    "zhTW": "脆脆烤肉",
+    "tags": [
+      "food"
+    ],
+    "id": "crispy-roast",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Today's Boon",
+    "ja": "ハーベスト・オブ・ザ・デイ",
+    "zhCN": "今日收获",
+    "zhTW": "今日收穫",
+    "tags": [
+      "food"
+    ],
+    "id": "todays-boon",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Thunderclap Slash!",
+    "ja": "ゴロピシャ電光斬！",
+    "zhCN": "轰雷电光斩!",
+    "zhTW": "轟雷電光斬!",
+    "tags": [
+      "food",
+      "nodkrai"
+    ],
+    "notesEn": "Ineffa's specialty",
+    "notes": "イネファのオリジナル料理",
+    "notesZh": "伊涅芙特色料理",
+    "id": "thunderclap-slash",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Clink-Clank Confectionery Cup",
+    "ja": "ガチャガチャスイートカップ",
+    "zhCN": "嘎吱嘎吱甜甜杯",
+    "zhTW": "嘎吱嘎吱甜甜杯",
+    "tags": [
+      "food",
+      "nodkrai"
+    ],
+    "notesEn": "Aino's specialty",
+    "notes": "アイノのオリジナル料理",
+    "notesZh": "爱诺的特色料理",
+    "id": "clink-clank-confectionery-cup",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Whisper in the Woods",
+    "ja": "森のささやき",
+    "zhCN": "林间低语",
+    "zhTW": "林間低語",
+    "tags": [
+      "food",
+      "nodkrai"
+    ],
+    "notesEn": "Lauma's specialty",
+    "notes": "ラウマのオリジナル料理",
+    "notesZh": "菈乌玛的特色料理",
+    "id": "whisper-in-the-woods",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lakkaberry",
+    "ja": "ホワイトベリー",
+    "zhCN": "白灵果",
+    "zhTW": "白靈果",
+    "tags": [
+      "nodkrai",
+      "food"
+    ],
+    "id": "lakkaberry",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Midsommar Berry",
+    "ja": "ソマルの実",
+    "zhCN": "夏槲果",
+    "zhTW": "夏槲果",
+    "tags": [
+      "nodkrai",
+      "food"
+    ],
+    "id": "midsommar-berry",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Lunoculus",
+    "ja": "失われた月神の瞳",
+    "zhCN": "散失的月神瞳",
+    "zhTW": "散失的月神瞳",
+    "pronunciationJa": "うしなわれたげっしんのひとみ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "notes": "oculus はラテン語で「目」の意",
+    "id": "lunoculus",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Luna Sigil",
+    "ja": "月の印",
+    "zhCN": "月之印",
+    "zhTW": "月之印",
+    "pronunciationJa": "つきのしるし",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "luna-sigil",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Luna Treasure Compass",
+    "ja": "月のトレジャーコンパス",
+    "zhCN": "月之寻宝罗盘",
+    "zhTW": "月之尋寶羅盤",
+    "pronunciationJa": "つきのトレジャーコンパス",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "luna-treasure-compass",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Rainbowdrop Crystal",
+    "ja": "虹結晶",
+    "zhCN": "虹滴晶",
+    "zhTW": "虹滴晶",
+    "pronunciationJa": "こうけっしょう / にじけっしょう",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "rainbowdrop-crystal",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Springs of Hidden jade",
+    "ja": "隠玉の泉",
+    "zhCN": "隠玉之泉",
+    "zhTW": "隠玉之泉",
+    "pronunciationJa": "いんぎょくのいずみ",
+    "tags": [
+      "nodkrai",
+      "item"
+    ],
+    "id": "springs-of-hidden-jade",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Hymns of the For North",
+    "ja": "北の果て、祈りの歌",
+    "zhCN": "终北祷歌集",
+    "zhTW": "終北禱歌集",
+    "pronunciationJa": "きたのはて いのりのうた",
+    "tags": [
+      "nodkrai",
+      "item"
+    ],
+    "id": "hymns-of-the-for-north",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Conch Echoes",
+    "ja": "ホラガイの残響",
+    "zhCN": "海螺的回响",
+    "zhTW": "海螺的迴響",
+    "pronunciationJa": "ホラガイのざんきょう",
+    "tags": [
+      "nodkrai",
+      "item"
+    ],
+    "id": "conch-echoes",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "The Legends of Read Miller, Thief Extraordinaire",
+    "ja": "怪盗レッド・ミラーの伝説",
+    "zhCN": "大盗電德·米勒传奇",
+    "zhTW": "大盜電德·米勒傳奇",
+    "pronunciationJa": "かいとうレッド・ミラーのでんせつ",
+    "tags": [
+      "nodkrai",
+      "item"
+    ],
+    "id": "the-legends-of-read-miller-thief-extraordinaire",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Travel Accounts",
+    "ja": "のんびり旅手帳",
+    "zhCN": "游逸旅账",
+    "zhTW": "遊逸旅帳",
+    "tags": [
+      "item"
+    ],
+    "id": "travel-accounts",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Evermoon Seal",
+    "ja": "恒月の石符",
+    "zhCN": "恒月印磐",
+    "zhTW": "恆月印磐",
+    "pronunciationJa": "こうげつのせきふ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "evermoon-seal",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Krumkake Bolt",
+    "ja": "クルムカケボルト",
+    "zhCN": "蛋卷螺栓",
+    "zhTW": "蛋捲螺栓",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "krumkake-bolt",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Airspace Data Collector 2.0",
+    "ja": "空域データ収集装置2.0",
+    "zhCN": "空域数据采集器2.0",
+    "zhTW": "空域資料採集器2.0",
+    "pronunciationJa": "くういきデータしゅうしゅうそうちニーテンゼロ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "airspace-data-collector-2-0",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Inscripta-Cognoscenti's Feather",
+    "ja": "知識を刻む者の黒羽",
+    "zhCN": "镌识者的鸦翎",
+    "zhTW": "鐫識者的鴉翎",
+    "pronunciationJa": "ちしきをきざむもののくろばね",
+    "tags": [
+      "item"
+    ],
+    "id": "inscripta-cognoscentis-feather",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Weavenexa-Cognoscenti's Intoxication",
+    "ja": "知識を紡ぐ者の傾倒",
+    "zhCN": "织识者的倾醉",
+    "zhTW": "織識者的傾醉",
+    "pronunciationJa": "ちしきをつむぐもののけいとう",
+    "tags": [
+      "item"
+    ],
+    "id": "weavenexa-cognoscentis-intoxication",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Stratagema-Cognoscenti's Mask",
+    "ja": "知識を求める者の面影",
+    "zhCN": "谋识者的面影",
+    "zhTW": "謀識者的面影",
+    "pronunciationJa": "ちしきをもとめるもののおもかげ",
+    "tags": [
+      "item"
+    ],
+    "id": "stratagema-cognoscentis-mask",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Welcome to Nasha Town!",
+    "ja": "『ナシャタウンにようこそ！』",
+    "zhCN": "《欢迎来到那夏镇!》",
+    "zhTW": "《歡迎來到那夏鎮!》",
+    "pronunciationJa": "ナシャタウンにようこそ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "welcome-to-nasha-town",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "\"Wild Hunt\" Phenomena Location Map",
+    "ja": "「ワイルドハント」現象の位置図",
+    "zhCN": "「狂猎」现象定位图",
+    "zhTW": "「狂獵」現象定位圖",
+    "pronunciationJa": "ワイルドハントげんしょうのいちず",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "wild-hunt-phenomena-location-map",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Photo with Colonel Iron Whale",
+    "ja": "「テツクジラ大将」との写真",
+    "zhCN": "与「铁鲸上校」合影的画片",
+    "zhTW": "與「鐵鯨上校」合照的畫片",
+    "pronunciationJa": "テツクジラたいしょうとのしゃしん",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "photo-with-colonel-iron-whale",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Conch Notebook",
+    "ja": "ホラガイノート",
+    "zhCN": "海螺笔记本",
+    "zhTW": "海螺筆記本",
+    "notes": "『アウニのノート』『マイテのノート』『ホラガイの模様が描かれたページ』『ホラガイの模様が描かれたノート』をパイモンがまとめたノート",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "conch-notebook",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Investment Coupon",
+    "ja": "投資証券",
+    "zhCN": "投資券",
+    "zhTW": "投資券",
+    "pronunciationJa": "とうししょうけん",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "investment-coupon",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Statue of the New Moon",
+    "ja": "新月神像",
+    "zhCN": "新月神像",
+    "zhTW": "新月神像",
+    "pronunciationJa": "しんげつしんぞう",
+    "tags": [
+      "nodkrai",
+      "object"
+    ],
+    "id": "statue-of-the-new-moon",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "The Moon Mirror",
+    "ja": "盈月の鏡",
+    "zhCN": "盈月之镜",
+    "zhTW": "盈月之鏡",
+    "pronunciationJa": "えいげつのかがみ",
+    "notes": "「霜月の里」各所にある鏡のギミック",
+    "tags": [
+      "nodkrai",
+      "object"
+    ],
+    "id": "the-moon-mirror",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "The Lunar Semblance",
+    "ja": "月髄の像",
+    "zhCN": "月髓之像",
+    "zhTW": "月髓之像",
+    "pronunciationJa": "げつずいのぞう",
+    "notes": "「霜月の里」各所にある、月の神を模した像",
+    "tags": [
+      "nodkrai",
+      "object"
+    ],
+    "id": "the-lunar-semblance",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "A Dance of Snowy Tides and Hoarfrost Groves",
+    "ja": "白銀の浪と蒼林の舞",
+    "zhCN": "雪浪与苍林之舞",
+    "zhTW": "雪浪與蒼林之舞",
+    "pronunciationJa": "はくぎんのなみとそうりんのまい",
+    "tags": [
+      "nodkrai",
+      "quest-archon"
+    ],
+    "notes": "空月の歌 第一幕",
+    "id": "a-dance-of-snowy-tides-and-hoarfrost-groves",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Elegy of Dust and Lamplight",
+    "ja": "塵と灯のエレジー",
+    "zhCN": "尘与灯的挽歌",
+    "zhTW": "塵與燈的輓歌",
+    "pronunciationJa": "ちりとともしびのエレジー",
+    "tags": [
+      "nodkrai",
+      "quest-archon"
+    ],
+    "notes": "空月の歌 第二幕",
+    "id": "elegy-of-dust-and-lamplight",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "The Last Survivor of Tenochtzitoc",
+    "ja": "最後のテノチズトク人",
+    "zhCN": "最后的特诺奇兹托克人",
+    "zhTW": "最後的特諾奇茲托克人",
+    "pronunciationJa": "さいごのテノチズトクじん",
+    "notes": "世界任務のタイトル、およびナタの地方伝説の1人の人物。演者はパパール",
+    "tags": [
+      "natlan",
+      "quest-world",
+      "enemy",
+      "enemy-legend",
+      "character-sub"
+    ],
+    "id": "the-last-survivor-of-tenochtzitoc",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-08-17"
+  },
+  {
+    "en": "Polkka Beneath the Moon's Oracle",
+    "ja": "月諭のポルカ",
+    "zhCN": "月谕的半歩舞",
+    "zhTW": "月諭的半步舞",
+    "pronunciationJa": "げつゆのポルカ",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "polkka-beneath-the-moons-oracle",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "East of the Moon, West of the Sun",
+    "ja": "月の東、太陽の西",
+    "zhCN": "月之東, 日之西",
+    "zhTW": "月之東, 日之西",
+    "pronunciationJa": "つきのひがし、たいようのにし",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "east-of-the-moon-west-of-the-sun",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "To the Lighthouse",
+    "ja": "灯台へ",
+    "zhCN": "到灯塔去",
+    "zhTW": "到燈塔去",
+    "pronunciationJa": "とうだいへ",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "to-the-lighthouse",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Problem-Sorting Robot",
+    "ja": "問題分別ロボット",
+    "zhCN": "问题分拣机器人",
+    "zhTW": "問題分類機器人",
+    "pronunciationJa": "もんだいぶんべつロボット",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "problem-sorting-robot",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Food Matters",
+    "ja": "食事は大事",
+    "zhCN": "餐食大事",
+    "zhTW": "餐食大事",
+    "pronunciationJa": "しょくじはだいじ",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "food-matters",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "The Stress of Changing Careers",
+    "ja": "転職はいつも不安になる",
+    "zhCN": "转行总是令人焦虑",
+    "zhTW": "轉行總是令人焦慮",
+    "pronunciationJa": "てんしょくはいつもふあんになる",
+    "tags": [
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "the-stress-of-changing-careers",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Silver Fir Wood",
+    "ja": "シルバーシダー材",
+    "zhCN": "银冷杉木",
+    "zhTW": "銀冷杉木",
+    "pronunciationJa": "シルバーシダーざい",
+    "tags": [
+      "sereniteapot",
+      "nodkrai"
+    ],
+    "id": "silver-fir-wood",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Alder Wood",
+    "ja": "ミネバリ材",
+    "zhCN": "桤木",
+    "zhTW": "榿木",
+    "pronunciationJa": "ミネバリざい",
+    "tags": [
+      "sereniteapot",
+      "nodkrai"
+    ],
+    "id": "alder-wood",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Portable Bearing",
+    "ja": "携帯型ベアリング",
+    "zhCN": "便携轴承",
+    "zhTW": "隨身軸承",
+    "tags": [
+      "specialty",
+      "nodkrai"
+    ],
+    "pronunciationJa": "けいたいがたベアリング",
+    "id": "portable-bearing",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Frostlamp Flower",
+    "ja": "フロストランプ",
+    "zhCN": "霜盏花",
+    "zhTW": "霜盞花",
+    "tags": [
+      "specialty",
+      "nodkrai"
+    ],
+    "id": "frostlamp-flower",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Moonfall Silver",
+    "ja": "月落銀",
+    "zhCN": "月落银",
+    "zhTW": "月落銀",
+    "tags": [
+      "specialty",
+      "nodkrai"
+    ],
+    "pronunciationJa": "げつらくぎん",
+    "id": "moonfall-silver",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Teachings of Moonlight",
+    "ja": "「月光」の教え",
+    "zhCN": "「月光」的教导",
+    "zhTW": "「月光」的教導",
+    "pronunciationJa": "げっこうのおしえ",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "teachings-of-moonlight",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Guide to Moonlight",
+    "ja": "「月光」の導き",
+    "zhCN": "「月光」的指引",
+    "zhTW": "「月光」的指引",
+    "pronunciationJa": "げっこうのみちびき",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "guide-to-moonlight",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Philosophies of Moonlight",
+    "ja": "「月光」の哲学",
+    "zhCN": "「月光」的哲学",
+    "zhTW": "「月光」的哲學",
+    "pronunciationJa": "げっこうのてつがく",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "philosophies-of-moonlight",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Teachings of Elysium",
+    "ja": "「楽園」の教え",
+    "zhCN": "「乐园」的教导",
+    "zhTW": "「樂園」的教導",
+    "pronunciationJa": "らくえんのおしえ",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "teachings-of-elysium",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Guide to Elysium",
+    "ja": "「楽園」の導き",
+    "zhCN": "「乐园」的指引",
+    "zhTW": "「樂園」的指引",
+    "pronunciationJa": "らくえんのみちびき",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "guide-to-elysium",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Philosophies of Elysium",
+    "ja": "「楽園」の哲学",
+    "zhCN": "「乐园」的哲学",
+    "zhTW": "「樂園」的哲學",
+    "pronunciationJa": "らくえんのてつがく",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "philosophies-of-elysium",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Teachings of Vagrancy",
+    "ja": "「流浪」の教え",
+    "zhCN": "「浪迹」的教导",
+    "zhTW": "「浪跡」的教導",
+    "pronunciationJa": "るろうのおしえ",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "teachings-of-vagrancy",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Guide to Vagrancy",
+    "ja": "「流浪」の導き",
+    "zhCN": "「浪迹」的指引",
+    "zhTW": "「浪跡」的指引",
+    "pronunciationJa": "るろうのみちびき",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "guide-to-vagrancy",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Philosophies of Vagrancy",
+    "ja": "「流浪」の哲学",
+    "zhCN": "「浪迹」的哲学",
+    "zhTW": "「浪跡」的哲學",
+    "pronunciationJa": "るろうのてつがく",
+    "tags": [
+      "talent-material",
+      "nodkrai"
+    ],
+    "id": "philosophies-of-vagrancy",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Artful Device Fragment",
+    "ja": "奇妙な装置の欠片",
+    "zhCN": "奇巧秘器的残件",
+    "zhTW": "奇巧秘器的殘件",
+    "pronunciationJa": "きみょうなそうちのかけら",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★2武器突破素材",
+    "id": "artful-device-fragment",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Artful Device Replica",
+    "ja": "奇妙な装置の複製",
+    "zhCN": "奇巧秘器的模本",
+    "zhTW": "奇巧秘器的模本",
+    "pronunciationJa": "きみょうなそうちのふくせい",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★3武器突破素材",
+    "id": "artful-device-replica",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Artful Device Inheritance",
+    "ja": "奇妙な装置の継承",
+    "zhCN": "奇巧秘器的继业",
+    "zhTW": "奇巧秘器的繼業",
+    "pronunciationJa": "きみょうなそうちのけいしょう",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★4武器突破素材",
+    "id": "artful-device-inheritance",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Artful Device Wish",
+    "ja": "奇妙な装置の宿願",
+    "zhCN": "奇巧秘器的真愿",
+    "zhTW": "奇巧秘器的真願",
+    "pronunciationJa": "きみょうなそうちのしゅくがん",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★5武器突破素材",
+    "id": "artful-device-wish",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Ember of Long Night Flint",
+    "ja": "長夜の灯火の余燼",
+    "zhCN": "长夜燧火的余烬",
+    "zhTW": "長夜燧火的餘燼",
+    "pronunciationJa": "ちょうやのともしびのよじん / ながよのともしびのよじん",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★2武器突破素材",
+    "id": "ember-of-long-night-flint",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Afterglow of Long Night Flint",
+    "ja": "長夜の灯火の残照",
+    "zhCN": "长夜燧火的残照",
+    "zhTW": "長夜燧火的殘照",
+    "pronunciationJa": "ちょうやのともしびのざんしょう / ながよのともしびのざんしょう",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★3武器突破素材",
+    "id": "afterglow-of-long-night-flint",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Flare of Long Night Flint",
+    "ja": "長夜の灯火の紫炎",
+    "zhCN": "长夜燧火的明焰",
+    "zhTW": "長夜燧火的明焰",
+    "pronunciationJa": "ちょうやのともしびのしえん / ながよのともしびのしえん",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★4武器突破素材",
+    "id": "flare-of-long-night-flint",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Blaze of Long Night Flint",
+    "ja": "長夜の灯火の輝光",
+    "zhCN": "长夜燧火的烈辉",
+    "zhTW": "長夜燧火的烈輝",
+    "pronunciationJa": "ちょうやのともしびのきこう / ながよのともしびのきこう",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★5武器突破素材",
+    "id": "blaze-of-long-night-flint",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Sundered Glory of the Far-North Scions",
+    "ja": "極北の末裔の零落",
+    "zhCN": "终北遗嗣的哀荣",
+    "zhTW": "終北遺嗣的哀榮",
+    "pronunciationJa": "きょくほくのまつえいのれいらく",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★2武器突破素材",
+    "id": "sundered-glory-of-the-far-north-scions",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Unyielding Delusion of the Far-North Scions",
+    "ja": "極北の末裔の妄執",
+    "zhCN": "终北遗嗣的迷顽",
+    "zhTW": "終北遺嗣的迷頑",
+    "pronunciationJa": "きょくほくのまつえいのもうしゅう",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★3武器突破素材",
+    "id": "unyielding-delusion-of-the-far-north-scions",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Oblation of the Far-North Scions",
+    "ja": "極北の末裔の奉献",
+    "zhCN": "终北遗嗣的祷献",
+    "zhTW": "終北遺嗣的禱獻",
+    "pronunciationJa": "きょくほくのまつえいのほうけん",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★4武器突破素材",
+    "id": "oblation-of-the-far-north-scions",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Aureate Radiance of the Far-North Scions",
+    "ja": "極北の末裔の煌光",
+    "zhCN": "终北遗嗣的煌熠",
+    "zhTW": "終北遺嗣的煌熠",
+    "pronunciationJa": "きょくほくのまつえいのこうこう",
+    "tags": [
+      "weapon-material",
+      "nodkrai"
+    ],
+    "notes": "★5武器突破素材",
+    "id": "aureate-radiance-of-the-far-north-scions",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Moonweaver's Dawn",
+    "ja": "月紡ぎの曙光",
+    "zhCN": "织月者的曙色",
+    "zhTW": "織月者的曙色",
+    "pronunciationJa": "つきつむぎのしょこう",
+    "tags": [
+      "weapon",
+      "sword"
+    ],
+    "id": "moonweavers-dawn",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Serenity's Call",
+    "ja": "静謐の笛",
+    "zhCN": "谧音吹哨",
+    "zhTW": "謐音吹哨",
+    "pronunciationJa": "せいひつのふえ",
+    "tags": [
+      "weapon",
+      "sword"
+    ],
+    "id": "serenitys-call",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Master Key",
+    "ja": "万能の鍵",
+    "zhCN": "万能钥匙",
+    "zhTW": "萬能鑰匙",
+    "pronunciationJa": "ばんのうのかぎ",
+    "tags": [
+      "weapon",
+      "claymore"
+    ],
+    "id": "master-key",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Prospector's Shovel",
+    "ja": "金堀のシャベル",
+    "zhCN": "掘金之锹",
+    "zhTW": "掘金之鍬",
+    "pronunciationJa": "きんぼりのシャベル",
+    "tags": [
+      "weapon",
+      "polearm"
+    ],
+    "id": "prospectors-shovel",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Snare Hook",
+    "ja": "羅網の針",
+    "zhCN": "罗网勾針",
+    "zhTW": "羅網勾針",
+    "pronunciationJa": "らもうのはり",
+    "tags": [
+      "weapon",
+      "bow"
+    ],
+    "id": "snare-hook",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Etherlight Spindlelute",
+    "ja": "天光のリュート",
+    "zhCN": "天光的纺琴",
+    "zhTW": "天光的紡琴",
+    "pronunciationJa": "てんこうのリュート",
+    "notesEn": "v6.0 Limited Time Event \"Clink Clank Clash\" Reward",
+    "notes": "v6.0 期間限定イベント「カチャカチャ大作戦」報酬",
+    "notesZh": "v6.0 活动「叮铃哐啷大作战」奖励",
+    "tags": [
+      "weapon",
+      "catalyst",
+      "event"
+    ],
+    "id": "etherlight-spindlelute",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Blackmarrow Lantern",
+    "ja": "鳥髄の狐灯",
+    "zhCN": "鸟髄孑灯",
+    "zhTW": "鳥髄孑燈",
+    "pronunciationJa": "ちょうずいのことう",
+    "tags": [
+      "weapon",
+      "catalyst"
+    ],
+    "id": "blackmarrow-lantern",
+    "updatedAt": "2025-09-25",
+    "createdAt": "2025-09-25"
+  },
+  {
+    "en": "Selenic Chronicles",
+    "ja": "月下見聞",
+    "zhCN": "月下纪闻",
+    "zhTW": "月下紀聞",
+    "pronunciationJa": "げっかけんぶん",
+    "tags": [
+      "natlan",
+      "quest-selenic"
+    ],
+    "id": "selenic-chronicles",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "The Tale of the Gate Stone",
+    "ja": "戸口にある石",
+    "zhCN": "居于门户之石",
+    "zhTW": "居於門戸之石",
+    "pronunciationJa": "とぐちにあるいし",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "the-tale-of-the-gate-stone",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Gift of the Mirage",
+    "ja": "蜃気楼の収穫",
+    "zhCN": "蜃楼之获",
+    "zhTW": "蜃樓之獲",
+    "pronunciationJa": "しんきろうのしゅうかく",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "gift-of-the-mirage",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "The Mirrors, the Maze, and the Tsar",
+    "ja": "鏡と迷宮と国王",
+    "zhCN": "镜子、迷宫与国王",
+    "zhTW": "鏡子、迷宮與國王",
+    "pronunciationJa": "かがみとめいきゅうとこくおう",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "the-mirrors-the-maze-and-the-tsar",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "For a Green Island...",
+    "ja": "緑の島のために…",
+    "zhCN": "为一座绿色的岛屿…",
+    "zhTW": "為一座綠色的島嶼…",
+    "pronunciationJa": "みどりのしまのために",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "for-a-green-island",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Echoes of Unfinished Past",
+    "ja": "これから始まる物語",
+    "zhCN": "事犹未了",
+    "zhTW": "事猶未了",
+    "pronunciationJa": "これからはじまるものがたり",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "echoes-of-unfinished-past",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "The Tale-Telling Heart",
+    "ja": "密告の心",
+    "zhCN": "告密的心",
+    "zhTW": "告密的心",
+    "pronunciationJa": "みっこくのこころ",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "the-tale-telling-heart",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Team Rigor, or Team Intuition?",
+    "ja": "慎重派？ それとも直感派？",
+    "zhCN": "是严谨派还是悟性派?",
+    "zhTW": "是嚴謹派還是悟性派?",
+    "pronunciationJa": "しんちょうは それともちょっかんは",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "team-rigor-or-team-intuition",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Whisper Beneath the Waves",
+    "ja": "波底のささやき",
+    "zhCN": "浪底的低语",
+    "zhTW": "浪底的低語",
+    "pronunciationJa": "はていのささやき",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "whisper-beneath-the-waves",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "The Power of Research",
+    "ja": "研究の原動力",
+    "zhCN": "科研的动力",
+    "zhTW": "研究的動力",
+    "pronunciationJa": "けんきゅうのげんどうりょく",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "the-power-of-research",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Friends of Moleyvalley",
+    "ja": "モレー谷の仲間たち",
+    "zhCN": "莫雷谷的伙伴们",
+    "zhTW": "莫雷谷的夥伴們",
+    "pronunciationJa": "モレーたにのなかまたち",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "friends-of-moleyvalley",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "The Shoemaker's Children Go Barefoot",
+    "ja": "靴職人の子はいつも裸足！",
+    "zhCN": "鞋匠的孩子总是光脚",
+    "zhTW": "鞋匠的孩子總是光脚",
+    "pronunciationJa": "くつしょくにんのこはいつもはだし",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "the-shoemakers-children-go-barefoot",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Priorities First",
+    "ja": "優先事項",
+    "zhCN": "要事优先",
+    "zhTW": "要事優先",
+    "pronunciationJa": "ゆうせんじこう",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "priorities-first",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
+    "en": "Drifting Toward a Promised Sky",
+    "ja": "空へ飛ぶ約束",
+    "zhCN": "飞向天空的约定",
+    "zhTW": "飛向天空的約定",
+    "pronunciationJa": "そらへとぶやくそく",
+    "tags": [
+      "nodkrai",
+      "quest-selenic"
+    ],
+    "id": "drifting-toward-a-promised-sky",
+    "updatedAt": "2025-09-21",
+    "createdAt": "2025-09-21"
+  },
+  {
     "en": "Columbina",
     "ja": "コロンビーナ",
     "zhCN": "哥伦比娅",
@@ -35,22 +5983,6 @@
     "id": "damselette",
     "updatedAt": "2025-09-01",
     "createdAt": "2022-01-01"
-  },
-  {
-    "en": "\"Moon Maiden\"",
-    "ja": "「月の少女」",
-    "zhCN": "「月之少女」",
-    "zhTW": "「月之少女」",
-    "pronunciationJa": "つきのしょうじょ",
-    "tags": [
-      "fatui",
-      "nodkrai",
-      "title",
-      "character-main"
-    ],
-    "id": "moon-maiden",
-    "updatedAt": "2025-09-01",
-    "createdAt": "2025-08-05"
   },
   {
     "en": "Sandrone",
@@ -1090,21 +7022,6 @@
     "createdAt": "2025-08-17"
   },
   {
-    "en": "Little Tobot",
-    "ja": "小さなロボット",
-    "zhCN": "小机器人",
-    "zhTW": "小機器人",
-    "pronunciationJa": "ちいさなロボット",
-    "notes": "魔神任務「帰途」に登場するロボット",
-    "tags": [
-      "natlan",
-      "character-sub"
-    ],
-    "id": "little-tobot",
-    "updatedAt": "2025-08-17",
-    "createdAt": "2025-08-17"
-  },
-  {
     "en": "\"Sovereign ruler\"",
     "ja": "「至高なる領主」",
     "zhCN": "「至高领主」",
@@ -1818,20 +7735,6 @@
     "createdAt": "2025-08-17"
   },
   {
-    "en": "Papar",
-    "ja": "パパール",
-    "zhCN": "帕帕",
-    "zhTW": "帕帕",
-    "notes": "世界任務「最後のテノチズトク人」に登場する人物。彼の会話に出て来る「海内くん」は「淵上」と称するものと同一人物",
-    "tags": [
-      "natlan",
-      "character-sub"
-    ],
-    "id": "papar",
-    "updatedAt": "2025-08-17",
-    "createdAt": "2025-08-17"
-  },
-  {
     "en": "Leyla",
     "ja": "ルラ",
     "zhCN": "勒拉",
@@ -2093,19 +7996,6 @@
     "createdAt": "2025-08-17"
   },
   {
-    "en": "Mini Asha Pockets",
-    "ja": "アシャパン",
-    "zhCN": "小小阿夏包",
-    "zhTW": "小小阿夏包",
-    "tags": [
-      "natlan",
-      "food"
-    ],
-    "id": "mini-asha-pockets",
-    "updatedAt": "2025-08-17",
-    "createdAt": "2025-08-17"
-  },
-  {
     "en": "Nanas Cake",
     "ja": "ナナズパインケーキ",
     "zhCN": "娜娜丝梨饼",
@@ -2128,6 +8018,19 @@
       "food"
     ],
     "id": "shrimp-bisque",
+    "updatedAt": "2025-08-17",
+    "createdAt": "2025-08-17"
+  },
+  {
+    "en": "Mini Asha Pockets",
+    "ja": "アシャパン",
+    "zhCN": "小小阿夏包",
+    "zhTW": "小小阿夏包",
+    "tags": [
+      "natlan",
+      "food"
+    ],
+    "id": "mini-asha-pockets",
     "updatedAt": "2025-08-17",
     "createdAt": "2025-08-17"
   },
@@ -2729,20 +8632,6 @@
     "createdAt": "2025-08-17"
   },
   {
-    "en": "\"Muratans\"",
-    "ja": "「ムーナタ」",
-    "zhCN": "穆纳塔",
-    "zhTW": "穆納塔",
-    "notes": "世界任務「最後のテノチズトク人」で淵上から語られた情報でテノチズトク人の末裔。日本語ではムー「ナ」タ表記だが英語ではMu&quot;ra&quot;tans 表記で、原神セレベンツ(漫画)のムラタ人と同一民族の可能性がある",
-    "tags": [
-      "natlan",
-      "organization"
-    ],
-    "id": "muratans",
-    "updatedAt": "2025-08-17",
-    "createdAt": "2025-08-17"
-  },
-  {
     "en": "The Journey Home",
     "ja": "帰途",
     "zhCN": "归途",
@@ -2839,20 +8728,6 @@
       "quest-world"
     ],
     "id": "dreamy-paititi",
-    "updatedAt": "2025-08-17",
-    "createdAt": "2025-08-17"
-  },
-  {
-    "en": "The Last Survivor of Tenochtzitoc",
-    "ja": "最後のテノチズトク人",
-    "zhCN": "最后的特诺奇兹托克人",
-    "zhTW": "最後的特諾奇茲托克人",
-    "pronunciationJa": "さいごのテノチズトクじん",
-    "tags": [
-      "natlan",
-      "quest-world"
-    ],
-    "id": "the-last-survivor-of-tenochtzitoc",
     "updatedAt": "2025-08-17",
     "createdAt": "2025-08-17"
   },
@@ -3105,75 +8980,6 @@
     "createdAt": "2025-08-05"
   },
   {
-    "en": "Lauma",
-    "ja": "ラウマ",
-    "zhCN": "菈乌玛",
-    "zhTW": "菈烏瑪",
-    "tags": [
-      "nodkrai",
-      "character-main"
-    ],
-    "id": "lauma",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Nefer",
-    "ja": "ネフェル",
-    "zhCN": "奈芙尔",
-    "zhTW": "奈芙爾",
-    "tags": [
-      "nodkrai",
-      "character-main"
-    ],
-    "id": "nefer",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Flins",
-    "ja": "フリンズ",
-    "zhCN": "菲林斯",
-    "zhTW": "菲林斯",
-    "tags": [
-      "nodkrai",
-      "character-main"
-    ],
-    "id": "flins",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Kyryll Chudomirovich Flins",
-    "ja": "キリル・チュードミロヴィッチ・フリンズ",
-    "zhCN": "克里洛·楚德米洛维奇·菲林斯",
-    "zhTW": "克里洛·楚德米洛維奇·菲林斯",
-    "notesEn": "Full name of Flins",
-    "notes": "フリンズのフルネーム",
-    "tags": [
-      "nodkrai",
-      "character-main"
-    ],
-    "id": "kyryll-chudomirovich-flins",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Kuuvahki Experimental Design Bureau",
-    "ja": "クーヴァキ実験設計局",
-    "zhCN": "月矩力试验设计局",
-    "zhTW": "月矩力試驗設計局",
-    "notes": "「ナド・クライ」特設サイトの情報",
-    "pronunciationJa": "クーヴァキじっけんせっけいきょく",
-    "tags": [
-      "nodkrai",
-      "facility"
-    ],
-    "id": "kuuvahki-experimental-design-bureau",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
     "en": "Nine-Fruit Nectar",
     "ja": "フルーツネクター",
     "zhCN": "九果甘露饮",
@@ -3228,80 +9034,6 @@
     "pronunciationJa": "もえろ! ラクガキだいぼうけん",
     "notes": "ベネットのコスチューム",
     "id": "adventures-in-blazing-hue",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Paha Isle",
-    "ja": "パハ島",
-    "zhCN": "帕哈岛",
-    "zhTW": "帕哈島",
-    "pronunciationJa": "パハとう / パハじま",
-    "tags": [
-      "nodkrai",
-      "location"
-    ],
-    "notes": "「ナド・クライ」特設サイトの情報",
-    "id": "paha-isle",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Hiisi Island",
-    "ja": "ヒーシ島",
-    "zhCN": "希汐岛",
-    "zhTW": "希汐島",
-    "pronunciationJa": "ヒーシとう / ヒーシじま",
-    "tags": [
-      "nodkrai",
-      "location"
-    ],
-    "notes": "期間限定Webイベント「空月の歌」の情報",
-    "id": "hiisi-island",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-04-12"
-  },
-  {
-    "en": "Blue Amber Lake",
-    "ja": "青い琥珀",
-    "zhCN": "蓝珀湖",
-    "zhTW": "藍珀湖",
-    "pronunciationJa": "あおいこはく",
-    "tags": [
-      "nodkrai",
-      "location"
-    ],
-    "notes": "「ナド・クライ」特設サイトの情報",
-    "id": "blue-amber-lake",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Lempo Isle",
-    "ja": "レンポ島",
-    "zhCN": "伦波岛",
-    "zhTW": "倫波島",
-    "pronunciationJa": "レンポとう / レンポじま",
-    "tags": [
-      "nodkrai",
-      "location"
-    ],
-    "notes": "「ナド・クライ」特設サイトの情報",
-    "id": "lempo-isle",
-    "updatedAt": "2025-08-05",
-    "createdAt": "2025-08-05"
-  },
-  {
-    "en": "Nasha Town",
-    "ja": "ナシャタウン",
-    "zhCN": "那夏镇",
-    "zhTW": "那夏鎮",
-    "tags": [
-      "nodkrai",
-      "location"
-    ],
-    "notes": "「ナド・クライ」特設サイトの情報",
-    "id": "nasha-town",
     "updatedAt": "2025-08-05",
     "createdAt": "2025-08-05"
   },
@@ -7940,22 +13672,6 @@
     "createdAt": "2024-07-06"
   },
   {
-    "en": "Rerir",
-    "ja": "レリル",
-    "zhCN": "雷利尔",
-    "zhTW": "雷利爾",
-    "tags": [
-      "khaenriah",
-      "character-sub"
-    ],
-    "notes": "月の狩人の俗名を持つ。カーンルイアの五大罪人のひとり",
-    "notesZh": "「猎月人」的本名。坎瑞亚的五大罪人之一。",
-    "notesZhTW": "「獵月人」的本名。坎瑞亞的五大罪人之一。",
-    "id": "rerir",
-    "updatedAt": "2025-07-08",
-    "createdAt": "2024-07-06"
-  },
-  {
     "en": "The Wise",
     "ja": "賢者(俗名)",
     "zhCN": "贤者(称号)",
@@ -8022,23 +13738,6 @@
     "notesZh": "苏尔特洛奇的称号。坎瑞亚的五大罪人之一。丝柯克的师父。",
     "notesZhTW": "蘇爾特洛奇的稱號。坎瑞亞的五大罪人之一。絲柯克的師父。",
     "id": "the-foul",
-    "updatedAt": "2025-07-08",
-    "createdAt": "2024-07-06"
-  },
-  {
-    "en": "Rächer of Solnari",
-    "ja": "月の狩人",
-    "zhCN": "猎月人",
-    "zhTW": "獵月人",
-    "pronunciationJa": "つきのかりゅうど",
-    "tags": [
-      "khaenriah",
-      "character-sub"
-    ],
-    "notes": "スルトロッチの俗名。カーンルイアの五大罪人のひとり",
-    "notesZh": "雷利尔的称号。坎瑞亚的五大罪人之一。",
-    "notesZhTW": "雷利爾的稱號。坎瑞亞的五大罪人之一。",
-    "id": "racher-of-solnari",
     "updatedAt": "2025-07-08",
     "createdAt": "2024-07-06"
   },
@@ -13838,23 +19537,6 @@
     "createdAt": "2025-07-03"
   },
   {
-    "en": "Snowland Fae",
-    "ja": "雪国の妖精",
-    "zhCN": "雪国的妖精",
-    "zhTW": "雪國的妖精",
-    "notes": "期間限定Webイベント「空月の歌」の情報",
-    "notesZh": "限时网页活动「空月之歌」中的信息。",
-    "notesZhTW": "限時網頁活動「空月之歌」中的資訊。",
-    "pronunciationJa": "ゆきぐにのようせい",
-    "tags": [
-      "nodkrai",
-      "character-sub"
-    ],
-    "id": "snowland-fae",
-    "updatedAt": "2025-07-08",
-    "createdAt": "2025-04-12"
-  },
-  {
     "en": "Tsaritsa",
     "ja": "氷の女皇",
     "zhCN": "冰之女皇",
@@ -15717,16 +21399,6 @@
       "quest-story"
     ],
     "id": "crystallina-chapter",
-    "updatedAt": "2025-07-03",
-    "createdAt": "2025-07-03"
-  },
-  {
-    "en": "Hibernation Chamber on the spaceship",
-    "ja": "宇宙船スリープポッド",
-    "zhCN": "飞船休眠仓",
-    "zhTW": "飛船休眠艙",
-    "pronunciationJa": "うちゅうせんスリープポッド",
-    "id": "hibernation-chamber-on-the-spaceship",
     "updatedAt": "2025-07-03",
     "createdAt": "2025-07-03"
   },
@@ -21085,21 +26757,6 @@
     "createdAt": "2022-01-01"
   },
   {
-    "en": "Clink-Clank Krumkake Craftshop",
-    "ja": "カチャカチャ・クルムカケ工房",
-    "zhCN": "叮铃哐啷蛋卷工坊",
-    "zhTW": "叮鈴哐啷蛋卷工坊",
-    "notes": "期間限定Webイベント「空月の歌」の情報",
-    "pronunciationJa": "カチャカチャ・クルムカケこうぼう",
-    "tags": [
-      "nodkrai",
-      "facility"
-    ],
-    "id": "clink-clank-krumkake-craftshop",
-    "updatedAt": "2025-06-14",
-    "createdAt": "2025-04-12"
-  },
-  {
     "en": "Autumn Frost",
     "ja": "初霜のモン・オトンヌキ",
     "zhCN": "雾凇秋分",
@@ -21188,63 +26845,6 @@
     "id": "fatui",
     "updatedAt": "2025-06-14",
     "createdAt": "2022-01-01"
-  },
-  {
-    "en": "Voynich Guild",
-    "ja": "ヴォイニッチ商会",
-    "zhCN": "伏尼契商会",
-    "zhTW": "伏尼契商會",
-    "pronunciationJa": "ヴォイニッチしょうかい",
-    "tags": [
-      "nodkrai",
-      "organization"
-    ],
-    "notes": "v5.1 期間限定イベント「百貨珍品」の中で、商人の立本からもたらされた情報",
-    "id": "voynich-guild",
-    "updatedAt": "2025-06-14",
-    "createdAt": "2025-01-01"
-  },
-  {
-    "en": "LightKeepers",
-    "ja": "ライトキーバー",
-    "zhCN": "执灯人",
-    "zhTW": "執燈人",
-    "notes": "期間限定Webイベント「空月の空」の情報",
-    "tags": [
-      "nodkrai",
-      "organization"
-    ],
-    "id": "lightkeepers",
-    "updatedAt": "2025-06-14",
-    "createdAt": "2025-04-12"
-  },
-  {
-    "en": "The Wild Hunt",
-    "ja": "ワイルドハント",
-    "zhCN": "狂猎",
-    "zhTW": "狂獵",
-    "notes": "アビスの軍勢。期間限定Webイベント「空月の空」の情報",
-    "tags": [
-      "nodkrai",
-      "organization"
-    ],
-    "id": "the-wild-hunt",
-    "updatedAt": "2025-06-14",
-    "createdAt": "2025-04-12"
-  },
-  {
-    "en": "Frostmoon Scions",
-    "ja": "霜月の子",
-    "zhCN": "霜月之子",
-    "zhTW": "霜月之子",
-    "pronunciationJa": "しもつきのこ",
-    "notes": "期間限定Webイベント「空月の空」の情報",
-    "tags": [
-      "nodkrai"
-    ],
-    "id": "frostmoon-scions",
-    "updatedAt": "2025-06-14",
-    "createdAt": "2025-04-12"
   },
   {
     "en": "Legends Ablaze: Cross-Border Brawl",
@@ -23502,18 +29102,6 @@
     "createdAt": "2022-01-01"
   },
   {
-    "en": "Katheryne",
-    "ja": "キャサリン",
-    "zhCN": "凯瑟琳",
-    "zhTW": "凱瑟琳",
-    "tags": [
-      "character-sub"
-    ],
-    "id": "katheryne",
-    "updatedAt": "2025-05-05",
-    "createdAt": "2022-01-01"
-  },
-  {
     "en": "Dandy",
     "ja": "ダンディ",
     "zhCN": "丹迪",
@@ -24430,19 +30018,6 @@
     ],
     "notes": "発音は「ハーフダン」",
     "id": "halfdan",
-    "updatedAt": "2025-05-05",
-    "createdAt": "2022-01-01"
-  },
-  {
-    "en": "Irmin",
-    "ja": "エルミン",
-    "zhCN": "伊尔明",
-    "zhTW": "伊爾明",
-    "tags": [
-      "khaenriah",
-      "character-sub"
-    ],
-    "id": "irmin",
     "updatedAt": "2025-05-05",
     "createdAt": "2022-01-01"
   },
@@ -35907,22 +41482,6 @@
     "id": "yumekizukis-cozy-cornder",
     "updatedAt": "2025-05-05",
     "createdAt": "2025-02-24"
-  },
-  {
-    "en": "Northland Bank",
-    "ja": "北国銀行",
-    "zhCN": "北国银行",
-    "zhTW": "北國銀行",
-    "pronunciationJa": "きたくにぎんこう",
-    "tags": [
-      "snezhnaya",
-      "liyue",
-      "fontaine",
-      "facility"
-    ],
-    "id": "northland-bank",
-    "updatedAt": "2025-05-05",
-    "createdAt": "2022-01-01"
   },
   {
     "en": "Proficiency",
