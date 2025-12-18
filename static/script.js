@@ -43,7 +43,43 @@
     howToPopoverArrow: document.getElementById('howToPopover')?.querySelector('.popover-arrow'), // 弹出框箭头
     closePopoverBtn: document.getElementById('howToPopover')?.querySelector('.btn-close-popover'), // 关闭弹出框按钮
     topbar: document.querySelector('.topbar'), // 顶部导航栏
+    toastContainer: document.getElementById('toastContainer'), // 通知容器
   };
+
+  // ================================================== 通知模块 ==================================================
+  // 负责全局轻量级消息提醒
+  const Toast = (() => {
+    /**
+     * 显示一条通知
+     * @param {string} message 消息内容
+     * @param {string} type 类型: info, success, error
+     * @param {number} duration 持续时间(ms)
+     */
+    function show(message, type = 'info', duration = 3000) {
+      if (!DOM.toastContainer) return;
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+
+      DOM.toastContainer.appendChild(toast);
+
+      // 进场动画触发
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+
+      // 自动销毁
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => {
+          toast.remove();
+        });
+      }, duration);
+    }
+
+    return { show };
+  })();
 
   // ================================================== 设置模块 ==================================================
   //设置管理模块
@@ -719,11 +755,13 @@ const Settings = (() => {
         if (valueKey === 'nsfwMode') {
           UI.applyNSFWPolicy(Settings.get('nsfwMode'));
           UI.layoutMasonry();
+          Toast.show(`已应用 NSFW 策略: ${v}`, 'info', 2000);
         }
         if (valueKey === 'columnCount') UI.layoutMasonry();
         if (valueKey === 'contentFilter') {
           // 内容筛选改变后，重新加载当前模式的内容
           App.refresh();
+          Toast.show(`正在重新加载...`, 'info', 2000);
         }
       }));
 
@@ -765,7 +803,10 @@ const Settings = (() => {
           const val = input.value.trim();
           if (/^\d*$/.test(val)) {
             localStorage.setItem('userId', val);
-            Settings.set('userId', val);
+            if (val !== Settings.get('userId')) {
+                Settings.set('userId', val);
+                Toast.show('用户ID已保存', 'success', 2000);
+            }
           } else {
             alert(Config.STRINGS.USERID_NOT_NUM);
             input.value = Settings.get('userId') || '';
@@ -885,6 +926,7 @@ const Settings = (() => {
 
           // 订阅模式需要用户ID验证
           if (action === 'subscriptions' && !DOM.userIdInput.value.trim()) {
+            Toast.show('请先设置用户ID以浏览订阅内容', 'error', 3000);
             settingsModal.classList.add('show');
             setTimeout(() => {
               if (!DOM.howToBtn || !DOM.howToPopover) return;
@@ -897,6 +939,7 @@ const Settings = (() => {
           }
 
           App.setMode(action, text);
+          Toast.show(`模式切换: ${text}`, 'info', 2000);
           menuList.classList.remove('show');
         });
       });
@@ -1031,7 +1074,10 @@ const Settings = (() => {
         const quality = Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
         const filter = Settings.get('contentFilter') || 'all';
         const url = Api.getApiUrl(currentMode, page);
-        if (!url) throw new Error('无效的 API 地址或缺少 userId（订阅模式）');
+        if (!url) {
+            Toast.show('无效的 API 地址或缺少 userId', 'error', 3000);
+            throw new Error('无效的 API 地址或缺少 userId（订阅模式）');
+        }
 
         const response = await fetch(url);
         if (!response.ok) throw new Error('网络错误');
@@ -1161,6 +1207,7 @@ const Settings = (() => {
         UI.clearSkeleton();
         DOM.LOADER && (DOM.LOADER.textContent = Config.STRINGS.LOADING_FAILED);
         console.error(error);
+        Toast.show('数据加载失败，请检查网络', 'error', 3000);
         loading = false;
       } finally {
         DOM.LOADER && (DOM.LOADER.style.display = noMore ? 'block' : 'none');
@@ -1203,11 +1250,13 @@ const Settings = (() => {
         // 6. 最后开始加载Mod数据（确保翻译表已就绪）
         await loadThreePages(true);
         
+        Toast.show('欢迎回来！数据已就绪', 'success', 2500);
         console.log('🎉 应用初始化完成');
         
       } catch (error) {
         console.error('❌ 初始化失败:', error);
         UI.showLoader(true, '初始化失败，请刷新页面');
+        Toast.show('应用初始化异常', 'error', 5000);
       }
     }
     return { initializeApp, setMode, refresh };
