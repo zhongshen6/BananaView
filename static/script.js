@@ -55,6 +55,7 @@ const Settings = (() => {
     columnCount: 0, // 列数(0表示自动)
     userId: '', // 用户ID
     nsfwMode: 'show',
+    contentFilter: 'all', // 筛选：all / mods / posts
   };
 
   //从本地存储加载设置
@@ -102,15 +103,32 @@ const Settings = (() => {
   // ================================================== Api模块 ==================================================
   //负责构建API URL和执行网络请求
   const Api = (() => {
+    // 定义包含的所有模型类型
+    const ALL_NON_MOD_MODELS = 'Tool,Question,Thread,Request';
+
     //根据模式和页码构建API URL
     function getApiUrl(mode, pageNum = 1) {
+      const filter = Settings.get('contentFilter') || 'all';
+      let inclusions = '';
+      
+      if (filter === 'mods') {
+        // 仅模组模式
+        inclusions = '&_csvModelInclusions=Mod';
+      } else if (filter === 'posts') {
+        // 仅帖子模式：包含除 Mod 之外的所有内容
+        inclusions = `&_csvModelInclusions=${ALL_NON_MOD_MODELS}`;
+      } else {
+        // 全部模式：去掉 Inclusion 选项，获取全部类型
+        inclusions = '';
+      }
+
       switch (mode) {
         case 'recommended':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=default&_csvModelInclusions=Mod&_nPage=${pageNum}`;
+          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=default${inclusions}&_nPage=${pageNum}`;
         case 'latest':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=new&_csvModelInclusions=Mod&_nPage=${pageNum}`;
+          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=new${inclusions}&_nPage=${pageNum}`;
         case 'updated':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=updated&_csvModelInclusions=Mod&_nPage=${pageNum}`;
+          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=updated${inclusions}&_nPage=${pageNum}`;
         case 'subscriptions': {
           const userId = Settings.get('userId');
           if (!userId) return null;
@@ -400,63 +418,64 @@ const Settings = (() => {
       layoutMasonry();
     }
 
-    // 创建Mod卡片元素（完整实现，半透明标签；在单列模式 card.horizontal 时将标签放到正文右上）
-    function createCard(mod) {
+    // 创建卡片元素（支持多模型类型）
+    function createCard(item) {
       const card = document.createElement('article');
-      card.className = 'card mod-card';
-      card.dataset.id = mod.id;
-      card.dataset.nsfw = mod.nsfw ? 'true' : 'false';
+      const modelLower = item.model.toLowerCase();
+      card.className = `card mod-card type-${modelLower}`;
+      card.dataset.id = item.id;
+      card.dataset.nsfw = item.nsfw ? 'true' : 'false';
 
-      // 标签 HTML（我们把标签作为 card 的直接子元素，方便通过 CSS 在不同布局中定位）
-      const tagHtml = mod.nsfw
-        ? `<span class="nsfw-tag">NSFW</span>`
-        : `<span class="sfw-tag">SFW</span>`;
+      // 标签逻辑：Mod/Tool 显示 SFW/NSFW，其他显示类型名称
+      let tagHtml = '';
+      if (item.model === 'Mod' || item.model === 'Tool') {
+        tagHtml = item.nsfw ? `<span class="nsfw-tag">NSFW</span>` : `<span class="sfw-tag">SFW</span>`;
+      } else {
+        const labels = { 'Question': '💡 问题', 'Request': '💰 悬赏', 'Thread': '💬 讨论' };
+        tagHtml = `<span class="type-tag">${labels[item.model] || item.model}</span>`;
+      }
 
-      // 缩略图 HTML（若有缩略图则为链接，否则显示无图占位）
-      const thumbHtml = mod.thumb
-        ? `<a class="thumb" href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
-             <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
-           </a>`
-        : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;">
-             <div style="padding:18px 12px;">无图</div>
-           </div>`;
+      // 缩略图/摘要逻辑：有图显示图，无图显示摘要文本
+      let thumbHtml = '';
+      const profileUrl = `https://gamebanana.com/${modelLower}s/${item.id}`;
+      
+      if (item.thumb) {
+        thumbHtml = `<a class="thumb" href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+             <img loading="lazy" src="${escapeAttr(item.thumb)}" alt="${escapeHtml(item.name || '')}">
+           </a>`;
+      } else if (item.snippet) {
+        // 无图时显示文本摘要，增加特殊样式类 .snippet-thumb
+        thumbHtml = `<a class="thumb snippet-thumb" href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+             <div class="snippet-text">${escapeHtml(item.snippet)}</div>
+           </a>`;
+      } else {
+        thumbHtml = `<div class="thumb no-img"><span>无图</span></div>`;
+      }
 
       // 标题 HTML
       const titleHtml = `
         <h3 class="title">
-            <a href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
-                ${escapeHtml(mod.name || '（无标题）')}
+            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+                ${escapeHtml(item.name || '（无标题）')}
             </a>
         </h3>
       `;
 
-      // 分类处理：优先使用 mod.category，否则等待 CategoryPoller 补全
-      let categoryText = Config.STRINGS.GETTING;
-      let categoryClass = 'pending';
-      let categoryHref = mod.catid ? `https://gamebanana.com/mods/cats/${mod.catid}` : '#';
-
-      if (mod.category && mod.category !== Config.STRINGS.GETTING) {
-        categoryText = mod.category;
-        categoryClass = '';
-      } else {
-        const cachedInfo = CategoryPoller.getCategoryInfo(mod.id);
-        if (cachedInfo) {
-          categoryText = cachedInfo.category;
-          categoryClass = '';
-          if (cachedInfo.catid) categoryHref = `https://gamebanana.com/mods/cats/${cachedInfo.catid}`;
-        }
-      }
+      // 分类/元数据处理：Mod/Tool 保持原有分类轮询，其他类型直接显示传递的元数据
+      let categoryText = item.category || Config.STRINGS.GETTING;
+      let categoryClass = (item.model === 'Mod' && categoryText === Config.STRINGS.GETTING) ? 'pending' : '';
+      let categoryHref = item.catid ? `https://gamebanana.com/${modelLower}s/cats/${item.catid}` : '#';
 
       const bodyHtml = `
         <div class="card-body">
             <div>
                 <div class="meta">
-                    作者: <a href="${escapeAttr(mod.author_url || '#')}" target="_blank" rel="noopener noreferrer">
-                        ${escapeHtml(mod.author || '未知')}
+                    作者: <a href="${escapeAttr(item.author_url || '#')}" target="_blank" rel="noopener noreferrer">
+                        ${escapeHtml(item.author || '未知')}
                     </a>
                 </div>
                 <div class="dates">
-                    发布: ${escapeHtml(mod.date_added)} • 更新: ${escapeHtml(mod.date_updated)}
+                    发布: ${escapeHtml(item.date_added)}
                 </div>
             </div>
             <div class="row-stats">
@@ -464,29 +483,26 @@ const Settings = (() => {
                     <div class="chips">
                         <a class="chip category ${categoryClass}" 
                            href="${categoryHref}" 
-                           data-id="${mod.id}">
+                           data-id="${item.id}">
                             ${escapeHtml(categoryText)}
                         </a>
                     </div>
                 </div>
                 <div class="statsMini">
-                    👍${escapeHtml(String(mod.likes || 0))}   &nbsp; 👁️${escapeHtml(String(mod.views || 0))}
+                    👍${escapeHtml(String(item.likes || 0))}   &nbsp; 👁️${escapeHtml(String(item.views || 0))}
                 </div>
             </div>                  
         </div>
       `;
 
-      // 把 tagHtml 放在最前面（作为 card 的直接子节点），后面插入 thumb/title/body
       card.innerHTML = `${tagHtml}${thumbHtml}${titleHtml}${bodyHtml}`;
 
-      // 图片加载完成后重新布局（保持原有行为）
       const image = card.querySelector('.thumb img');
       if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
-      // 如果分类信息正在获取中，添加到轮询队列
-      const categoryElement = card.querySelector('.category');
-      if (categoryElement?.classList.contains('pending')) {
-        CategoryPoller.add(categoryElement.dataset.id);
+      // 只有 Mod 且分类 pending 时才加入轮询
+      if (item.model === 'Mod' && categoryClass === 'pending') {
+        CategoryPoller.add(item.id);
       }
 
       return card;
@@ -497,7 +513,7 @@ const Settings = (() => {
       return String(str)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
+        .replace(/歪/g, '&gt;')
         .replace(/"/g, '&quot;');
     }
 
@@ -705,6 +721,10 @@ const Settings = (() => {
           UI.layoutMasonry();
         }
         if (valueKey === 'columnCount') UI.layoutMasonry();
+        if (valueKey === 'contentFilter') {
+          // 内容筛选改变后，重新加载当前模式的内容
+          App.refresh();
+        }
       }));
 
       window.addEventListener('resize', () => container._recalcThumb && container._recalcThumb());
@@ -930,6 +950,7 @@ const Settings = (() => {
     function initSliders() {
       initSlider('thumbQualitySlider', 'thumbQuality');
       initSlider('columnCountSlider', 'columnCount');
+      initSlider('contentFilterSlider', 'contentFilter');
       initSlider('nsfwSlider', 'nsfwMode');
 
     }
@@ -975,6 +996,14 @@ const Settings = (() => {
       loadThreePages(true);
     }
 
+    // 刷新当前模式
+    function refresh() {
+      page = 1;
+      noMore = false;
+      DOM.MODS_CONTAINER.innerHTML = '';
+      loadThreePages(true);
+    }
+
     //格式化时间戳为相对时间或日期
     function formatTime(ts) {
       if (!ts) return Config.STRINGS.UNKNOWN;
@@ -990,7 +1019,7 @@ const Settings = (() => {
       return `${year}-${month}-${day}`;
     }
 
-    // 核心函数：获取并渲染一页Mod数据（完整实现，保持原逻辑，渲染后应用 NSFW 策略）
+    // 核心函数：获取并渲染一页数据
     async function loadMods() {
       if (loading || noMore) return;
       loading = true;
@@ -1000,6 +1029,7 @@ const Settings = (() => {
 
       try {
         const quality = Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
+        const filter = Settings.get('contentFilter') || 'all';
         const url = Api.getApiUrl(currentMode, page);
         if (!url) throw new Error('无效的 API 地址或缺少 userId（订阅模式）');
 
@@ -1018,8 +1048,11 @@ const Settings = (() => {
           return;
         }
 
-        const mods = [];
+        const items = [];
         const categoryIdsToFetch = [];
+        
+        // 允许的模型类型
+        const allowedModels = ['Mod', 'Tool', 'Question', 'Thread', 'Request'];
 
         // 处理每条记录
         for (const r of records) {
@@ -1027,17 +1060,31 @@ const Settings = (() => {
           if (currentMode === 'subscriptions' && r._aSubscription) source = r._aSubscription;
 
           const model = source?._sModelName;
-          if (model !== 'Mod' && model !== 'Tool') continue;
+          
+          // 如果不是"全部"筛选且不在允许列表中，则跳过
+          if (filter !== 'all' && !allowedModels.includes(model)) continue;
+          // 在全部模式下，如果返回了一些我们没定义样式的模型，也要有个基本的白名单避免异常数据
+          if (filter === 'all' && !model) continue;
 
           const item_id = source?._idRow;
           let cat_name = null;
           let cat_id = null;
-          if (model === 'Mod') {
+
+          // 处理动态分类信息和元数据展示
+          if (model === 'Mod' || model === 'Tool') {
             cat_name = Config.STRINGS.GETTING;
-            cat_id = null;
             categoryIdsToFetch.push(item_id);
+          } else if (model === 'Request') {
+            const bounty = source._nBounty ? `赏金: ${source._nBounty}` : '';
+            const status = source._sResolution === 'Open' ? '进行中' : '已解决';
+            cat_name = bounty ? `${bounty} | ${status}` : status;
+          } else if (model === 'Question') {
+            cat_name = source._sState === 'Answered' ? '✅ 已回答' : '❓ 待解决';
+          } else if (model === 'Thread') {
+            cat_name = `${source._nPostCount || 0} 条回复`;
           } else {
-            cat_name = source?._aRootCategory?._sName || null;
+            // "全部" 模式下其他模型的 fallback
+            cat_name = model || '其他内容';
           }
 
           // 处理缩略图
@@ -1066,42 +1113,38 @@ const Settings = (() => {
               }
             }
 
-          } catch (e) {
-            // 忽略缩略图处理错误
-          }
+          } catch (e) { }
 
-          // 新增 nsfw 字段：_bHasContentRatings 为 true 表示存在内容评级（NSFW）
-          const nsfwFlag = !!source?._bHasContentRatings;
-
-          mods.push({
+          items.push({
             id: item_id,
+            model,
             name: source?._sName,
             author: source?._aSubmitter?._sName,
             author_url: source?._aSubmitter?._sProfileUrl,
             thumb,
+            // 修正：支持从嵌套路径提取摘要，优先读取根部，若无则尝试 _aPreviewMedia._aMetadata
+            snippet: source?._sSnippet || source?._aPreviewMedia?._aMetadata?._sSnippet,
             category: cat_name,
-            catid: cat_id,
+            catid: source?._aRootCategory?._idRow,
             date_added: formatTime(source?._tsDateAdded),
-            date_updated: formatTime(source?._tsDateModified || source?._tsDateUpdated),
             likes: source?._nLikeCount || 0,
-            comments: source?._nCommentCount || source?._nPostCount || 0,
             views: source?._nViewCount || 0,
-            nsfw: nsfwFlag
+            nsfw: !!source?._bHasContentRatings
           });
         }
 
-        // 翻译Mod数据（若已加载翻译器）
-        const translatedMods = Translator.isLoaded() ? Translator.translateContent(mods) : mods;
+        // 翻译数据
+        const translatedItems = Translator.isLoaded() ? Translator.translateContent(items) : items;
 
         // 创建并添加卡片
-        translatedMods.forEach((mod, index) => {
-          const card = UI.createCard(mod);
+        translatedItems.forEach((item, index) => {
+          const card = UI.createCard(item);
           UI.appendCardOrReplaceSkeleton(card, skeletons, index);
         });
 
         UI.layoutMasonry();
 
-        // 新增：渲染完成后应用 NSFW 策略（立即生效）
+        // 渲染完成后应用 NSFW 策略
         (function applyNsfwPolicyAfterRender() {
           const nsfwMode = Settings.get('nsfwMode') || 'show';
           UI.applyNSFWPolicy(nsfwMode);
@@ -1167,7 +1210,7 @@ const Settings = (() => {
         UI.showLoader(true, '初始化失败，请刷新页面');
       }
     }
-    return { initializeApp, setMode };
+    return { initializeApp, setMode, refresh };
   })();
 
   // ================================================== 初始化 ==================================================
