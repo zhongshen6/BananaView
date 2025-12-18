@@ -1,3 +1,4 @@
+
 (() => {
   'use strict';
 
@@ -5,8 +6,9 @@
   //应用配置常量
   const Config = {
     PER_SKELETON: 4, // 每次加载显示的骨架屏数量
-    POLL_INTERVAL: 5000, // 分类信息轮询间隔(毫秒)
-    MAX_TRIES: 3, // 分类信息最大重试次数
+    BASE_POLL_INTERVAL: 5000, // 基础分类信息轮询间隔(毫秒)
+    MAX_POLL_INTERVAL: 30000, // 最大轮询间隔(退避上限)
+    BACKOFF_FACTOR: 2, // 网络错误时的退避系数
     INITIAL_SKELETON_COUNT: 8, // 初始骨架屏数量
     SCROLL_ROOT_MARGIN: '100px', // 无限滚动触发边界
     DEFAULT_MODE: 'recommended', // 默认显示模式
@@ -146,10 +148,10 @@ const Settings = (() => {
   //负责批量请求分类信息并处理重试逻辑
   const CategoryPoller = (() => {
       const pendingIds = new Set();
-      const pendingTries = new Map();
       let pollTimer = null;
       const categoryCache = new Map();
       let cacheLoaded = false;
+      let consecutiveErrors = 0; // 连续请求错误计数，用于指数退避
 
       // 加载分类缓存文件
       async function loadCategoryCache() {
@@ -188,81 +190,74 @@ const Settings = (() => {
         // 先检查前端缓存
         const cachedInfo = getCategoryInfo(id);
         if (cachedInfo) {
-          // 缓存命中，直接更新UI
           UI.updateCategoryElement(id, cachedInfo);
           return;
         }
         
-        // 缓存未命中，走原有逻辑
         if (!pendingIds.has(id)) {
           pendingIds.add(id);
-          pendingTries.set(id, 0);
         }
         ensureTimer();
       }
 
-      // 轮询处理待分类信息，批量请求分类信息并更新UI，处理重试逻辑
+      // 核心轮询逻辑：带网络指数退避，持续轮询直到结果返回
       async function pollPendingCategories() {
         if (!pendingIds.size) {
-          stopTimerIfEmpty();
+          stopTimer();
           return;
         }
         
         const ids = [...pendingIds];
-        console.log(`开始分类轮询，待处理ID数量: ${pendingIds.size}`);
+        console.log(`执行分类轮询，待处理: ${pendingIds.size}，网络连续错误: ${consecutiveErrors}`);
 
         try {
-          const payload = await Api.fetchSubcat(ids);
-          const data = payload;
-          console.log(`分类轮询完成，成功处理: ${Object.keys(data || {}).length} 个分类`);
+          const data = await Api.fetchSubcat(ids);
+          
+          // API 请求成功，重置网络错误计数
+          consecutiveErrors = 0;
+          
           ids.forEach(id => {
             const info = data?.[id] || data?.[String(id)];
+            
             if (info?.category) {
+              // 成功获取分类
               UI.updateCategoryElement(id, info);
               pendingIds.delete(id);
-              pendingTries.delete(id);
-            } else {
-              const tries = (pendingTries.get(id) || 0) + 1;
-              if (tries >= Config.MAX_TRIES) {
-                UI.updateCategoryElement(id, null);
-                pendingIds.delete(id);
-                pendingTries.delete(id);
-              } else {
-                pendingTries.set(id, tries);
-              }
-            }
-          });
-        } catch (err) {
-          console.error('分类请求失败:', err);
-          ids.forEach(id => {
-            const tries = (pendingTries.get(id) || 0) + 1;
-            if (tries >= Config.MAX_TRIES) {
+            } else if (info?.status === 'failed') {
+              // 后端明确返回该 ID 获取失败（如超时或不存在）
               UI.updateCategoryElement(id, null);
               pendingIds.delete(id);
-              pendingTries.delete(id);
-            } else {
-              pendingTries.set(id, tries);
             }
+            // 如果是 pending 状态，保持在 pendingIds 中继续下一轮轮询
           });
+        } catch (err) {
+          consecutiveErrors++;
+          console.error(`分类 API 请求失败 (${consecutiveErrors})，采用退避策略:`, err);
         } finally {
-          stopTimerIfEmpty();
+          // 根据网络状况计算下一次轮询的间隔
+          const interval = Math.min(
+            Config.BASE_POLL_INTERVAL * Math.pow(Config.BACKOFF_FACTOR, consecutiveErrors),
+            Config.MAX_POLL_INTERVAL
+          );
+          
+          if (pendingIds.size > 0) {
+            pollTimer = setTimeout(pollPendingCategories, interval);
+          } else {
+            stopTimer();
+          }
         }
       }
 
-      // 确保轮询定时器运行
       function ensureTimer() {
         if (!pollTimer) {
-          pollTimer = setInterval(pollPendingCategories, Config.POLL_INTERVAL);
-          console.log('分类轮询定时器启动，间隔:', Config.POLL_INTERVAL, 'ms');
+          pollTimer = setTimeout(pollPendingCategories, Config.BASE_POLL_INTERVAL);
         }
       }
 
-      // 如果队列为空则停止定时器
-      function stopTimerIfEmpty() {
-        if (pendingIds.size === 0 && pollTimer) {
-          clearInterval(pollTimer);
+      function stopTimer() {
+        if (pollTimer) {
+          clearTimeout(pollTimer);
           pollTimer = null;
-          console.log('分类轮询定时器停止');
         }
       }
 
@@ -345,8 +340,12 @@ const Settings = (() => {
         // 对象：翻译分类信息
         const result = {};
         for (const id in data) {
-          if (data[id] && data[id].category) {
-            result[id] = { ...data[id], category: translateCategory(data[id].category) };
+          if (data[id] && (data[id].category || data[id].status)) {
+            if (data[id].category) {
+              result[id] = { ...data[id], category: translateCategory(data[id].category) };
+            } else {
+              result[id] = data[id];
+            }
           } else {
             result[id] = data[id];
           }
@@ -522,7 +521,7 @@ const Settings = (() => {
         el.classList.remove('pending');
         if (info.catid) el.href = `https://gamebanana.com/mods/cats/${info.catid}`;
       } else {
-        // 获取分类信息失败
+        // 获取分类信息失败或明确标记为失败
         el.textContent = Config.STRINGS.UNKNOWN;
         el.dataset.status = 'done';
         el.classList.remove('pending');
@@ -608,18 +607,21 @@ const Settings = (() => {
       if (text) loader.textContent = text;
     }
 
-    // UI 模块内新增：根据 nsfwMode 对现有卡片进行处理
+    // UI 模块内更新：根据 nsfwMode 处理卡片策略，新增 only 模式
     function applyNSFWPolicy(mode = 'hide') {
       try {
         const cards = Array.from(container.querySelectorAll('.mod-card'));
         cards.forEach(card => {
           const isNsfw = card.dataset.nsfw === 'true';
           // 清理之前的标记
-          card.classList.remove('nsfw-hidden', 'nsfw-blur');
+          card.classList.remove('nsfw-blur');
 
-          if (!isNsfw) {
-            // 非 NSFW 卡片保持默认
-            card.style.display = ''; // 恢复显示（如之前被隐藏）
+          if (mode === 'only') {
+            // “仅限”模式：隐藏非 NSFW，显示 NSFW
+            card.style.display = isNsfw ? '' : 'none';
+          } else if (!isNsfw) {
+            // 非 NSFW 卡片在其它模式下始终显示
+            card.style.display = '';
           } else {
             // NSFW 卡片：按策略处理
             if (mode === 'show') {
@@ -666,7 +668,7 @@ const Settings = (() => {
       const thumb = container.querySelector('.slider-thumb');
       const options = container.querySelectorAll('.slider-option');
       const count = options.length;
-      const optionWidth = 50; 
+      const optionWidth = 42; // 微调宽度以适应 4 个选项
       container.style.width = `${optionWidth * count}px`;
 
       function updateThumb(idx) {
