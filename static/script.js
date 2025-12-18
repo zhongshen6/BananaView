@@ -1,3 +1,4 @@
+
 (() => {
   'use strict';
 
@@ -5,8 +6,9 @@
   //应用配置常量
   const Config = {
     PER_SKELETON: 4, // 每次加载显示的骨架屏数量
-    POLL_INTERVAL: 5000, // 分类信息轮询间隔(毫秒)
-    MAX_TRIES: 3, // 分类信息最大重试次数
+    BASE_POLL_INTERVAL: 5000, // 基础分类信息轮询间隔(毫秒)
+    MAX_POLL_INTERVAL: 30000, // 最大轮询间隔(退避上限)
+    BACKOFF_FACTOR: 2, // 网络错误时的退避系数
     INITIAL_SKELETON_COUNT: 8, // 初始骨架屏数量
     SCROLL_ROOT_MARGIN: '100px', // 无限滚动触发边界
     DEFAULT_MODE: 'recommended', // 默认显示模式
@@ -41,7 +43,43 @@
     howToPopoverArrow: document.getElementById('howToPopover')?.querySelector('.popover-arrow'), // 弹出框箭头
     closePopoverBtn: document.getElementById('howToPopover')?.querySelector('.btn-close-popover'), // 关闭弹出框按钮
     topbar: document.querySelector('.topbar'), // 顶部导航栏
+    toastContainer: document.getElementById('toastContainer'), // 通知容器
   };
+
+  // ================================================== 通知模块 ==================================================
+  // 负责全局轻量级消息提醒
+  const Toast = (() => {
+    /**
+     * 显示一条通知
+     * @param {string} message 消息内容
+     * @param {string} type 类型: info, success, error
+     * @param {number} duration 持续时间(ms)
+     */
+    function show(message, type = 'info', duration = 3000) {
+      if (!DOM.toastContainer) return;
+
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+
+      DOM.toastContainer.appendChild(toast);
+
+      // 进场动画触发
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+
+      // 自动销毁
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => {
+          toast.remove();
+        });
+      }, duration);
+    }
+
+    return { show };
+  })();
 
   // ================================================== 设置模块 ==================================================
   //设置管理模块
@@ -53,6 +91,7 @@ const Settings = (() => {
     columnCount: 0, // 列数(0表示自动)
     userId: '', // 用户ID
     nsfwMode: 'show',
+    contentFilter: 'all', // 筛选：all / mods / posts
   };
 
   //从本地存储加载设置
@@ -100,15 +139,32 @@ const Settings = (() => {
   // ================================================== Api模块 ==================================================
   //负责构建API URL和执行网络请求
   const Api = (() => {
+    // 定义包含的所有模型类型
+    const ALL_NON_MOD_MODELS = 'Tool,Question,Thread,Request';
+
     //根据模式和页码构建API URL
     function getApiUrl(mode, pageNum = 1) {
+      const filter = Settings.get('contentFilter') || 'all';
+      let inclusions = '';
+      
+      if (filter === 'mods') {
+        // 仅模组模式
+        inclusions = '&_csvModelInclusions=Mod';
+      } else if (filter === 'posts') {
+        // 仅帖子模式：包含除 Mod 之外的所有内容
+        inclusions = `&_csvModelInclusions=${ALL_NON_MOD_MODELS}`;
+      } else {
+        // 全部模式：去掉 Inclusion 选项，获取全部类型
+        inclusions = '';
+      }
+
       switch (mode) {
         case 'recommended':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=default&_csvModelInclusions=Mod&_nPage=${pageNum}`;
+          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=default${inclusions}&_nPage=${pageNum}`;
         case 'latest':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=new&_csvModelInclusions=Mod&_nPage=${pageNum}`;
+          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=new${inclusions}&_nPage=${pageNum}`;
         case 'updated':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=updated&_csvModelInclusions=Mod&_nPage=${pageNum}`;
+          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=updated${inclusions}&_nPage=${pageNum}`;
         case 'subscriptions': {
           const userId = Settings.get('userId');
           if (!userId) return null;
@@ -146,10 +202,10 @@ const Settings = (() => {
   //负责批量请求分类信息并处理重试逻辑
   const CategoryPoller = (() => {
       const pendingIds = new Set();
-      const pendingTries = new Map();
       let pollTimer = null;
       const categoryCache = new Map();
       let cacheLoaded = false;
+      let consecutiveErrors = 0; // 连续请求错误计数，用于指数退避
 
       // 加载分类缓存文件
       async function loadCategoryCache() {
@@ -188,81 +244,74 @@ const Settings = (() => {
         // 先检查前端缓存
         const cachedInfo = getCategoryInfo(id);
         if (cachedInfo) {
-          // 缓存命中，直接更新UI
           UI.updateCategoryElement(id, cachedInfo);
           return;
         }
         
-        // 缓存未命中，走原有逻辑
         if (!pendingIds.has(id)) {
           pendingIds.add(id);
-          pendingTries.set(id, 0);
         }
         ensureTimer();
       }
 
-      // 轮询处理待分类信息，批量请求分类信息并更新UI，处理重试逻辑
+      // 核心轮询逻辑：带网络指数退避，持续轮询直到结果返回
       async function pollPendingCategories() {
         if (!pendingIds.size) {
-          stopTimerIfEmpty();
+          stopTimer();
           return;
         }
         
         const ids = [...pendingIds];
-        console.log(`开始分类轮询，待处理ID数量: ${pendingIds.size}`);
+        console.log(`执行分类轮询，待处理: ${pendingIds.size}，网络连续错误: ${consecutiveErrors}`);
 
         try {
-          const payload = await Api.fetchSubcat(ids);
-          const data = payload;
-          console.log(`分类轮询完成，成功处理: ${Object.keys(data || {}).length} 个分类`);
+          const data = await Api.fetchSubcat(ids);
+          
+          // API 请求成功，重置网络错误计数
+          consecutiveErrors = 0;
+          
           ids.forEach(id => {
             const info = data?.[id] || data?.[String(id)];
+            
             if (info?.category) {
+              // 成功获取分类
               UI.updateCategoryElement(id, info);
               pendingIds.delete(id);
-              pendingTries.delete(id);
-            } else {
-              const tries = (pendingTries.get(id) || 0) + 1;
-              if (tries >= Config.MAX_TRIES) {
-                UI.updateCategoryElement(id, null);
-                pendingIds.delete(id);
-                pendingTries.delete(id);
-              } else {
-                pendingTries.set(id, tries);
-              }
-            }
-          });
-        } catch (err) {
-          console.error('分类请求失败:', err);
-          ids.forEach(id => {
-            const tries = (pendingTries.get(id) || 0) + 1;
-            if (tries >= Config.MAX_TRIES) {
+            } else if (info?.status === 'failed') {
+              // 后端明确返回该 ID 获取失败（如超时或不存在）
               UI.updateCategoryElement(id, null);
               pendingIds.delete(id);
-              pendingTries.delete(id);
-            } else {
-              pendingTries.set(id, tries);
             }
+            // 如果是 pending 状态，保持在 pendingIds 中继续下一轮轮询
           });
+        } catch (err) {
+          consecutiveErrors++;
+          console.error(`分类 API 请求失败 (${consecutiveErrors})，采用退避策略:`, err);
         } finally {
-          stopTimerIfEmpty();
+          // 根据网络状况计算下一次轮询的间隔
+          const interval = Math.min(
+            Config.BASE_POLL_INTERVAL * Math.pow(Config.BACKOFF_FACTOR, consecutiveErrors),
+            Config.MAX_POLL_INTERVAL
+          );
+          
+          if (pendingIds.size > 0) {
+            pollTimer = setTimeout(pollPendingCategories, interval);
+          } else {
+            stopTimer();
+          }
         }
       }
 
-      // 确保轮询定时器运行
       function ensureTimer() {
         if (!pollTimer) {
-          pollTimer = setInterval(pollPendingCategories, Config.POLL_INTERVAL);
-          console.log('分类轮询定时器启动，间隔:', Config.POLL_INTERVAL, 'ms');
+          pollTimer = setTimeout(pollPendingCategories, Config.BASE_POLL_INTERVAL);
         }
       }
 
-      // 如果队列为空则停止定时器
-      function stopTimerIfEmpty() {
-        if (pendingIds.size === 0 && pollTimer) {
-          clearInterval(pollTimer);
+      function stopTimer() {
+        if (pollTimer) {
+          clearTimeout(pollTimer);
           pollTimer = null;
-          console.log('分类轮询定时器停止');
         }
       }
 
@@ -345,8 +394,12 @@ const Settings = (() => {
         // 对象：翻译分类信息
         const result = {};
         for (const id in data) {
-          if (data[id] && data[id].category) {
-            result[id] = { ...data[id], category: translateCategory(data[id].category) };
+          if (data[id] && (data[id].category || data[id].status)) {
+            if (data[id].category) {
+              result[id] = { ...data[id], category: translateCategory(data[id].category) };
+            } else {
+              result[id] = data[id];
+            }
           } else {
             result[id] = data[id];
           }
@@ -401,63 +454,64 @@ const Settings = (() => {
       layoutMasonry();
     }
 
-    // 创建Mod卡片元素（完整实现，半透明标签；在单列模式 card.horizontal 时将标签放到正文右上）
-    function createCard(mod) {
+    // 创建卡片元素（支持多模型类型）
+    function createCard(item) {
       const card = document.createElement('article');
-      card.className = 'card mod-card';
-      card.dataset.id = mod.id;
-      card.dataset.nsfw = mod.nsfw ? 'true' : 'false';
+      const modelLower = item.model.toLowerCase();
+      card.className = `card mod-card type-${modelLower}`;
+      card.dataset.id = item.id;
+      card.dataset.nsfw = item.nsfw ? 'true' : 'false';
 
-      // 标签 HTML（我们把标签作为 card 的直接子元素，方便通过 CSS 在不同布局中定位）
-      const tagHtml = mod.nsfw
-        ? `<span class="nsfw-tag">NSFW</span>`
-        : `<span class="sfw-tag">SFW</span>`;
+      // 标签逻辑：Mod/Tool 显示 SFW/NSFW，其他显示类型名称
+      let tagHtml = '';
+      if (item.model === 'Mod' || item.model === 'Tool') {
+        tagHtml = item.nsfw ? `<span class="nsfw-tag">NSFW</span>` : `<span class="sfw-tag">SFW</span>`;
+      } else {
+        const labels = { 'Question': '💡 问题', 'Request': '💰 悬赏', 'Thread': '💬 讨论' };
+        tagHtml = `<span class="type-tag">${labels[item.model] || item.model}</span>`;
+      }
 
-      // 缩略图 HTML（若有缩略图则为链接，否则显示无图占位）
-      const thumbHtml = mod.thumb
-        ? `<a class="thumb" href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
-             <img loading="lazy" src="${escapeAttr(mod.thumb)}" alt="${escapeHtml(mod.name || '')}">
-           </a>`
-        : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;">
-             <div style="padding:18px 12px;">无图</div>
-           </div>`;
+      // 缩略图/摘要逻辑：有图显示图，无图显示摘要文本
+      let thumbHtml = '';
+      const profileUrl = `https://gamebanana.com/${modelLower}s/${item.id}`;
+      
+      if (item.thumb) {
+        thumbHtml = `<a class="thumb" href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+             <img loading="lazy" src="${escapeAttr(item.thumb)}" alt="${escapeHtml(item.name || '')}">
+           </a>`;
+      } else if (item.snippet) {
+        // 无图时显示文本摘要，增加特殊样式类 .snippet-thumb
+        thumbHtml = `<a class="thumb snippet-thumb" href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+             <div class="snippet-text">${escapeHtml(item.snippet)}</div>
+           </a>`;
+      } else {
+        thumbHtml = `<div class="thumb no-img"><span>无图</span></div>`;
+      }
 
       // 标题 HTML
       const titleHtml = `
         <h3 class="title">
-            <a href="https://gamebanana.com/mods/${mod.id}" target="_blank" rel="noopener noreferrer">
-                ${escapeHtml(mod.name || '（无标题）')}
+            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+                ${escapeHtml(item.name || '（无标题）')}
             </a>
         </h3>
       `;
 
-      // 分类处理：优先使用 mod.category，否则等待 CategoryPoller 补全
-      let categoryText = Config.STRINGS.GETTING;
-      let categoryClass = 'pending';
-      let categoryHref = mod.catid ? `https://gamebanana.com/mods/cats/${mod.catid}` : '#';
-
-      if (mod.category && mod.category !== Config.STRINGS.GETTING) {
-        categoryText = mod.category;
-        categoryClass = '';
-      } else {
-        const cachedInfo = CategoryPoller.getCategoryInfo(mod.id);
-        if (cachedInfo) {
-          categoryText = cachedInfo.category;
-          categoryClass = '';
-          if (cachedInfo.catid) categoryHref = `https://gamebanana.com/mods/cats/${cachedInfo.catid}`;
-        }
-      }
+      // 分类/元数据处理：Mod/Tool 保持原有分类轮询，其他类型直接显示传递的元数据
+      let categoryText = item.category || Config.STRINGS.GETTING;
+      let categoryClass = (item.model === 'Mod' && categoryText === Config.STRINGS.GETTING) ? 'pending' : '';
+      let categoryHref = item.catid ? `https://gamebanana.com/${modelLower}s/cats/${item.catid}` : '#';
 
       const bodyHtml = `
         <div class="card-body">
             <div>
                 <div class="meta">
-                    作者: <a href="${escapeAttr(mod.author_url || '#')}" target="_blank" rel="noopener noreferrer">
-                        ${escapeHtml(mod.author || '未知')}
+                    作者: <a href="${escapeAttr(item.author_url || '#')}" target="_blank" rel="noopener noreferrer">
+                        ${escapeHtml(item.author || '未知')}
                     </a>
                 </div>
                 <div class="dates">
-                    发布: ${escapeHtml(mod.date_added)} • 更新: ${escapeHtml(mod.date_updated)}
+                    发布: ${escapeHtml(item.date_added)}
                 </div>
             </div>
             <div class="row-stats">
@@ -465,29 +519,26 @@ const Settings = (() => {
                     <div class="chips">
                         <a class="chip category ${categoryClass}" 
                            href="${categoryHref}" 
-                           data-id="${mod.id}">
+                           data-id="${item.id}">
                             ${escapeHtml(categoryText)}
                         </a>
                     </div>
                 </div>
                 <div class="statsMini">
-                    👍${escapeHtml(String(mod.likes || 0))}   &nbsp; 👁️${escapeHtml(String(mod.views || 0))}
+                    👍${escapeHtml(String(item.likes || 0))}   &nbsp; 👁️${escapeHtml(String(item.views || 0))}
                 </div>
             </div>                  
         </div>
       `;
 
-      // 把 tagHtml 放在最前面（作为 card 的直接子节点），后面插入 thumb/title/body
       card.innerHTML = `${tagHtml}${thumbHtml}${titleHtml}${bodyHtml}`;
 
-      // 图片加载完成后重新布局（保持原有行为）
       const image = card.querySelector('.thumb img');
       if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
-      // 如果分类信息正在获取中，添加到轮询队列
-      const categoryElement = card.querySelector('.category');
-      if (categoryElement?.classList.contains('pending')) {
-        CategoryPoller.add(categoryElement.dataset.id);
+      // 只有 Mod 且分类 pending 时才加入轮询
+      if (item.model === 'Mod' && categoryClass === 'pending') {
+        CategoryPoller.add(item.id);
       }
 
       return card;
@@ -498,7 +549,7 @@ const Settings = (() => {
       return String(str)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
+        .replace(/歪/g, '&gt;')
         .replace(/"/g, '&quot;');
     }
 
@@ -522,7 +573,7 @@ const Settings = (() => {
         el.classList.remove('pending');
         if (info.catid) el.href = `https://gamebanana.com/mods/cats/${info.catid}`;
       } else {
-        // 获取分类信息失败
+        // 获取分类信息失败或明确标记为失败
         el.textContent = Config.STRINGS.UNKNOWN;
         el.dataset.status = 'done';
         el.classList.remove('pending');
@@ -608,18 +659,21 @@ const Settings = (() => {
       if (text) loader.textContent = text;
     }
 
-    // UI 模块内新增：根据 nsfwMode 对现有卡片进行处理
+    // UI 模块内更新：根据 nsfwMode 处理卡片策略，新增 only 模式
     function applyNSFWPolicy(mode = 'hide') {
       try {
         const cards = Array.from(container.querySelectorAll('.mod-card'));
         cards.forEach(card => {
           const isNsfw = card.dataset.nsfw === 'true';
           // 清理之前的标记
-          card.classList.remove('nsfw-hidden', 'nsfw-blur');
+          card.classList.remove('nsfw-blur');
 
-          if (!isNsfw) {
-            // 非 NSFW 卡片保持默认
-            card.style.display = ''; // 恢复显示（如之前被隐藏）
+          if (mode === 'only') {
+            // “仅限”模式：隐藏非 NSFW，显示 NSFW
+            card.style.display = isNsfw ? '' : 'none';
+          } else if (!isNsfw) {
+            // 非 NSFW 卡片在其它模式下始终显示
+            card.style.display = '';
           } else {
             // NSFW 卡片：按策略处理
             if (mode === 'show') {
@@ -666,7 +720,7 @@ const Settings = (() => {
       const thumb = container.querySelector('.slider-thumb');
       const options = container.querySelectorAll('.slider-option');
       const count = options.length;
-      const optionWidth = 50; 
+      const optionWidth = 42; // 微调宽度以适应 4 个选项
       container.style.width = `${optionWidth * count}px`;
 
       function updateThumb(idx) {
@@ -701,8 +755,14 @@ const Settings = (() => {
         if (valueKey === 'nsfwMode') {
           UI.applyNSFWPolicy(Settings.get('nsfwMode'));
           UI.layoutMasonry();
+          Toast.show(`已应用 NSFW 策略: ${v}`, 'info', 2000);
         }
         if (valueKey === 'columnCount') UI.layoutMasonry();
+        if (valueKey === 'contentFilter') {
+          // 内容筛选改变后，重新加载当前模式的内容
+          App.refresh();
+          Toast.show(`正在重新加载...`, 'info', 2000);
+        }
       }));
 
       window.addEventListener('resize', () => container._recalcThumb && container._recalcThumb());
@@ -743,7 +803,10 @@ const Settings = (() => {
           const val = input.value.trim();
           if (/^\d*$/.test(val)) {
             localStorage.setItem('userId', val);
-            Settings.set('userId', val);
+            if (val !== Settings.get('userId')) {
+                Settings.set('userId', val);
+                Toast.show('用户ID已保存', 'success', 2000);
+            }
           } else {
             alert(Config.STRINGS.USERID_NOT_NUM);
             input.value = Settings.get('userId') || '';
@@ -863,6 +926,7 @@ const Settings = (() => {
 
           // 订阅模式需要用户ID验证
           if (action === 'subscriptions' && !DOM.userIdInput.value.trim()) {
+            Toast.show('请先设置用户ID以浏览订阅内容', 'error', 3000);
             settingsModal.classList.add('show');
             setTimeout(() => {
               if (!DOM.howToBtn || !DOM.howToPopover) return;
@@ -875,6 +939,7 @@ const Settings = (() => {
           }
 
           App.setMode(action, text);
+          Toast.show(`模式切换: ${text}`, 'info', 2000);
           menuList.classList.remove('show');
         });
       });
@@ -928,6 +993,7 @@ const Settings = (() => {
     function initSliders() {
       initSlider('thumbQualitySlider', 'thumbQuality');
       initSlider('columnCountSlider', 'columnCount');
+      initSlider('contentFilterSlider', 'contentFilter');
       initSlider('nsfwSlider', 'nsfwMode');
 
     }
@@ -973,6 +1039,14 @@ const Settings = (() => {
       loadThreePages(true);
     }
 
+    // 刷新当前模式
+    function refresh() {
+      page = 1;
+      noMore = false;
+      DOM.MODS_CONTAINER.innerHTML = '';
+      loadThreePages(true);
+    }
+
     //格式化时间戳为相对时间或日期
     function formatTime(ts) {
       if (!ts) return Config.STRINGS.UNKNOWN;
@@ -988,7 +1062,7 @@ const Settings = (() => {
       return `${year}-${month}-${day}`;
     }
 
-    // 核心函数：获取并渲染一页Mod数据（完整实现，保持原逻辑，渲染后应用 NSFW 策略）
+    // 核心函数：获取并渲染一页数据
     async function loadMods() {
       if (loading || noMore) return;
       loading = true;
@@ -998,8 +1072,12 @@ const Settings = (() => {
 
       try {
         const quality = Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
+        const filter = Settings.get('contentFilter') || 'all';
         const url = Api.getApiUrl(currentMode, page);
-        if (!url) throw new Error('无效的 API 地址或缺少 userId（订阅模式）');
+        if (!url) {
+            Toast.show('无效的 API 地址或缺少 userId', 'error', 3000);
+            throw new Error('无效的 API 地址或缺少 userId（订阅模式）');
+        }
 
         const response = await fetch(url);
         if (!response.ok) throw new Error('网络错误');
@@ -1016,8 +1094,11 @@ const Settings = (() => {
           return;
         }
 
-        const mods = [];
+        const items = [];
         const categoryIdsToFetch = [];
+        
+        // 允许的模型类型
+        const allowedModels = ['Mod', 'Tool', 'Question', 'Thread', 'Request'];
 
         // 处理每条记录
         for (const r of records) {
@@ -1025,17 +1106,31 @@ const Settings = (() => {
           if (currentMode === 'subscriptions' && r._aSubscription) source = r._aSubscription;
 
           const model = source?._sModelName;
-          if (model !== 'Mod' && model !== 'Tool') continue;
+          
+          // 如果不是"全部"筛选且不在允许列表中，则跳过
+          if (filter !== 'all' && !allowedModels.includes(model)) continue;
+          // 在全部模式下，如果返回了一些我们没定义样式的模型，也要有个基本的白名单避免异常数据
+          if (filter === 'all' && !model) continue;
 
           const item_id = source?._idRow;
           let cat_name = null;
           let cat_id = null;
-          if (model === 'Mod') {
+
+          // 处理动态分类信息和元数据展示
+          if (model === 'Mod' || model === 'Tool') {
             cat_name = Config.STRINGS.GETTING;
-            cat_id = null;
             categoryIdsToFetch.push(item_id);
+          } else if (model === 'Request') {
+            const bounty = source._nBounty ? `赏金: ${source._nBounty}` : '';
+            const status = source._sResolution === 'Open' ? '进行中' : '已解决';
+            cat_name = bounty ? `${bounty} | ${status}` : status;
+          } else if (model === 'Question') {
+            cat_name = source._sState === 'Answered' ? '✅ 已回答' : '❓ 待解决';
+          } else if (model === 'Thread') {
+            cat_name = `${source._nPostCount || 0} 条回复`;
           } else {
-            cat_name = source?._aRootCategory?._sName || null;
+            // "全部" 模式下其他模型的 fallback
+            cat_name = model || '其他内容';
           }
 
           // 处理缩略图
@@ -1064,42 +1159,38 @@ const Settings = (() => {
               }
             }
 
-          } catch (e) {
-            // 忽略缩略图处理错误
-          }
+          } catch (e) { }
 
-          // 新增 nsfw 字段：_bHasContentRatings 为 true 表示存在内容评级（NSFW）
-          const nsfwFlag = !!source?._bHasContentRatings;
-
-          mods.push({
+          items.push({
             id: item_id,
+            model,
             name: source?._sName,
             author: source?._aSubmitter?._sName,
             author_url: source?._aSubmitter?._sProfileUrl,
             thumb,
+            // 修正：支持从嵌套路径提取摘要，优先读取根部，若无则尝试 _aPreviewMedia._aMetadata
+            snippet: source?._sSnippet || source?._aPreviewMedia?._aMetadata?._sSnippet,
             category: cat_name,
-            catid: cat_id,
+            catid: source?._aRootCategory?._idRow,
             date_added: formatTime(source?._tsDateAdded),
-            date_updated: formatTime(source?._tsDateModified || source?._tsDateUpdated),
             likes: source?._nLikeCount || 0,
-            comments: source?._nCommentCount || source?._nPostCount || 0,
             views: source?._nViewCount || 0,
-            nsfw: nsfwFlag
+            nsfw: !!source?._bHasContentRatings
           });
         }
 
-        // 翻译Mod数据（若已加载翻译器）
-        const translatedMods = Translator.isLoaded() ? Translator.translateContent(mods) : mods;
+        // 翻译数据
+        const translatedItems = Translator.isLoaded() ? Translator.translateContent(items) : items;
 
         // 创建并添加卡片
-        translatedMods.forEach((mod, index) => {
-          const card = UI.createCard(mod);
+        translatedItems.forEach((item, index) => {
+          const card = UI.createCard(item);
           UI.appendCardOrReplaceSkeleton(card, skeletons, index);
         });
 
         UI.layoutMasonry();
 
-        // 新增：渲染完成后应用 NSFW 策略（立即生效）
+        // 渲染完成后应用 NSFW 策略
         (function applyNsfwPolicyAfterRender() {
           const nsfwMode = Settings.get('nsfwMode') || 'show';
           UI.applyNSFWPolicy(nsfwMode);
@@ -1116,6 +1207,7 @@ const Settings = (() => {
         UI.clearSkeleton();
         DOM.LOADER && (DOM.LOADER.textContent = Config.STRINGS.LOADING_FAILED);
         console.error(error);
+        Toast.show('数据加载失败，请检查网络', 'error', 3000);
         loading = false;
       } finally {
         DOM.LOADER && (DOM.LOADER.style.display = noMore ? 'block' : 'none');
@@ -1158,14 +1250,16 @@ const Settings = (() => {
         // 6. 最后开始加载Mod数据（确保翻译表已就绪）
         await loadThreePages(true);
         
+        Toast.show('欢迎回来！数据已就绪', 'success', 2500);
         console.log('🎉 应用初始化完成');
         
       } catch (error) {
         console.error('❌ 初始化失败:', error);
         UI.showLoader(true, '初始化失败，请刷新页面');
+        Toast.show('应用初始化异常', 'error', 5000);
       }
     }
-    return { initializeApp, setMode };
+    return { initializeApp, setMode, refresh };
   })();
 
   // ================================================== 初始化 ==================================================

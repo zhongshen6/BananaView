@@ -1,4 +1,4 @@
-# 版本v0.94，每次更新代码就将版本号加0.01
+# 版本v0.96，每次更新代码就将版本号加0.01
 
 from flask import Flask, render_template, jsonify, request
 import time
@@ -45,9 +45,12 @@ def load_cache():
 def save_cache():
     try:
         with cache_lock:
+            # 统计只包含有效名称和ID的条目
+            valid_count = sum(1 for v in subcategory_cache.values() 
+                             if isinstance(v, dict) and v.get("name") and v.get("name") != "获取中..." and v.get("id"))
             with open(CACHE_FILE, "w", encoding="utf-8") as f:
                 json.dump(subcategory_cache, f, ensure_ascii=False, indent=2)
-        log(f"缓存文件已保存，条目数: {len(subcategory_cache)}")
+        log(f"缓存文件已保存，有效条目数: {valid_count}")
     except Exception as e:
         log(f"缓存文件保存失败: {e}")
 
@@ -200,8 +203,7 @@ def fetch_subcategory_async(item_id):
             log(f"获取失败，数据格式异常: {item_id}")
             with cache_lock:
                 subcategory_cache[str(item_id)] = {
-                    "name": "获取中...",
-                    "id": None,
+                    "status": "failed",
                     "ts": int(time.time())
                 }
             save_cache()
@@ -209,8 +211,7 @@ def fetch_subcategory_async(item_id):
         log(f"获取异常: {item_id} -> {e}")
         with cache_lock:
             subcategory_cache[str(item_id)] = {
-                "name": "获取中...",
-                "id": None,
+                "status": "failed",
                 "ts": int(time.time())
             }
         save_cache()
@@ -252,35 +253,56 @@ def api_subcat():
     result = {}
     expire_seconds = 600
     
+    pending_count = 0
+    failed_count = 0
+    
     for item_id in ids:
         key = str(item_id)
         with cache_lock:
             val = subcategory_cache.get(key)
         
         if not val:
-            log(f"缓存未命中: {item_id}")
+            # 首次请求
             with cache_lock:
                 subcategory_cache[key] = {"status": "pending", "ts": now}
             save_cache()
             category_queue.put(item_id)
-            log(f"首次请求，提交到分类队列: {item_id}")
+            result[item_id] = {"status": "pending"}
+            pending_count += 1
             continue
         
+        # 兼容旧版本缓存
+        if val.get("name") == "获取中...":
+            val["status"] = "pending"
+            if not val.get("ts"): val["ts"] = now
+
+        # 已成功获取
         if val.get("name") and val.get("name") != "获取中...":
             result[item_id] = {"category": val["name"], "catid": val.get("id")}
-            log(f"缓存命中: {item_id} -> {val['name']}")
             continue
         
-        ts = val.get("ts")
-        if ts:
-            if now - int(ts) > expire_seconds:
-                log(f"缓存过期: {item_id}, 删除记录")
-                with cache_lock:
-                    if key in subcategory_cache:
-                        del subcategory_cache[key]
-                save_cache()
-            else:
-                log(f"缓存获取中未过期: {item_id}")
+        # 正在获取或失败重试
+        status = val.get("status")
+        ts = val.get("ts", 0)
+        
+        if now - int(ts) > expire_seconds:
+            # 过期重新获取
+            with cache_lock:
+                subcategory_cache[key] = {"status": "pending", "ts": now}
+            save_cache()
+            category_queue.put(item_id)
+            result[item_id] = {"status": "pending"}
+            pending_count += 1
+        else:
+            if status == "pending":
+                result[item_id] = {"status": "pending"}
+                pending_count += 1
+            elif status == "failed":
+                result[item_id] = {"status": "failed"}
+                failed_count += 1
+
+    if pending_count > 0 or failed_count > 0:
+        log(f"请求分类统计 - 正在获取中: {pending_count}, 获取失败未过期: {failed_count}")
 
     return jsonify(result)
 
@@ -289,4 +311,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=9178, debug=False)

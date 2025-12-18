@@ -1,3 +1,4 @@
+
 /* 根变量，方便全局样式管理 */
 :root{
   --bg: #f5f7fb; /* 页面背景色 */
@@ -7,6 +8,8 @@
   --radius: 12px; /* 圆角半径 */
   --gap: 16px; /* 瀑布流间距 */
   --shadow: 0 6px 18px rgba(16,24,40,0.06); /* 卡片阴影 */
+  --success: #10b981;
+  --error: #ef4444;
 }
 
 /* 全局样式 */
@@ -142,6 +145,7 @@ body{
   background: #eef2ff;
   position: relative;
   overflow: hidden;
+  min-height: 120px;
 }
 .thumb img {
   width: 100%;
@@ -151,6 +155,31 @@ body{
 }
 .card:hover .thumb img {
   transform: scale(1.03);
+}
+
+/* 文本摘要（Snippet）样式：用于无图内容 */
+.snippet-thumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    padding: 20px;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+    text-decoration: none;
+    height: 100%;
+    min-height: 140px;
+}
+.snippet-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-style: italic;
+    opacity: 0.9;
 }
 
 /* 默认多列样式 */
@@ -222,26 +251,25 @@ body{
   justify-content: space-between;
 }
 
-
-
-
 /* =================================卡片正文==================================== */
 .card-body{ padding:12px 14px; display:flex; flex-direction:column; gap:8px; }
 .title{ margin:0; font-size:15px; line-height:1.2; font-weight:600; color:#0b1220; }
 .title a{ color:inherit; text-decoration:none; }
 .meta{ font-size:13px; color:var(--muted); }
+.meta a{ color:var(--accent); text-decoration: none; }
 .dates{ font-size:12px; color:var(--muted); }
 .row-stats {display: flex;flex-wrap: wrap;gap: 10px;justify-content: space-between;  align-items: center; }
 .row{ display:flex; align-items:center;  flex: 1 1 auto; min-width: 50px;   gap:10px; justify-content:space-between; margin-top:6px; }
 .chips{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-.chip{ font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(15,23,36,0.04); color:#0b1220; text-decoration:none; }
+.chip{ font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(15,23,36,0.04); color:#0b1220; text-decoration:none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
 .chip.pending{ opacity:0.7; background:linear-gradient(90deg, rgba(108,123,255,0.06), rgba(74,222,128,0.03)); }
 .statsMini{ font-size:10px; color:var(--muted);flex-shrink: 0;min-width: 80px;  }
-/* === 半透明 NSFW / SFW 标签（默认放左上；单列 horizontal 时移动到正文右上） === */
 
-/* 基本样式：作为 card 的绝对定位子元素 */
+/* === 标签样式：包含 NSFW/SFW 和 类型标签 === */
+
 .card .nsfw-tag,
-.card .sfw-tag {
+.card .sfw-tag,
+.card .type-tag {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -256,48 +284,35 @@ body{
   text-transform: uppercase;
   letter-spacing: 0.3px;
   box-shadow: 0 8px 20px rgba(8,12,20,0.12);
-  opacity: 0.86; /* 半透明感（可微调） */
-  transition: transform .18s ease, top .18s ease, left .18s ease, right .18s ease, opacity .18s ease;
+  opacity: 0.86;
+  transition: transform .18s ease, top .18s ease, left .18s ease, opacity .18s ease;
 }
 
-/* 红色半透明（NSFW） */
-.card .nsfw-tag {
-  background-color: rgba(220, 38, 38, 0.75); /* 半透明红 */
-}
+.card .nsfw-tag { background-color: rgba(220, 38, 38, 0.75); }
+.card .sfw-tag { background-color: rgba(16, 185, 129, 0.75); }
+.card .type-tag { background-color: rgba(108, 123, 255, 0.85); }
 
-/* 绿色半透明（SFW） */
-.card .sfw-tag {
-  background-color: rgba(16, 185, 129, 0.75); /* 半透明绿 */
-}
+/* 类型特定颜色 */
+.type-question .type-tag { background-color: #3b82f6; }
+.type-request .type-tag { background-color: #f59e0b; }
+.type-thread .type-tag { background-color: #8b5cf6; }
 
 /* 单列 / 横向模式：把标签移动到 card-body 的右上方 */
-/* 依据你的布局，card.horizontal 有 padding-top:28px（保留空间给标题），
-   因此把标签往下移动一些并靠右展示 */
 .card.horizontal .nsfw-tag,
-.card.horizontal .sfw-tag {
-  top: 36px;        /* 下移到正文区域上方（相对 card） */
-  right: 12px;      /* 贴近右侧 */
-  left: auto;       /* 取消左对齐 */
+.card.horizontal .sfw-tag,
+.card.horizontal .type-tag {
+  top: 36px;
+  right: 12px;
+  left: auto;
   transform: none;
 }
 
-/* 进一步微调：在横向模式，若 card-body 有填充或需要局部相对定位，
-   可以将 card-body 设置为 position: relative，以便后续更精确定位（非必须） */
-.card.horizontal .card-body {
-  /* 保留默认行为；如果需要，可开启相对定位：
-     position: relative;
-  */
-}
-
 /* === NSFW 模糊状态样式 === */
-/* 当卡片含 nsfw-blur 类时，对缩略图模糊处理 */
 .card.nsfw-blur .thumb img {
   filter: blur(8px);
   transition: filter .25s ease;
-  pointer-events: none; /* 禁止直接点击模糊图像（可选） */
+  pointer-events: none;
 }
-
-/* 在模糊时在缩略图上显示覆盖文本提示 */
 .card.nsfw-blur .thumb::after {
   content: "NSFW - 模糊";
   position: absolute;
@@ -321,11 +336,9 @@ body{
 @keyframes shimmer{ 0%{background-position:-200px 0}100%{background-position:200px 0} }
 
 /* ==================================加载提示===================================== */
-
 .loader{ text-align:center; color:var(--muted); padding:14px; }
 
 /* ================================回到顶部按钮======================================= */
-
 #backTop{
   position:fixed;
   right:20px;
@@ -382,6 +395,7 @@ body{
   padding: 12px 16px;
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
+.settings-header h3 { margin: 0; font-size: 18px; }
 .settings-body {
   padding: 16px;
 }
@@ -394,16 +408,14 @@ body{
 }
 #settingsBtn {
   flex: 0 0 auto;
-  width: 40px;      /* 固定宽度 */
+  width: 40px;
 }
-
 .setting-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 12px;
 }
-
 .setting-label {
     font-size: 0.9rem;
     color: var(--text-primary);
@@ -411,11 +423,7 @@ body{
     width: 45%;
 }
 
-
-
-
 /* =====================================设置项=========================== */
-/* 根变量，方便全局样式管理 */
 :root{
   --accent: #3b82f6; /* 强调色 */
   --accent-gradient: linear-gradient(135deg, var(--accent), #60a5fa);
@@ -425,9 +433,6 @@ body{
   --slider-option-inactive: #94a3b8;
 }
 
-
-
-/* 调整滑块容器 */
 .slider-container {
     position: relative;
     height: 20px;
@@ -438,10 +443,8 @@ body{
     cursor: pointer;
     box-sizing: border-box;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    width: auto; /* 改为自动，由JS控制宽度 */
+    width: auto;
 }
-
-/* 调整文字样式 */
 .slider-option {
     flex: 1;
     height: 100%;
@@ -455,12 +458,7 @@ body{
     color: var(--slider-option-inactive);
     transition: color 0.3s ease;
 }
-
-.slider-option.active {
-    color: var(--slider-option-active);
-}
-
-/* 拇指调整为百分比宽度，自动适配选项数量 */
+.slider-option.active { color: var(--slider-option-active); }
 .slider-thumb {
     position: absolute;
     top: 2px;
@@ -473,9 +471,8 @@ body{
     box-shadow: 0 2px 4px rgba(108,123,255,0.4);
 }
 
-/* 用户ID输入框 */
 #userIdInput {
-    width: 0;;
+    width: 0;
     padding: 6px 10px;
     font-size: 14px;
     border: 1px solid rgba(0,0,0,0.1);
@@ -484,16 +481,13 @@ body{
     background: #fff;
     color: var(--text-primary);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    text-align: right; /* 让数字靠右，更精致 */
+    text-align: right;
 }
-
 #userIdInput:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
 }
 
-
-/* 问号按钮 */
 .info-btn {
   width: 20px;
   height: 20px;
@@ -501,8 +495,8 @@ body{
   border-radius: 50%;
   padding-right: 1px;
   border: none;
-  background: #e5e7eb; /* 灰色背景 */
-  color: #4b5563;     /* 深灰文字 */
+  background: #e5e7eb;
+  color: #4b5563;
   font-size: 13px;
   font-weight: bold;
   cursor: pointer;
@@ -510,17 +504,12 @@ body{
   align-items: center;
   justify-content: center;
   transition: background .2s ease;
-  flex-shrink: 0; /* 避免被压缩 */
+  flex-shrink: 0;
 }
+.info-btn:hover { background: #d1d5db; }
 
-.info-btn:hover {
-  background: #d1d5db; /* hover 时稍深 */
-}
-
-
-/* Popover - 使用 fixed 定位，始终相对于视口 */
 .popover {
-  position: fixed;            /* ← 关键：固定定位 */
+  position: fixed;
   background: var(--card);
   box-shadow: var(--shadow);
   border-radius: 8px;
@@ -530,11 +519,7 @@ body{
   transition: opacity .12s ease, transform .12s ease;
   will-change: top, left;
 }
-
-/* 隐藏类仍然可用 */
 .popover.hidden { display: none; }
-
-/* 箭头（在弹窗内，水平位置由 JS 控制） */
 .popover-arrow {
   position: absolute;
   width: 14px;
@@ -543,27 +528,10 @@ body{
   transform: rotate(45deg);
   box-shadow: -2px -2px 4px rgba(0,0,0,0.06);
   z-index: -1;
-  /* top/left/bottom 将由 JS 动态设置 */
 }
-
-
-/* 内容 */
-.popover-content h4 {
-  margin: 0 0 6px 0;
-  font-size: 14px;
-  font-weight: 600;
-}
-.popover-content p {
-  font-size: 13px;
-  color: var(--text-primary);
-  margin: 4px 0 8px;
-}
-.popover-content code {
-  background: rgba(0,0,0,0.05);
-  padding: 1px 4px;
-  border-radius: 4px;
-  font-size: 12px;
-}
+.popover-content h4 { margin: 0 0 6px 0; font-size: 14px; font-weight: 600; }
+.popover-content p { font-size: 13px; color: var(--text-primary); margin: 4px 0 8px; }
+.popover-content code { background: rgba(0,0,0,0.05); padding: 1px 4px; border-radius: 4px; font-size: 12px; }
 .btn-popover {
   margin-left: auto;
   background: var(--accent-gradient);
@@ -575,20 +543,8 @@ body{
   cursor: pointer;
 }
 
-
-/* 下拉菜单容器 */
-.dropdown {
-  position: relative;
-}
-
-/* 下拉按钮 */
-.dropdown-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* 下拉列表 */
+.dropdown { position: relative; }
+.dropdown-toggle { display: flex; align-items: center; gap: 6px; }
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 6px);
@@ -601,53 +557,23 @@ body{
   display: flex;
   flex-direction: column;
   z-index: 50;
-
-  /* 动画初始状态 */
   opacity: 0;
   transform: translateY(-6px);
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
+.dropdown-menu.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.dropdown-item { background: none; border: none; text-align: left; padding: 8px 14px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+.dropdown-item:hover { background: rgba(0,0,0,0.05); }
+#menuBtn { font-size: 14px; position: relative; width: auto; text-align: left; padding: 6px 12px; white-space: nowrap; }
 
-/* 显示时 */
-.dropdown-menu.show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* 下拉项 */
-.dropdown-item {
-  background: none;
-  border: none;
-  text-align: left;
-  padding: 8px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.dropdown-item:hover {
-  background: rgba(0,0,0,0.05);
-}
-/* 默认样式 */
-#menuBtn {
-  font-size: 14px;
-  position: relative;
-  width: auto;
-  text-align: left;
-  padding: 6px 12px;
-  white-space: nowrap;
-}
-
-/* 小屏幕样式 */
 @media (max-width: 380px) {
   #menuBtn {
     width: 40px;
-    font-size: 0; /* 隐藏原始文字 */
+    font-size: 0;
     padding: 16.8px;
     position: relative;
   }
-
   #menuBtn::after {
     content: "▼";
     font-size: 16px;
@@ -659,16 +585,46 @@ body{
   }
 }
 
-
-
-
-
-/* ========================================动画====================================== */
-@keyframes fadeIn {
-  from {opacity:0}
-  to {opacity:1}
+/* ==================================通知组件 (Toast)===================================== */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
 }
-@keyframes scaleIn {
-  from {transform: scale(0.9); opacity:0}
-  to {transform: scale(1); opacity:1}
+
+.toast {
+    pointer-events: auto;
+    min-width: 220px;
+    max-width: 320px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+    border-left: 4px solid var(--accent);
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease;
 }
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--error); }
+.toast.info { border-left-color: var(--accent); }
+
+@keyframes fadeIn { from {opacity:0} to {opacity:1} }
+@keyframes scaleIn { from {transform: scale(0.9); opacity:0} to {transform: scale(1); opacity:1} }
