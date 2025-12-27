@@ -1,18 +1,17 @@
-
 <!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Mod 聚合器</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
   <div class="app">
     <header class="topbar" role="banner">
       <!-- Logo -->
       <a class="logo" href="#" onclick="return false;">
-        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo-img">
+        <img src="static/logo.png" alt="Logo" class="logo-img">
 
         <div>
           <div class="title">GameBanana</div>
@@ -53,8 +52,7 @@
         <button id="closeSettings" class="close-btn">✕</button>
       </div>
       <div class="settings-body">
-        <!-- 这里以后可以加设置项 -->
-
+        <!-- 基础设置项 -->
         <div class="setting-item">
             <span class="setting-label">缩略图质量</span>
             <div class="slider-container" id="thumbQualitySlider">
@@ -103,14 +101,14 @@
           </div>
         </div>
 
-        <!-- 弹出窗口 -->
+        <!-- 使用说明弹出窗口 -->
         <div id="howToPopover" class="popover hidden">
           <div class="popover-arrow"></div>
           <div class="popover-content">
             <h4>获取用户ID</h4>
-            <p>在 GameBanana登录后，打开以下链接，找到类似 <code>/members/123456</code> 的数字，即为 ID。</p>
-            <img src="{{ url_for('static', filename='id_example.png') }}" alt="示例图" style="width:100%;border-radius:8px;margin:6px 0;">
-            <img src="{{ url_for('static', filename='id_example-2.png') }}" alt="示例图" style="width:100%;border-radius:8px;margin:6px 0;">
+            <p>在 GameBanana 登录后，打开以下链接，找到类似 <code>/members/123456</code> 的数字，即为 ID。</p>
+            <img src="./static/id_example.png" alt="示例图" style="width:100%;border-radius:8px;margin:6px 0;">
+            <img src="./static/id_example-2.png" alt="示例图" style="width:100%;border-radius:8px;margin:6px 0;">
             <a href="https://gamebanana.com/members/account/login" target="_blank" rel="noreferrer" class="btn-popover">去登录</a>
             <a href="https://gamebanana.com/apiv11/Member/Navigator/Personal" target="_blank" rel="noreferrer" class="btn-popover">获取ID</a>
           </div>
@@ -126,6 +124,6 @@
   <!-- 回到顶部按钮 -->
   <button id="backTop" aria-label="回到顶部" title="回到顶部">↑</button>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="static/script.js"></script>
 </body>
 </html>

@@ -1,5 +1,809 @@
 [
   {
+    "en": "Masterless Starglitter",
+    "ja": "無主のスターライト",
+    "zhCN": "无主的星辉",
+    "zhTW": "無主的星輝",
+    "pronunciationJa": "むしゅのスターライト",
+    "tags": [
+      "item"
+    ],
+    "variants": {
+      "ja": [
+        "スターライト"
+      ]
+    },
+    "id": "masterless-starglitter",
+    "createdAt": "2025-12-26",
+    "updatedAt": "2025-12-26"
+  },
+  {
+    "en": "Masterless Stella Fortuna",
+    "ja": "無主の星屑",
+    "zhCN": "无主的命星",
+    "zhTW": "無主的命星",
+    "pronunciationJa": "むしゅのほしくず",
+    "tags": [
+      "item"
+    ],
+    "id": "masterless-stella-fortuna",
+    "createdAt": "2025-12-26",
+    "updatedAt": "2025-12-26"
+  },
+  {
+    "en": "Onodera",
+    "ja": "小野寺",
+    "zhCN": "小野寺",
+    "zhTW": "小野寺",
+    "pronunciationJa": "おのでら",
+    "notes": "八重堂の編集者",
+    "tags": [
+      "inazuma",
+      "character-sub"
+    ],
+    "id": "onodera",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Zibai",
+    "ja": "茲白",
+    "zhCN": "兹白",
+    "zhTW": "茲白",
+    "pronunciationJa": "しはく",
+    "tags": [
+      "liyue",
+      "character-main"
+    ],
+    "id": "zibai",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "White Horse Adeptus",
+    "ja": "白馬の仙人",
+    "zhCN": "白马仙人",
+    "zhTW": "白馬仙人",
+    "pronunciationJa": "はくばのせんにん",
+    "notesEn": "Zibai's adeptus name",
+    "notes": "兹白の称号",
+    "notesZh": "兹白的称号",
+    "tags": [
+      "liyue",
+      "character-main"
+    ],
+    "id": "white-horse-adeptus",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Chang the Ninth",
+    "ja": "常九",
+    "zhCN": "常九爷",
+    "zhTW": "常九爺",
+    "pronunciationJa": "じょうきゅう",
+    "tags": [
+      "liyue",
+      "character-sub"
+    ],
+    "notes": "軽策荘にいる人物",
+    "id": "chang-the-ninth",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Mr. Nine",
+    "ja": "九先生",
+    "zhCN": "九老师",
+    "zhTW": "九老師",
+    "pronunciationJa": "きゅうせんせい",
+    "tags": [
+      "liyue",
+      "nodkrai",
+      "character-sub"
+    ],
+    "notes": "世界任務「アラン・スミシー——フィッシュルの作者」に登場する仙霊。『フィッシュル皇女物語』の作者",
+    "id": "mr-nine",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Anya \"Marie\" Andersdotter",
+    "ja": "アンヤ・「マリ」・アンデシュドッテル",
+    "zhCN": "安雅·「玛丽」·安德斯多特",
+    "zhTW": "安雅·「瑪麗」·安德斯多特",
+    "tags": [
+      "mondstadt",
+      "character-sub"
+    ],
+    "notes": "魔女会・コードM。イノシシプリンセスの作者",
+    "notesZh": "魔女会代号 M。《野猪公主》的作者",
+    "notesZhTW": "魔女會代號 M。《野豬公主》的作者",
+    "id": "anya-marie-andersdotter",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Sebas",
+    "ja": "セバス",
+    "zhCN": "赛巴斯",
+    "zhTW": "賽巴斯",
+    "tags": [
+      "mondstadt",
+      "dragonspine",
+      "character-sub"
+    ],
+    "notes": "世界任務「古き見識と新たな知恵」、「現世の題」に登場するキャラクター。レインドットの執事",
+    "id": "sebas",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Columbina Hyposelenia",
+    "ja": "コロンビーナ・ハイポセレニア",
+    "zhCN": "哥伦比娅·希珀塞莱尼娅",
+    "zhTW": "哥倫比婭·希珀塞萊尼婭",
+    "notes": "「少女」、クータルの本名",
+    "notesZh": "「少女」、库塔尔的本名。",
+    "notesZhTW": "「少女」、庫塔爾的本名。",
+    "tags": [
+      "fatui",
+      "nodkrai",
+      "character-main"
+    ],
+    "id": "columbina-hyposelenia",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Illuga",
+    "ja": "イルーガ",
+    "zhCN": "叶洛亚",
+    "zhTW": "葉洛亞",
+    "tags": [
+      "nodkrai",
+      "character-main"
+    ],
+    "id": "illuga",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Razmaspes",
+    "ja": "ラズマスペス",
+    "zhCN": "拉撒抹培",
+    "zhTW": "拉撒抹培",
+    "notes": "魔人任務「北の果ての夜想詩」に登場する人物。ヒュペルボレイア人の虚影",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "razmaspes",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Gaoramus",
+    "ja": "ガオラムス",
+    "zhCN": "高拉默",
+    "zhTW": "高拉默",
+    "notes": "魔人任務「北の果ての夜想詩」に登場する人物。ヒュペルボレイア人の虚影",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "gaoramus",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Xsayazantus",
+    "ja": "サヤザントゥス",
+    "zhCN": "撒亚赞铎",
+    "zhTW": "撒亞贊鐸",
+    "notes": "魔人任務「朝霧に散りゆく月光」に登場する人物。ヒュペルボレイア人の虚影",
+    "tags": [
+      "nodkrai",
+      "character-sub"
+    ],
+    "id": "xsayazantus",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Anastasya Feodorovna Snezhnaya",
+    "ja": "アナスターシャ・フョードロヴナ・スネージナヤ",
+    "zhCN": "安娜丝塔夏·费奥多罗夫娜·雪奈茨娜娅",
+    "zhTW": "安娜絲塔夏·費奧多羅夫娜·雪奈茨娜婭",
+    "notesEn": "Presumed real name of the Tsaritsa, though not officially confirmed.",
+    "notes": "氷の女皇の本名だと思われるが、公式発表はされていない。",
+    "tags": [
+      "snezhnaya",
+      "character-sub"
+    ],
+    "id": "anastasya-feodorovna-snezhnaya",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Zandik",
+    "ja": "ザンディク",
+    "zhCN": "赞迪克",
+    "zhTW": "贊迪克",
+    "notes": "「博士」、ドットーレのスメール時代の本名",
+    "tags": [
+      "sumeru",
+      "character-sub"
+    ],
+    "id": "zandik",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-11-23"
+  },
+  {
+    "en": "Cyclic Military Kuuvahki Core",
+    "ja": "軍用循環式クーヴィキコア",
+    "zhCN": "循环式军用月矩核心",
+    "zhTW": "循環式軍用月矩核心",
+    "pronunciationJa": "ぐんようじゅんかんしきクーヴィキコア",
+    "tags": [
+      "nodkrai",
+      "drop-boss"
+    ],
+    "id": "cyclic-military-kuuvahki-core",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Super-Heavy Landrover: Mechanized Fortress",
+    "ja": "重量級陸巡艦「バトルシップ」",
+    "zhCN": "超重型陆巡舰·机动战垒",
+    "zhTW": "超重型陸巡艦·機動戰壘",
+    "pronunciationJa": "じゅうりょうきゅうりくじゅんかんバトルシップ",
+    "tags": [
+      "nodkrai",
+      "enemy",
+      "enemy-boss"
+    ],
+    "id": "super-heavy-landrover-mechanized-fortress",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Lohikeitto",
+    "ja": "ロヒケイット",
+    "zhCN": "奶油鲑鱼汤",
+    "zhTW": "鮮奶油鮭魚湯",
+    "tags": [
+      "food"
+    ],
+    "id": "lohikeitto",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Nod-Krai Hot Dog",
+    "ja": "ナド・クライ・ホットドッグ",
+    "zhCN": "挪德卡莱热狗",
+    "zhTW": "挪德卡萊熱狗",
+    "tags": [
+      "food"
+    ],
+    "id": "nod-krai-hot-dog",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Drink 455",
+    "ja": "特製ドリンク「455」",
+    "zhCN": "455特饮",
+    "zhTW": "455特飲",
+    "tags": [
+      "food"
+    ],
+    "id": "drink-455",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Lakkaberry Pie",
+    "ja": "ホワイトベリークッコ",
+    "zhCN": "白灵果派",
+    "zhTW": "白靈果派",
+    "tags": [
+      "food"
+    ],
+    "id": "lakkaberry-pie",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Apple Stew (Trial Version)",
+    "ja": "リンゴと肉の煮込み(試作品)",
+    "zhCN": "苹果焖肉(初试版)",
+    "zhTW": "蘋果燜肉(初試版)",
+    "tags": [
+      "food",
+      "nodkrai",
+      "mondstadt"
+    ],
+    "notesEn": "Durin's specialty",
+    "notes": "ドゥリンのオリジナル料理",
+    "notesZh": "杜林的特色料理",
+    "id": "apple-stew-trial-version",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Secrets Exchanged",
+    "ja": "「秘話の駆け引き」",
+    "zhCN": "「秘闻交易」",
+    "zhTW": "「秘聞交易」",
+    "tags": [
+      "food",
+      "nodkrai",
+      "sumeru"
+    ],
+    "notesEn": "Nefer's specialty",
+    "notes": "ネフェルのオリジナル料理",
+    "notesZh": "奈芙尔的特色料理",
+    "id": "secrets-exchanged",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "\"After-Class Practice\"",
+    "ja": "「宿題」",
+    "zhCN": "「课后作业」",
+    "zhTW": "「課後作業」",
+    "tags": [
+      "food",
+      "nodkrai"
+    ],
+    "notesEn": "Jahoda's specialty",
+    "notes": "ヤフォダのオリジナル料理",
+    "notesZh": "雅珂达的特色料理",
+    "id": "after-class-practice",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "The Little Witch's Dictionary",
+    "ja": "小さな魔女の辞典",
+    "zhCN": "小魔女辞典",
+    "zhTW": "小魔女辭典",
+    "pronunciationJa": "ちいさなまじょのじてん",
+    "tags": [
+      "item",
+      "mondstadt"
+    ],
+    "id": "the-little-witchs-dictionary",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Tale of \"Durin\"",
+    "ja": "「ドゥリン」という名の物語",
+    "zhCN": "名为「杜林」的故事",
+    "zhTW": "名為「杜林」的故事",
+    "pronunciationJa": "ドゥリンというなのものがたり",
+    "tags": [
+      "item",
+      "mondstadt"
+    ],
+    "id": "tale-of-durin",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Moon-Prayer Night Pamphlet",
+    "ja": "「祈月の夜」ガイドブック",
+    "zhCN": "「祈月之夜」导览册",
+    "zhTW": "「祈月之夜」導覽冊",
+    "pronunciationJa": "きげつのよるガイドブック",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "moon-prayer-night-pamphlet",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Greeting Card for Columbina",
+    "ja": "コロンビーナへのお祝いカード",
+    "zhCN": "送给哥伦比娅的贺卡",
+    "zhTW": "送給哥倫比婭的賀卡",
+    "pronunciationJa": "コロンビーナへのおいわいカード",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "greeting-card-for-columbina",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Moon-Prayer Candy From Columbina",
+    "ja": "コロンビーナが用意したムーンキャンディ",
+    "zhCN": "哥伦比娅准备的祈月糖",
+    "zhTW": "哥倫比婭準備的祈月糖",
+    "pronunciationJa": "コロンビーナがよういしたムーンキャンディ",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "moon-prayer-candy-from-columbina",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Ordered Notes",
+    "ja": "整理されたノート",
+    "zhCN": "整理后的笔记",
+    "zhTW": "整理後的筆記",
+    "pronunciationJa": "せいりされたノート",
+    "tags": [
+      "item",
+      "nodkrai"
+    ],
+    "id": "ordered-notes",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Sal Vindagnyr",
+    "ja": "シャール・フィンドニール",
+    "zhCN": "沙尔·芬德尼尔",
+    "zhTW": "沙爾·芬德尼爾",
+    "notes": "ドラゴンスパインの位置にかつて存在していた王国",
+    "tags": [
+      "mondstadt",
+      "dragonspine",
+      "location"
+    ],
+    "id": "sal-vindagnyr",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Hyperborea",
+    "ja": "ヒュペルボレイア",
+    "zhCN": "亥珀波瑞亚",
+    "zhTW": "亥珀波瑞亞",
+    "notes": "テイワット大陸の北方にかつて存在していた王国",
+    "tags": [
+      "nodkrai",
+      "location"
+    ],
+    "id": "hyperborea",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Dephi Pytho",
+    "ja": "デルポイ・ピュートーン",
+    "zhCN": "德尔斐·皮托呢",
+    "zhTW": "德爾斐·皮托呢",
+    "notes": "テイワット大陸にかつて存在していた地名",
+    "tags": [
+      "location"
+    ],
+    "id": "dephi-pytho",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "A Nocturne of the Far North",
+    "ja": "北の果ての夜想詩",
+    "zhCN": "终北的夜行诗",
+    "zhTW": "終北的夜行詩",
+    "pronunciationJa": "きたのはてのやそうし",
+    "tags": [
+      "nodkrai",
+      "quest-archon"
+    ],
+    "notes": "空月の歌 第五幕",
+    "id": "a-nocturne-of-the-far-north",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Melting Moonlight in the Morning Mist",
+    "ja": "朝霧に散りゆく月光",
+    "zhCN": "散于晨雾的月芒",
+    "zhTW": "散於晨霧的月芒",
+    "pronunciationJa": "あさぎりにちりゆくげっこう",
+    "tags": [
+      "nodkrai",
+      "quest-archon"
+    ],
+    "notes": "空月の歌 第六幕",
+    "id": "melting-moonlight-in-the-morning-mist",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Witch's Homework",
+    "ja": "魔女の課題",
+    "zhCN": "魔女的课业",
+    "zhTW": "魔女的課業",
+    "pronunciationJa": "まじょのかだい",
+    "tags": [
+      "mondstadt",
+      "quest-world"
+    ],
+    "id": "witchs-homework",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Unexpected Commission",
+    "ja": "思いがけない依頼",
+    "zhCN": "意料之外的委託",
+    "zhTW": "意料之外的委託",
+    "pronunciationJa": "おもいがけないいらい",
+    "notesEn": "World Quest \"Witch's Homework\" Story",
+    "notes": "世界任務「魔女の課題」内ストーリー",
+    "notesZh": "世界任务「魔女的课业」的故事",
+    "tags": [
+      "mondstadt",
+      "quest-world"
+    ],
+    "id": "unexpected-commission",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Tales of Time and Wind",
+    "ja": "時と風の物語",
+    "zhCN": "时与风的故事",
+    "zhTW": "時與風的故事",
+    "pronunciationJa": "ときとかぜのものがたり",
+    "notesEn": "Homework: Venti \"Of the Waking of Wind\"",
+    "notes": "魔女の課題：ウェンティ「旅立ちの題」",
+    "notesZh": "课业: 温迪「风起之题」",
+    "tags": [
+      "mondstadt",
+      "quest-world"
+    ],
+    "id": "tales-of-time-and-wind",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "The Great Mage's Journey of Trials",
+    "ja": "大魔法使いの試練の旅",
+    "zhCN": "大魔法师的试炼之旅",
+    "zhTW": "大魔法師的試煉之旅",
+    "pronunciationJa": "だいまほうつかいのしれんのたび",
+    "notesEn": "Homework: Klee \"Of Leaves That Spark\"",
+    "notes": "魔女の課題：クレー「火花葉の題」",
+    "notesZh": "课业: 可莉「火花叶之题」",
+    "tags": [
+      "mondstadt",
+      "quest-world"
+    ],
+    "id": "the-great-mages-journey-of-trials",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Old Friends and New Knowledge",
+    "ja": "古き見識と新たな知恵",
+    "zhCN": "旧识与新知",
+    "zhTW": "舊識與新知",
+    "pronunciationJa": "ふるきけんしきとあらたなちえ",
+    "notesEn": "Homework: Albedo \"Of Questions Beyond Question\"",
+    "notes": "魔女の課題：アルベド「題外の題」",
+    "notesZh": "课业: 阿贝多「题外之题」",
+    "tags": [
+      "mondstadt",
+      "dragonspine",
+      "quest-world"
+    ],
+    "id": "old-friends-and-new-knowledge",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "A Child Wandering the World",
+    "ja": "現世を歩む子供",
+    "zhCN": "行于世间的孩子",
+    "zhTW": "行於世間的孩子",
+    "pronunciationJa": "げんせいをあゆむこども",
+    "notesEn": "Homework:Durin \"Of This World\"",
+    "notes": "魔女の課題：ドゥリン「現世の題」",
+    "notesZh": "课业: 杜林「此世之题」",
+    "tags": [
+      "mondstadt",
+      "quest-world"
+    ],
+    "id": "a-child-wandering-the-world",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "A Dry Well Doth Not Reflect the Stars",
+    "ja": "枯れ井戸に星空は映らない",
+    "zhCN": "枯井无法映星月",
+    "zhTW": "枯井無法映星月",
+    "pronunciationJa": "かれいどにほしぞらはうつらない",
+    "notesEn": "Homework: Mona \"Of Untested Insight\"",
+    "notes": "魔女の課題：モナ「乾慧の題」",
+    "notesZh": "课业: 莫娜「干慧之题」",
+    "tags": [
+      "mondstadt",
+      "sumeru",
+      "quest-world"
+    ],
+    "id": "a-dry-well-doth-not-reflect-the-stars",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "With Lupical...",
+    "ja": "「ルピカ」といっしょ",
+    "zhCN": "和「卢皮卡」一起",
+    "zhTW": "和「盧皮卡」一起",
+    "notesEn": "Homework: Razor \"Of the Little Wolf Pack\"",
+    "notes": "魔女の課題：レザー「小狼の群れの題」",
+    "notesZh": "课业: 雷泽「小狼众之题」",
+    "tags": [
+      "mondstadt",
+      "quest-world"
+    ],
+    "id": "with-lupical",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Alan Smithee, Author of Fischl",
+    "ja": "アラン・スミシー——フィッシュルの作者",
+    "zhCN": "艾伦·史密西，菲谢尔的作者",
+    "zhTW": "艾倫·史密西——菲謝爾的作者",
+    "notesEn": "Homework: Fischl \"Of the Unexpected\"",
+    "notes": "魔女の課題：フィッシュル「予想外の題」",
+    "notesZh": "课业: 菲谢尔「意外之题」",
+    "tags": [
+      "mondstadt",
+      "liyue",
+      "nodkrai",
+      "quest-world"
+    ],
+    "id": "alan-smithee-author-of-fischl",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "The Law of Boundaries",
+    "ja": "限界の法則",
+    "zhCN": "界限的法则",
+    "zhTW": "界限的法則",
+    "notesEn": "Homework: Fischl \"Of Wonderland Flowers\"",
+    "notes": "魔女の課題：スクロース「仙境花の題」",
+    "notesZh": "课业: 砂糖「仙境花之题」",
+    "tags": [
+      "mondstadt",
+      "dragonspine",
+      "quest-world"
+    ],
+    "id": "the-law-of-boundaries",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Draco Rubedo Chapter",
+    "ja": "ドラコ・ルベドの章",
+    "zhCN": "赤龙之章",
+    "zhTW": "赤龍之章",
+    "pronunciationJa": "ドラコ・ルベドのしょう",
+    "notes": "ドゥリンの伝説任務",
+    "tags": [
+      "mondstadt",
+      "dragonspine",
+      "quest-story"
+    ],
+    "id": "draco-rubedo-chapter",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Different Phantoms",
+    "ja": "虚影",
+    "zhCN": "虚影",
+    "zhTW": "虚影",
+    "pronunciationJa": "きょえい",
+    "id": "different-phantoms",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Irminsul Tree",
+    "ja": "白銀の古樹",
+    "zhCN": "银白古樹",
+    "zhTW": "銀白古樹",
+    "pronunciationJa": "はくぎんのこじゅ",
+    "notes": "英語の綴り&quot;Irminsul&quot;は世界樹と同じ。放浪者の人形の体の材料に使われている",
+    "id": "irminsul-tree",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Athame Artis",
+    "ja": "黒蝕",
+    "zhCN": "黑蚀",
+    "zhTW": "黑蝕",
+    "pronunciationJa": "こくしょく",
+    "tags": [
+      "weapon",
+      "sword"
+    ],
+    "id": "athame-artis",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "The Daybreak Chronicles",
+    "ja": "暁を告げる歴史",
+    "zhCN": "黎明破晓之史",
+    "zhTW": "黎明破曉之史",
+    "pronunciationJa": "あかつきをつげるれきし",
+    "tags": [
+      "weapon",
+      "bow"
+    ],
+    "id": "the-daybreak-chronicles",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Finches Are Still the Cutest",
+    "ja": "ヤマガラがやっぱり一番可愛い",
+    "zhCN": "团雀还会最可愛",
+    "zhTW": "團雀還會最可愛",
+    "tags": [
+      "event",
+      "natlan"
+    ],
+    "notesEn": "v6.2(Luna III) Sub-events of the Limited Time Event \"Bing-Bang Finchball\"",
+    "notes": "v6.2(Luna III) 期間限定イベント「カラコロ! チュンボール」内ストーリー",
+    "notesZh": "限时活动「哐哐当当雀雀球」v6.2(Luna III) 活动故事",
+    "id": "finches-are-still-the-cutest",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Basima the Fifth",
+    "ja": "バシマ五世",
+    "zhCN": "拜希麦·五世",
+    "zhTW": "拜希麥·五世",
+    "tags": [
+      "event",
+      "character-sub",
+      "natlan",
+      "sumeru"
+    ],
+    "notes": "v4.8 期間限定イベントおよび v6.2(Luna III) 期間限定イベント「カラコロ! チュンボール」に登場する人物",
+    "id": "basima-the-fifth",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2025-12-21"
+  },
+  {
+    "en": "Bing-Bang Finchball",
+    "ja": "カラコロ! チュンボール",
+    "zhCN": "哐哐当当雀雀球",
+    "zhTW": "哐哐噹噹雀雀球",
+    "notesEn": "Limited Time Event in v3.8, v4.8 and v6.2(Luna III)",
+    "notes": "v3.8 期間限定イベント「涼夏! 楽園? 大秘境!」のアトラクションの1つ、v4.8 期間限定イベント、および v6.2(Luna III) 期間限定イベント",
+    "notesZh": "v3.8、v4.8 和 v6.2（Luna III）中的限时活动",
+    "tags": [
+      "event"
+    ],
+    "id": "bing-bang-finchball",
+    "updatedAt": "2025-12-21",
+    "createdAt": "2023-06-25"
+  },
+  {
     "en": "Thoth",
     "ja": "トート",
     "zhCN": "图特",
@@ -44,19 +848,6 @@
       "character-sub"
     ],
     "id": "sobek",
-    "updatedAt": "2025-11-23",
-    "createdAt": "2025-11-23"
-  },
-  {
-    "en": "Zandik",
-    "ja": "ザンディク",
-    "zhCN": "赞迪克",
-    "zhTW": "贊迪克",
-    "tags": [
-      "sumeru",
-      "character-sub"
-    ],
-    "id": "zandik",
     "updatedAt": "2025-11-23",
     "createdAt": "2025-11-23"
   },
@@ -6253,23 +7044,6 @@
     "createdAt": "2025-09-21"
   },
   {
-    "en": "Columbina",
-    "ja": "コロンビーナ",
-    "zhCN": "哥伦比娅",
-    "zhTW": "哥倫比婭",
-    "notes": "少女の通称",
-    "notesZh": "冰之女皇给「少女」的赐名。",
-    "notesZhTW": "冰之女皇給「少女」的賜名。",
-    "tags": [
-      "fatui",
-      "nodkrai",
-      "character-main"
-    ],
-    "id": "columbina",
-    "updatedAt": "2025-09-01",
-    "createdAt": "2022-01-01"
-  },
-  {
     "en": "Damselette",
     "ja": "少女",
     "zhCN": "少女",
@@ -6342,22 +7116,6 @@
     "id": "alice",
     "updatedAt": "2025-09-01",
     "createdAt": "2022-01-01"
-  },
-  {
-    "en": "Anya M. Andersdotter",
-    "ja": "アンヤ・M・アンデシュドッテル",
-    "zhCN": "安雅·M·安德斯多特",
-    "zhTW": "安雅·M·安德斯多特",
-    "tags": [
-      "mondstadt",
-      "character-sub"
-    ],
-    "notes": "魔女会・コードM。イノシシプリンセスの作者",
-    "notesZh": "魔女会代号 M。《野猪公主》的作者",
-    "notesZhTW": "魔女會代號 M。《野豬公主》的作者",
-    "id": "anya-m-andersdotter",
-    "updatedAt": "2025-09-01",
-    "createdAt": "2025-09-01"
   },
   {
     "en": "Nicole Reeyn",
@@ -46644,24 +47402,6 @@
     "createdAt": "2022-01-01"
   },
   {
-    "en": "Masterles Starglitter",
-    "ja": "無主のスターライト",
-    "zhCN": "无主的星辉",
-    "zhTW": "無主的星輝",
-    "pronunciationJa": "むしゅのスターライト",
-    "tags": [
-      "item"
-    ],
-    "variants": {
-      "ja": [
-        "スターライト"
-      ]
-    },
-    "id": "masterles-starglitter",
-    "updatedAt": "2025-05-05",
-    "createdAt": "2022-01-01"
-  },
-  {
     "en": "Masterless Stardust",
     "ja": "無主のスターダスト",
     "zhCN": "无主的星尘",
@@ -79045,19 +79785,6 @@
       "event"
     ],
     "id": "dance-of-flashing-thought",
-    "updatedAt": "2025-05-05",
-    "createdAt": "2023-06-25"
-  },
-  {
-    "en": "Bing-Bang Finchball",
-    "ja": "カラコロ! チュンボール",
-    "zhCN": "哐哐当当雀雀球",
-    "zhTW": "哐哐噹噹雀雀球",
-    "notes": "v3.8 期間限定イベント「涼夏! 楽園? 大秘境!」のアトラクションの1つ、または v4.8 期間限定イベント",
-    "tags": [
-      "event"
-    ],
-    "id": "bing-bang-finchball",
     "updatedAt": "2025-05-05",
     "createdAt": "2023-06-25"
   },

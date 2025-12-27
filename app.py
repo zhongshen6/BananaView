@@ -1,10 +1,15 @@
-# 版本v0.96，每次更新代码就将版本号加0.01
 
-from flask import Flask, render_template, jsonify, request
+# 版本v0.98
+# 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
+# 第12次修改，修改内容为：引入启动参数 --serve，支持在 /mod/ 路径下可选地提供前端页面
+
+from flask import Flask, jsonify, request, send_from_directory
 import time
 import threading
 import json
 import os
+import argparse
+import sys
 from threading import Lock
 import requests
 from pathlib import Path
@@ -34,8 +39,20 @@ def load_cache():
         try:
             with cache_lock:
                 with open(CACHE_FILE, "r", encoding="utf-8") as f:
-                    subcategory_cache = json.load(f)
-            log(f"缓存文件加载成功，条目数: {len(subcategory_cache)}")
+                    raw_data = json.load(f)
+                
+                # 过滤逻辑：只保留有有效名称和ID的条目，剔除“获取中”和“失败”的记录
+                cleaned_data = {}
+                for k, v in raw_data.items():
+                    if isinstance(v, dict):
+                        name = v.get("name")
+                        # 成功的标准：有名称、名称不是旧版占位符、且有分类ID
+                        # 同时也自动剔除了 status 为 "pending" 或 "failed" 的条目
+                        if name and name != "获取中..." and v.get("id"):
+                            cleaned_data[k] = v
+                
+                subcategory_cache = cleaned_data
+            log(f"缓存文件加载并清理成功，有效条目数: {len(subcategory_cache)}")
         except Exception as e:
             log(f"缓存文件加载失败: {e}")
             subcategory_cache = {}
@@ -306,9 +323,23 @@ def api_subcat():
 
     return jsonify(result)
 
-@app.route("/mod/")
-def index():
-    return render_template('index.html')
+def register_frontend_routes(app):
+    """注册前端相关路由"""
+    @app.route('/mod/')
+    @app.route('/mod')
+    def serve_index():
+        log("提供前端页面: index.html")
+        return send_from_directory(BASE_DIR, 'index.html')
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="BananaView Backend API")
+    parser.add_argument("--serve", action="store_true", help="同时启动前端静态服务 (访问 /mod/)")
+    args = parser.parse_args()
+
+    if args.serve:
+        log("模式检测: 耦合模式已启用。可通过 http://localhost:9178/mod/ 访问前端。")
+        register_frontend_routes(app)
+    else:
+        log("模式检测: 纯 API 模式。后端将不负责页面返回。")
+
     app.run(host="0.0.0.0", port=9178, debug=False)
