@@ -1,4 +1,5 @@
-
+// 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
+// 第11次修改，修改内容为：将 API 和静态资源路径改为相对路径，适配不同的部署环境
 (() => {
   'use strict';
 
@@ -186,7 +187,7 @@ const Settings = (() => {
     //获取分类信息
     async function fetchSubcat(ids) {
       if (!Array.isArray(ids) || !ids.length) return {};
-      const url = `/mod/api/subcat?ids=${ids.join(',')}`;
+      const url = `api/subcat?ids=${ids.join(',')}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('分类别请求失败');
       const data = await res.json();
@@ -211,7 +212,7 @@ const Settings = (() => {
       async function loadCategoryCache() {
         if (cacheLoaded) return;
         try {
-          const res = await fetch('/mod/static/subcategory_cache.json');
+          const res = await fetch('static/subcategory_cache.json');
           const cacheData = await res.json();
           
           for (const [itemId, cacheItem] of Object.entries(cacheData)) {
@@ -328,7 +329,7 @@ const Settings = (() => {
     async function loadTranslationTable() {
       if (isLoaded) return;
       try {
-        const res = await fetch('/mod/static/words-frontend.json');
+        const res = await fetch('static/words-frontend.json');
         const words = await res.json();
         for (const word of words) {
           if (word.en && word.zhCN) {
@@ -1165,8 +1166,8 @@ const Settings = (() => {
             id: item_id,
             model,
             name: source?._sName,
-            author: source?._aSubmitter?._sName,
-            author_url: source?._aSubmitter?._sProfileUrl,
+            author: source?._sName,
+            author_url: source?._sProfileUrl,
             thumb,
             // 修正：支持从嵌套路径提取摘要，优先读取根部，若无则尝试 _aPreviewMedia._aMetadata
             snippet: source?._sSnippet || source?._aPreviewMedia?._aMetadata?._sSnippet,
