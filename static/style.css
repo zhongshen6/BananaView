@@ -1,4 +1,7 @@
 
+/* 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换*/
+/* 第12次修改，修改内容为：移除健康检测文字布局，改为设置面板右下角绝对定位的极简指示点。 */
+
 /* 根变量，方便全局样式管理 */
 :root{
   --bg: #f5f7fb; /* 页面背景色 */
@@ -378,6 +381,7 @@ body{
   pointer-events: auto;
 }
 .settings-content {
+  position: relative;
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -423,7 +427,33 @@ body{
     width: 45%;
 }
 
-/* =====================================设置项=========================== */
+/* =====================================极简状态灯样式=========================== */
+.status-dot {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #94a3b8; /* 默认灰色 */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.status-dot.ok { background-color: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+.status-dot.warn { background-color: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.5); }
+.status-dot.error { background-color: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.5); }
+.status-dot.loading { 
+    background-color: #eab308; 
+    animation: pulse 0.8s infinite alternate; 
+    box-shadow: 0 0 6px rgba(234,179,8,0.5); 
+}
+
+@keyframes pulse {
+    from { opacity: 0.3; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1.1); }
+}
+
+/* =====================================设置项滑块=========================== */
 :root{
   --accent: #3b82f6; /* 强调色 */
   --accent-gradient: linear-gradient(135deg, var(--accent), #60a5fa);

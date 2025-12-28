@@ -1,5 +1,6 @@
+
 // 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
-// 第11次修改，修改内容为：将 API 和静态资源路径改为相对路径，适配不同的部署环境
+// 第13次修改，修改内容为：移除健康检测的文字输出逻辑，仅保留极简状态圆点的颜色更新。
 (() => {
   'use strict';
 
@@ -45,6 +46,7 @@
     closePopoverBtn: document.getElementById('howToPopover')?.querySelector('.btn-close-popover'), // 关闭弹出框按钮
     topbar: document.querySelector('.topbar'), // 顶部导航栏
     toastContainer: document.getElementById('toastContainer'), // 通知容器
+    healthDot: document.getElementById('healthDot')
   };
 
   // ================================================== 通知模块 ==================================================
@@ -80,6 +82,36 @@
     }
 
     return { show };
+  })();
+
+  // ================================================== 健康检测模块 ==================================================
+  const HealthMonitor = (() => {
+    async function check() {
+      const { healthDot } = DOM;
+      if (!healthDot) return;
+
+      // 初始状态：正在检测 (黄色闪烁)
+      healthDot.className = 'status-dot loading';
+
+      try {
+        // 请求 ID 475764 的分类信息作为全链路探测点
+        const data = await Api.fetchSubcat([475764]);
+        const result = data['475764'] || data[475764];
+
+        if (result && result.category) {
+          // 全链路正常 (绿色)
+          healthDot.className = 'status-dot ok';
+        } else {
+          // 后端通了，但上游返回失败 (橙色)
+          healthDot.className = 'status-dot warn';
+        }
+      } catch (err) {
+        // 请求失败：后端离线或网络断开 (红色)
+        healthDot.className = 'status-dot error';
+      }
+    }
+
+    return { check };
   })();
 
   // ================================================== 设置模块 ==================================================
@@ -161,7 +193,7 @@ const Settings = (() => {
 
       switch (mode) {
         case 'recommended':
-          return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=default${inclusions}&_nPage=${pageNum}`;
+          return `api/subcat?ids=0&_dummy=${Date.now()}`.replace('api/subcat', 'https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=default' + inclusions + '&_nPage=' + pageNum);
         case 'latest':
           return `https://gamebanana.com/apiv11/Game/8552/Subfeed?_sSort=new${inclusions}&_nPage=${pageNum}`;
         case 'updated':
@@ -176,14 +208,6 @@ const Settings = (() => {
       }
     }
 
-    //执行JSON网络请求
-    async function fetchJson(url) {
-      if (!url) throw new Error('Invalid API URL');
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Network error: ${res.status}`);
-      return res.json();
-    }
-
     //获取分类信息
     async function fetchSubcat(ids) {
       if (!Array.isArray(ids) || !ids.length) return {};
@@ -196,7 +220,7 @@ const Settings = (() => {
       return Translator.translateContent(data);
     }
 
-    return { getApiUrl, fetchJson, fetchSubcat };
+    return { getApiUrl, fetchSubcat };
   })();
 
   // ================================================== 分类获取模块 ==================================================
@@ -263,7 +287,6 @@ const Settings = (() => {
         }
         
         const ids = [...pendingIds];
-        console.log(`执行分类轮询，待处理: ${pendingIds.size}，网络连续错误: ${consecutiveErrors}`);
 
         try {
           const data = await Api.fetchSubcat(ids);
@@ -598,9 +621,6 @@ const Settings = (() => {
     function layoutMasonry() {
       // 避免在无关紧要的尺寸变化时重复计算
       const current = { w: container.clientWidth, h: container.clientHeight };
-      if (lastLayoutSize.w === current.w && lastLayoutSize.h === current.h) {
-        // 尺寸未变化，但仍允许外部触发重新定位
-      }
       lastLayoutSize = current;
 
       const cards = Array.from(container.children).filter(c => c.style.display !== 'none');
@@ -773,10 +793,12 @@ const Settings = (() => {
 
     // 绑定设置模态框事件
     function bindSettingsModal() {
-      const { SETTINGS_BTN, SETTINGS_MODAL, CLOSE_SETTINGS } = DOM;
+      const { SETTINGS_BTN, SETTINGS_MODAL, CLOSE_SETTINGS, healthDot } = DOM;
       if (SETTINGS_BTN && SETTINGS_MODAL && CLOSE_SETTINGS) {
         SETTINGS_BTN.addEventListener('click', () => {
           SETTINGS_MODAL.classList.add('show');
+          // 打开设置时自动进行一次探测
+          HealthMonitor.check();
           // 延迟调用 _recalcThumb，保证容器可见
           setTimeout(() => {
             document.querySelectorAll('.slider-container').forEach(c => {
@@ -787,6 +809,14 @@ const Settings = (() => {
         CLOSE_SETTINGS.addEventListener('click', () => SETTINGS_MODAL.classList.remove('show'));
         SETTINGS_MODAL.addEventListener('click', event => { 
           if (event.target === SETTINGS_MODAL) SETTINGS_MODAL.classList.remove('show'); 
+        });
+      }
+
+      if (healthDot) {
+        // 点击圆点手动触发再次探测
+        healthDot.addEventListener('click', (e) => {
+          e.stopPropagation();
+          HealthMonitor.check();
         });
       }
     }
@@ -1110,12 +1140,10 @@ const Settings = (() => {
           
           // 如果不是"全部"筛选且不在允许列表中，则跳过
           if (filter !== 'all' && !allowedModels.includes(model)) continue;
-          // 在全部模式下，如果返回了一些我们没定义样式的模型，也要有个基本的白名单避免异常数据
           if (filter === 'all' && !model) continue;
 
           const item_id = source?._idRow;
           let cat_name = null;
-          let cat_id = null;
 
           // 处理动态分类信息和元数据展示
           if (model === 'Mod' || model === 'Tool') {
@@ -1130,7 +1158,6 @@ const Settings = (() => {
           } else if (model === 'Thread') {
             cat_name = `${source._nPostCount || 0} 条回复`;
           } else {
-            // "全部" 模式下其他模型的 fallback
             cat_name = model || '其他内容';
           }
 
@@ -1142,14 +1169,12 @@ const Settings = (() => {
               let base = (img._sBaseUrl || '').replace(/\/$/, '');
               let file = null;
 
-              // 根据用户设置选择缩略图质量
               switch (quality) {
                 case '220': file = img._sFile220; break;
                 case '530': file = img._sFile530; break;
-                default: file = img._sFile530; break; // 默认530
+                default: file = img._sFile530; break;
               }
 
-              // 回退策略：如果目标质量不存在，选择可用的质量
               if (!file) {
                 file = img._sFile530 || img._sFile220 || img._sFile800 || img._sFile100 || img._sFile;
               }
@@ -1159,7 +1184,6 @@ const Settings = (() => {
                 thumb = base + '/' + file;
               }
             }
-
           } catch (e) { }
 
           items.push({
@@ -1169,7 +1193,6 @@ const Settings = (() => {
             author: source?._sName,
             author_url: source?._sProfileUrl,
             thumb,
-            // 修正：支持从嵌套路径提取摘要，优先读取根部，若无则尝试 _aPreviewMedia._aMetadata
             snippet: source?._sSnippet || source?._aPreviewMedia?._aMetadata?._sSnippet,
             category: cat_name,
             catid: source?._aRootCategory?._idRow,
@@ -1180,10 +1203,8 @@ const Settings = (() => {
           });
         }
 
-        // 翻译数据
         const translatedItems = Translator.isLoaded() ? Translator.translateContent(items) : items;
 
-        // 创建并添加卡片
         translatedItems.forEach((item, index) => {
           const card = UI.createCard(item);
           UI.appendCardOrReplaceSkeleton(card, skeletons, index);
@@ -1191,20 +1212,17 @@ const Settings = (() => {
 
         UI.layoutMasonry();
 
-        // 渲染完成后应用 NSFW 策略
         (function applyNsfwPolicyAfterRender() {
           const nsfwMode = Settings.get('nsfwMode') || 'show';
           UI.applyNSFWPolicy(nsfwMode);
         })();
 
-        // 处理分类信息获取
         if (categoryIdsToFetch.length) {
           categoryIdsToFetch.forEach(id => CategoryPoller.add(id));
         }
 
         loading = false;
       } catch (error) {
-        // 错误处理
         UI.clearSkeleton();
         DOM.LOADER && (DOM.LOADER.textContent = Config.STRINGS.LOADING_FAILED);
         console.error(error);
@@ -1215,7 +1233,6 @@ const Settings = (() => {
       }
     }
 
-    //加载多页数据的辅助函数
     async function loadThreePages(isInitial = false) {
       for (let i = 0; i < 3; i++) {
         if (!isInitial) page++;
@@ -1228,32 +1245,13 @@ const Settings = (() => {
     async function initializeApp() {
       try {
         console.log('🚀 开始初始化应用...');
-        
-        // 1. 加载设置
         Settings.load();
-        
-        // 2. 初始化控件（不依赖其他模块）
         Controls.initAll();
-        
-        // 3. 先加载翻译表（必须最先完成）
         await Translator.loadTranslationTable();
-        console.log('✅ 翻译表加载完成');
-        
-        // 4. 然后加载分类缓存
         await CategoryPoller.loadCategoryCache();
-        console.log('✅ 分类缓存加载完成');
-        
-        // 5. 初始化无限滚动观察器
-        if (DOM.SENTINEL) {
-          observer.observe(DOM.SENTINEL);
-        }
-        
-        // 6. 最后开始加载Mod数据（确保翻译表已就绪）
+        if (DOM.SENTINEL) observer.observe(DOM.SENTINEL);
         await loadThreePages(true);
-        
         Toast.show('欢迎回来！数据已就绪', 'success', 2500);
-        console.log('🎉 应用初始化完成');
-        
       } catch (error) {
         console.error('❌ 初始化失败:', error);
         UI.showLoader(true, '初始化失败，请刷新页面');
@@ -1263,11 +1261,8 @@ const Settings = (() => {
     return { initializeApp, setMode, refresh };
   })();
 
-  // ================================================== 初始化 ==================================================
-  //DOM加载完成后初始化设置和主应用
-  
   document.addEventListener('DOMContentLoaded', () => {
-    App.initializeApp(); // 通过 App 模块调用
+    App.initializeApp();
   });
 
 })();
