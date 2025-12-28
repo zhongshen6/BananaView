@@ -1,25 +1,38 @@
 
-# 版本v0.98
-# 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
-# 第12次修改，修改内容为：引入启动参数 --serve，支持在 /mod/ 路径下可选地提供前端页面
+# 版本v1.00
+# 每次修改后将修改次数加一,注意不要改动版本号，并在其后写下此次修改内容，内容每次修改要替换
+# 第15次修改，修改内容为：在 api_subcat 接口中针对 ID 475764 增加特殊探测逻辑，绕过缓存直接请求上游以支持前端健康检查。
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, make_response
 import time
 import threading
 import json
 import os
 import argparse
 import sys
+import logging
 from threading import Lock
 import requests
 from pathlib import Path
 import queue
+from collections import defaultdict
 
 BASE_DIR = Path(__file__).resolve().parent
 API_URL = "https://gamebanana.com/apiv11/Game/8552/Subfeed"
 DETAIL_URL = "https://api.gamebanana.com/Core/Item/Data"
 CACHE_FILE = BASE_DIR / "static" / "subcategory_cache.json"
 WORDS_URL = "http://dataset.genshin-dictionary.com/words.json"  # 直接使用HTTP
+LOG_FILE = BASE_DIR / "app.log"
+
+# 配置日志系统，同时输出到文件和控制台
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler(LOG_FILE, encoding='utf-8'),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 cache_lock = Lock()
 subcategory_cache = {}
@@ -30,8 +43,20 @@ rate_limit_lock = Lock()
 last_request_time = 0
 MIN_REQUEST_INTERVAL = 0.2
 
+# 客户端限流配置
+client_requests = defaultdict(list)
+CLIENT_RATE_LIMIT = 50  # 每分钟最多请求次数
+CLIENT_LIMIT_WINDOW = 60 # 限流窗口（秒）
+
+# 创建全局 HTTP 会话池，提高连接复用效率
+http_session = requests.Session()
+adapter = requests.adapters.HTTPAdapter(pool_connections=10, pool_maxsize=20)
+http_session.mount('http://', adapter)
+http_session.mount('https://', adapter)
+
 def log(msg):
-    print(f"[DEBUG {time.strftime('%H:%M:%S')}] {msg}")
+    """统一日志调用接口"""
+    logging.info(msg)
 
 def load_cache():
     global subcategory_cache
@@ -62,7 +87,7 @@ def load_cache():
 def save_cache():
     try:
         with cache_lock:
-            # 统计只包含有效名称和ID的条目
+            # 统计只包含有效名称 and ID 的条目
             valid_count = sum(1 for v in subcategory_cache.values() 
                              if isinstance(v, dict) and v.get("name") and v.get("name") != "获取中..." and v.get("id"))
             with open(CACHE_FILE, "w", encoding="utf-8") as f:
@@ -72,25 +97,22 @@ def save_cache():
         log(f"缓存文件保存失败: {e}")
 
 def update_translation_table():
-    """从远程URL更新中英对照表 - 简化版"""
+    """从远程URL更新中英对照表 - 优化版"""
     default_file = BASE_DIR / "static" / "words.json"
     
     log("开始更新中英对照表...")
     
-    # 直接使用HTTP协议，因为已知它工作正常
     try:
-        # 设置兼容性头部
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/json',
-            'Accept-Encoding': 'gzip, deflate'
+            'Accept': 'application/json'
         }
         
-        response = requests.get(WORDS_URL, timeout=30, headers=headers)
+        # 使用 Session 进行请求
+        response = http_session.get(WORDS_URL, timeout=30, headers=headers)
         response.raise_for_status()
         remote_words = response.json()
         
-        # 保存到本地默认翻译表
         with open(default_file, "w", encoding="utf-8") as f:
             json.dump(remote_words, f, ensure_ascii=False, indent=2)
         
@@ -98,8 +120,6 @@ def update_translation_table():
         return True
     except Exception as e:
         log(f"中英对照表更新失败: {e}")
-        
-        # 如果更新失败但本地已有文件，仍然继续
         if os.path.exists(default_file):
             log("使用本地已有的翻译表")
             return True
@@ -178,7 +198,7 @@ def rate_limited_fetch(item_id):
         
         if time_since_last_request < MIN_REQUEST_INTERVAL:
             sleep_time = MIN_REQUEST_INTERVAL - time_since_last_request
-            log(f"速率限制: 等待 {sleep_time:.2f} 秒后请求 {item_id}")
+            log(f"后端速率限制: 等待 {sleep_time:.2f} 秒后请求 {item_id}")
             time.sleep(sleep_time)
         
         last_request_time = time.time()
@@ -205,7 +225,8 @@ def fetch_subcategory_async(item_id):
     log(f"开始获取分类: {item_id}")
     try:
         url = f"{DETAIL_URL}?itemtype=Mod&itemid={item_id}&fields=Category().name,catid"
-        res = requests.get(url, timeout=6)
+        # 使用 Session 复用连接
+        res = http_session.get(url, timeout=6)
         res.raise_for_status()
         j = res.json()
         if isinstance(j, list) and len(j) >= 2:
@@ -235,6 +256,26 @@ def fetch_subcategory_async(item_id):
 
 app = Flask(__name__, static_url_path='/mod/static')
 
+# 简单的客户端限流检查
+def check_client_rate_limit():
+    ip = request.remote_addr
+    now = time.time()
+    times = client_requests[ip]
+    # 清理窗口外的请求
+    times[:] = [t for t in times if now - t < CLIENT_LIMIT_WINDOW]
+    if len(times) >= CLIENT_RATE_LIMIT:
+        return False
+    times.append(now)
+    return True
+
+@app.after_request
+def add_security_headers(response):
+    """为所有响应添加安全头和基础性能头"""
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    # 如果不是 API 请求，可以根据需要添加更多
+    return response
+
 log("应用启动初始化...")
 load_cache()
 
@@ -254,6 +295,11 @@ CATEGORY_TTL = 600
 
 @app.route('/mod/api/subcat')
 def api_subcat():
+    # 1. 客户端限流检查
+    if not check_client_rate_limit():
+        log(f"警告: 客户端 {request.remote_addr} 触发限流")
+        return jsonify({"error": "Too Many Requests"}), 429
+
     if not fetch_category_enabled:
         return jsonify({})
     
@@ -274,6 +320,23 @@ def api_subcat():
     failed_count = 0
     
     for item_id in ids:
+        # 特殊处理：ID 475764 作为健康检查探测点，不使用缓存，实时向 GameBanana 发起探测
+        if item_id == 475764:
+            try:
+                log("健康检测：正在同步探测上游连接 (ID: 475764)...")
+                test_url = f"{DETAIL_URL}?itemtype=Mod&itemid=475764&fields=Category().name,catid"
+                test_res = http_session.get(test_url, timeout=5)
+                test_res.raise_for_status()
+                test_j = test_res.json()
+                if isinstance(test_j, list) and len(test_j) >= 2:
+                    result[item_id] = {"category": test_j[0], "catid": test_j[1]}
+                else:
+                    result[item_id] = {"status": "failed"}
+            except Exception as e:
+                log(f"健康检测：上游探测失败 -> {e}")
+                result[item_id] = {"status": "failed"}
+            continue
+
         key = str(item_id)
         with cache_lock:
             val = subcategory_cache.get(key)
@@ -288,11 +351,6 @@ def api_subcat():
             pending_count += 1
             continue
         
-        # 兼容旧版本缓存
-        if val.get("name") == "获取中...":
-            val["status"] = "pending"
-            if not val.get("ts"): val["ts"] = now
-
         # 已成功获取
         if val.get("name") and val.get("name") != "获取中...":
             result[item_id] = {"category": val["name"], "catid": val.get("id")}
@@ -318,10 +376,11 @@ def api_subcat():
                 result[item_id] = {"status": "failed"}
                 failed_count += 1
 
-    if pending_count > 0 or failed_count > 0:
-        log(f"请求分类统计 - 正在获取中: {pending_count}, 获取失败未过期: {failed_count}")
-
-    return jsonify(result)
+    # 2. 添加浏览器缓存控制
+    resp = make_response(jsonify(result))
+    resp.headers['Cache-Control'] = 'no-cache' # 健康检测建议不缓存响应
+    
+    return resp
 
 def register_frontend_routes(app):
     """注册前端相关路由"""
@@ -329,7 +388,10 @@ def register_frontend_routes(app):
     @app.route('/mod')
     def serve_index():
         log("提供前端页面: index.html")
-        return send_from_directory(BASE_DIR, 'index.html')
+        response = make_response(send_from_directory(BASE_DIR, 'index.html'))
+        # 首页不强制长时间缓存，方便更新
+        response.headers['Cache-Control'] = 'no-cache'
+        return response
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="BananaView Backend API")
