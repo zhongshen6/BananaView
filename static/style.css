@@ -1,10 +1,10 @@
 
 /* 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换*/
-/* 第16次修改，修改内容为：彻底修复模式切换时的“乱飞”：禁用切换瞬间卡片自身的 transition，并优化设置窗口动画逻辑。 */
+/* 第17次修改，修改内容为：引入背景图模糊处理，利用 body 伪元素创建沉浸式氛围背景，并微调容器对比度。 */
 
 /* 根变量，方便全局样式管理 */
 :root{
-  --bg: #f5f7fb; /* 页面背景色 */
+  --bg: #f5f7fb; /* 页面基础背景色 */
   --card: #ffffff; /* 卡片背景色 */
   --muted: #6b7280; /* 辅助文字色 */
   --accent: #6C7BFF; /* 强调色 */
@@ -23,21 +23,51 @@ main#mods {
 }
 
 html,body{height:100%}
-body{
-  margin:0;
+body {
+  margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background:var(--bg);
-  color:#0f1724;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding:15px;
-  display:flex;
-  justify-content:center; /* 页面居中容器 */
+  background: var(--bg);
+  color: #0f1724;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 氛围背景层 */
+body::before {
+  content: "";
+  position: fixed;
+  top: -40px; /* 略微溢出以隐藏模糊边缘 */
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
+  background-image: url('background.jpg'); /* 引用你传入的背景图 */
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) brightness(0.95); /* 深度模糊 */
+  z-index: -2;
+  opacity: 0.95; /* 控制背景强度 */
+}
+
+/* 渐变遮罩层：增加层次感并确保内容可读 */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(245, 247, 251, 0.2) 0%, rgba(245, 247, 251, 0.7) 100%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .app {
   width:100%;
   max-width:1500px; /* 内容最大宽度 */
+  position: relative;
+  z-index: 1;
 }
 
 .logo-img {
@@ -58,8 +88,8 @@ body{
   gap: 12px;
   align-items: center;
 
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.75); /* 略微增加不透明度 */
+  backdrop-filter: blur(12px) saturate(1.5); /* 增强磨砂感 */
   border-radius: 16px;
   padding: 12px;
   box-shadow: var(--shadow);
@@ -68,11 +98,12 @@ body{
   max-width: 1500px;        /* 保留最大宽度 */
   margin: 0 auto;           /* 居中 */
   transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 
 .topbar.hide {
-  transform: translateY(-100%);  /* 上移隐藏 */
+  transform: translateY(-120%);  /* 上移隐藏 */
 }
 
 
@@ -114,13 +145,14 @@ body{
   justify-content: flex-end;
 }
 .btn{
-  background:#fff;
-  border:0;
+  background:rgba(255, 255, 255, 0.8);
+  border:1px solid rgba(0,0,0,0.05);
   padding:8px 12px;
   border-radius:10px;
   cursor:pointer;
   box-shadow: 0 4px 12px rgba(2,6,23,0.04);
   font-size:13px;
+  backdrop-filter: blur(4px);
 }
 
 /* 布局切换期间（单列/多列模式转换时）禁用全部动画，防止元素从绝对定位“飞”到文档流 */
@@ -144,10 +176,12 @@ body{
   display: inline-block;
   width: 100%;
   margin: 0 0 var(--gap) 0;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.52); /* 微微透明，融入背景 */
+  backdrop-filter: blur(2px);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   /* 保留 transform 的过渡，实现丝滑移动。注意：在 layout-changing 时会被强制禁用 */
   transition: transform .18s ease, box-shadow .18s ease, height .18s ease, opacity .3s ease;
 }
@@ -160,6 +194,7 @@ body{
 .card:hover {
   transform: translateY(-6px);
   box-shadow: 0 18px 40px rgba(16,24,40,0.12);
+  background: rgba(255, 255, 255, 1);
 }
 
 .thumb {
@@ -213,7 +248,7 @@ body{
     font-size: 15px;
     line-height: 1.2;
     font-weight: 600;
-    background: linear-gradient(#D7E3FC); /* 柔和渐变 */
+    background: linear-gradient(to bottom, rgba(215, 227, 252, 0.8), rgba(215, 227, 252, 1)); /* 柔和渐变 */
     color: #2f4f60;
     text-align: center; /* 让文字居中 */
 }
@@ -407,7 +442,8 @@ body{
 }
 .settings-content {
   position: relative;
-  background: var(--card);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   width: 360px;
@@ -609,7 +645,8 @@ body{
   top: calc(100% + 6px);
   left: 0;
   min-width: 160px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   border-radius: 10px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
   padding: 6px 0;
