@@ -1,6 +1,6 @@
 
 // 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
-// 第15次修改，修改内容为：优化瀑布流布局切换逻辑，加入动画静默状态和样式清理，解决单列与多列切换时的闪烁问题。
+// 第16次修改，修改内容为：优化瀑布流布局切换逻辑，保留卡片整体移动动画，仅在模式切换时瞬间重置内部子元素布局，解决“乱飞”与“僵硬”的矛盾。
 (() => {
   'use strict';
 
@@ -447,7 +447,7 @@ const Settings = (() => {
   const UI = (() => {
     const container = DOM.MODS_CONTAINER;
     const loader = DOM.LOADER;
-    let lastLayoutSize = { w: 0, h: 0 }; // 上次布局时的容器尺寸
+    let prevColumnCount = -1; // 记录上一次的列数，用于判断布局模式切换
 
     //显示骨架屏占位符
     function showSkeleton(count = Config.PER_SKELETON) {
@@ -621,17 +621,21 @@ const Settings = (() => {
 
     //执行瀑布流布局，根据列数计算每个卡片的位置
     function layoutMasonry() {
-      // 在计算期间禁用过渡动画，防止切换布局时卡片“乱飞”
-      container.classList.add('layout-changing');
+      const columnCount = getColumnCount();
+      const isModeSwitch = (prevColumnCount !== -1 && ((prevColumnCount === 1 && columnCount > 1) || (prevColumnCount > 1 && columnCount === 1)));
+      
+      // 如果发生单列/多列模式切换，启用特殊 CSS 类锁定内部子元素动画
+      if (isModeSwitch) {
+        container.classList.add('layout-changing');
+      }
 
       const cards = Array.from(container.children).filter(c => c.style.display !== 'none');
-      const columnCount = getColumnCount();
       const gap = parseInt(getComputedStyle(container).getPropertyValue('--gap')) || 16;
 
       // 单列布局模式
       if (columnCount === 1) {
         cards.forEach(card => {
-          // 彻底清除多列模式下的定位属性
+          // 清除多列模式下的定位属性，使卡片遵循文档流
           card.style.position = ''; 
           card.style.top = '';
           card.style.left = '';
@@ -656,6 +660,7 @@ const Settings = (() => {
           const x = Math.round((columnWidth + gap) * minColumnIndex);
           const y = Math.round(columnHeights[minColumnIndex]);
 
+          // 使用 transform 实现丝滑位移
           card.style.transform = `translate(${x}px, ${y}px)`;
           columnHeights[minColumnIndex] += card.offsetHeight + gap;
           card.classList.add('rendered');
@@ -665,12 +670,16 @@ const Settings = (() => {
         container.style.height = `${Math.max(...columnHeights) || 0}px`;
       }
 
-      // 布局计算完成后，在下一帧恢复过渡动画
-      requestAnimationFrame(() => {
+      prevColumnCount = columnCount;
+
+      // 布局计算完成后，如果是模式切换，在下一帧解除锁定
+      if (isModeSwitch) {
         requestAnimationFrame(() => {
-          container.classList.remove('layout-changing');
+          requestAnimationFrame(() => {
+            container.classList.remove('layout-changing');
+          });
         });
-      });
+      }
     }
 
     //添加卡片或替换骨架屏

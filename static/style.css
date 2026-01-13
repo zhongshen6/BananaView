@@ -1,5 +1,6 @@
+
 /* 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换*/
-/* 第14次修改，修改内容为：优化布局切换体验，禁用计算期间的动画并重置初始位移，解决单列模式切换时的残留偏移。 */
+/* 第16次修改，修改内容为：彻底修复模式切换时的“乱飞”：禁用切换瞬间卡片自身的 transition，并优化设置窗口动画逻辑。 */
 
 /* 根变量，方便全局样式管理 */
 :root{
@@ -122,16 +123,23 @@ body{
   font-size:13px;
 }
 
-/* 布局切换期间禁用动画 */
-.layout-changing .card {
+/* 布局切换期间（单列/多列模式转换时）禁用全部动画，防止元素从绝对定位“飞”到文档流 */
+.layout-changing .card,
+.layout-changing .card .nsfw-tag,
+.layout-changing .card .sfw-tag,
+.layout-changing .card .type-tag,
+.layout-changing .card .title,
+.layout-changing .card .thumb,
+.layout-changing .card .card-body {
   transition: none !important;
+  animation: none !important;
 }
 
 /* ===================================卡片相关===================================== */
 /* 通用卡片样式 */
 .card {
   opacity: 0;
-  transform: translateY(20px); /* 改为轻微位移，配合渐现 */
+  transform: translateY(20px);
   position: absolute; /* masonry布局要求绝对定位 */
   display: inline-block;
   width: 100%;
@@ -140,6 +148,7 @@ body{
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  /* 保留 transform 的过渡，实现丝滑移动。注意：在 layout-changing 时会被强制禁用 */
   transition: transform .18s ease, box-shadow .18s ease, height .18s ease, opacity .3s ease;
 }
 
@@ -387,7 +396,6 @@ body{
   justify-content: center;
   z-index: 50;
   backdrop-filter: blur(3px);
-  animation: fadeIn .2s ease;
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s ease;
@@ -407,7 +415,11 @@ body{
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: scaleIn .22s ease;
+  transform: scale(0.95);
+  transition: transform .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.settings-modal.show .settings-content {
+  transform: scale(1);
 }
 .settings-header {
   display: flex;
@@ -513,7 +525,7 @@ body{
     height: calc(100% - 4px);
     background: var(--accent-gradient);
     border-radius: 14px;
-    transition: all 0.3s ease;
+    transition: left 0.3s ease, width 0.3s ease; /* 明确指定，避免 all 带来的副作用 */
     z-index: 1;
     box-shadow: 0 2px 4px rgba(108,123,255,0.4);
 }

@@ -1,7 +1,7 @@
 
-# 版本v1.01
+# 版本v1.02
 # 每次修改后将修改次数加一,注意不要改动版本号，并在其后写下此次修改内容，内容每次修改要替换
-# 第15次修改，修改内容为：在 api_subcat 接口中针对 ID 475764 增加特殊探测逻辑，绕过缓存直接请求上游以支持前端健康检查。
+# 第16次修改，修改内容为：迁移角色翻译数据源至 hakush.in API，适配其以 ID 为键的对象结构，并将 EN 字段映射为 en，CHS 字段映射为 zhCN。
 
 from flask import Flask, jsonify, request, send_from_directory, make_response
 import time
@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent
 API_URL = "https://gamebanana.com/apiv11/Game/8552/Subfeed"
 DETAIL_URL = "https://api.gamebanana.com/Core/Item/Data"
 CACHE_FILE = BASE_DIR / "static" / "subcategory_cache.json"
-WORDS_URL = "http://dataset.genshin-dictionary.com/words.json"  # 直接使用HTTP
+WORDS_URL = "https://api.hakush.in/gi/data/character.json"  # 更新为 hakush.in API
 LOG_FILE = BASE_DIR / "app.log"
 
 # 配置日志系统，同时输出到文件和控制台
@@ -144,9 +144,23 @@ def create_frontend_translation_table():
     if os.path.exists(default_file):
         try:
             with open(default_file, "r", encoding="utf-8") as f:
-                default_words = json.load(f)
-                combined_words.extend(default_words)
-            log(f"已加载默认翻译表，条目数: {len(default_words)}")
+                default_data = json.load(f)
+                
+                # 兼容处理：适配 hakush.in 的对象格式 (ID: {EN:..., CHS:...})
+                if isinstance(default_data, dict):
+                    extracted_count = 0
+                    for entry in default_data.values():
+                        if isinstance(entry, dict):
+                            en = entry.get("EN")
+                            chs = entry.get("CHS")
+                            if en and chs:
+                                combined_words.append({"en": en, "zhCN": chs})
+                                extracted_count += 1
+                    log(f"已加载字典格式翻译表，解析出条目数: {extracted_count}")
+                elif isinstance(default_data, list):
+                    # 处理旧版数组格式
+                    combined_words.extend(default_data)
+                    log(f"已加载列表格式翻译表，条目数: {len(default_data)}")
         except Exception as e:
             log(f"加载默认翻译表失败: {e}")
             return
@@ -168,7 +182,7 @@ def create_frontend_translation_table():
     seen = set()
     
     for word in combined_words:
-        en = word.get("en", "").strip('"')
+        en = str(word.get("en", "")).strip('"')
         zhCN = word.get("zhCN", "")
         
         if en and zhCN:
@@ -271,9 +285,10 @@ def check_client_rate_limit():
 @app.after_request
 def add_security_headers(response):
     """为所有响应添加安全头和基础性能头"""
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    # 如果不是 API 请求，可以根据需要添加更多
+    # 如果不是静态资源文件，则添加安全头
+    if not request.path.startswith('/mod/static'):
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     return response
 
 log("应用启动初始化...")
