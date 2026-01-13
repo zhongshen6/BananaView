@@ -1,6 +1,6 @@
 
 // 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
-// 第13次修改，修改内容为：移除健康检测的文字输出逻辑，仅保留极简状态圆点的颜色更新。
+// 第15次修改，修改内容为：优化瀑布流布局切换逻辑，加入动画静默状态和样式清理，解决单列与多列切换时的闪烁问题。
 (() => {
   'use strict';
 
@@ -124,7 +124,7 @@ const Settings = (() => {
     columnCount: 0, // 列数(0表示自动)
     userId: '', // 用户ID
     nsfwMode: 'show',
-    contentFilter: 'all', // 筛选：all / mods / posts
+    contentFilter: 'mods', // 筛选：all / mods / posts
   };
 
   //从本地存储加载设置
@@ -526,6 +526,7 @@ const Settings = (() => {
       let categoryClass = (item.model === 'Mod' && categoryText === Config.STRINGS.GETTING) ? 'pending' : '';
       let categoryHref = item.catid ? `https://gamebanana.com/${modelLower}s/cats/${item.catid}` : '#';
 
+      // 修正后的 Body HTML，包含正确的作者链接和双日期
       const bodyHtml = `
         <div class="card-body">
             <div>
@@ -536,6 +537,7 @@ const Settings = (() => {
                 </div>
                 <div class="dates">
                     发布: ${escapeHtml(item.date_added)}
+                    ${item.has_update ? `<br>更新: ${escapeHtml(item.date_modified)}` : ''}
                 </div>
             </div>
             <div class="row-stats">
@@ -619,9 +621,8 @@ const Settings = (() => {
 
     //执行瀑布流布局，根据列数计算每个卡片的位置
     function layoutMasonry() {
-      // 避免在无关紧要的尺寸变化时重复计算
-      const current = { w: container.clientWidth, h: container.clientHeight };
-      lastLayoutSize = current;
+      // 在计算期间禁用过渡动画，防止切换布局时卡片“乱飞”
+      container.classList.add('layout-changing');
 
       const cards = Array.from(container.children).filter(c => c.style.display !== 'none');
       const columnCount = getColumnCount();
@@ -630,35 +631,46 @@ const Settings = (() => {
       // 单列布局模式
       if (columnCount === 1) {
         cards.forEach(card => {
-          card.style.position = 'relative';
-          card.style.transform = 'none';
-          card.style.width = '100%';
+          // 彻底清除多列模式下的定位属性
+          card.style.position = ''; 
+          card.style.top = '';
+          card.style.left = '';
+          card.style.transform = '';
+          card.style.width = '';
           card.classList.add('horizontal');
+          card.classList.add('rendered');
         });
         container.style.height = 'auto';
-        return;
+      } else {
+        // 多列瀑布流布局
+        const columnWidth = (container.clientWidth - gap * (columnCount - 1)) / columnCount;
+        const columnHeights = Array(columnCount).fill(0); // 每列的当前高度
+
+        cards.forEach(card => {
+          card.classList.remove('horizontal');
+          card.style.width = `${columnWidth}px`;
+          card.style.position = 'absolute';
+
+          // 找到当前最短的列
+          const minColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+          const x = Math.round((columnWidth + gap) * minColumnIndex);
+          const y = Math.round(columnHeights[minColumnIndex]);
+
+          card.style.transform = `translate(${x}px, ${y}px)`;
+          columnHeights[minColumnIndex] += card.offsetHeight + gap;
+          card.classList.add('rendered');
+        });
+
+        // 设置容器高度为最高列的高度
+        container.style.height = `${Math.max(...columnHeights) || 0}px`;
       }
 
-      // 多列瀑布流布局
-      const columnWidth = (container.clientWidth - gap * (columnCount - 1)) / columnCount;
-      const columnHeights = Array(columnCount).fill(0); // 每列的当前高度
-
-      cards.forEach(card => {
-        card.classList.remove('horizontal');
-        card.style.width = `${columnWidth}px`;
-        card.style.position = 'absolute';
-
-        // 找到当前最短的列
-        const minColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-        const x = Math.round((columnWidth + gap) * minColumnIndex);
-        const y = Math.round(columnHeights[minColumnIndex]);
-
-        card.style.transform = `translate(${x}px, ${y}px)`;
-        columnHeights[minColumnIndex] += card.offsetHeight + gap;
+      // 布局计算完成后，在下一帧恢复过渡动画
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          container.classList.remove('layout-changing');
+        });
       });
-
-      // 设置容器高度为最高列的高度
-      container.style.height = `${Math.max(...columnHeights) || 0}px`;
     }
 
     //添加卡片或替换骨架屏
@@ -1186,17 +1198,26 @@ const Settings = (() => {
             }
           } catch (e) { }
 
+          // 获取时间戳
+          const tsAdded = parseInt(source?._tsDateAdded || 0, 10);
+          const tsModified = parseInt(source?._tsDateModified || 0, 10);
+
           items.push({
             id: item_id,
             model,
             name: source?._sName,
-            author: source?._sName,
-            author_url: source?._sProfileUrl,
+            // 修正：作者名称应从 _aSubmitter 字段获取
+            author: source?._aSubmitter?._sName || Config.STRINGS.UNKNOWN,
+            // 修正：作者链接应使用 _aSubmitter 的 ProfileUrl
+            author_url: source?._aSubmitter?._sProfileUrl || '#',
             thumb,
             snippet: source?._sSnippet || source?._aPreviewMedia?._aMetadata?._sSnippet,
             category: cat_name,
             catid: source?._aRootCategory?._idRow,
-            date_added: formatTime(source?._tsDateAdded),
+            date_added: formatTime(tsAdded),
+            date_modified: formatTime(tsModified),
+            // 如果修改时间晚于发布时间，标记为已更新
+            has_update: tsModified > tsAdded,
             likes: source?._nLikeCount || 0,
             views: source?._nViewCount || 0,
             nsfw: !!source?._bHasContentRatings
