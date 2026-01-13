@@ -1,6 +1,6 @@
 
 // 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换
-// 第16次修改，修改内容为：优化瀑布流布局切换逻辑，保留卡片整体移动动画，仅在模式切换时瞬间重置内部子元素布局，解决“乱飞”与“僵硬”的矛盾。
+// 第17次修改，修改内容为：将列表卡片的外部链接修改为指向内部详情页路由 /mod/api/id/<id>，实现无缝聚合浏览体验。
 (() => {
   'use strict';
 
@@ -497,15 +497,18 @@ const Settings = (() => {
 
       // 缩略图/摘要逻辑：有图显示图，无图显示摘要文本
       let thumbHtml = '';
-      const profileUrl = `https://gamebanana.com/${modelLower}s/${item.id}`;
+      // 修改：优先使用内部详情页链接 /mod/api/id/<id>
+      const detailUrl = `/mod/api/id/${item.id}`;
+      // 保持原始官网链接供开发者或作者参考（可选）
+      const profileUrl = detailUrl; 
       
       if (item.thumb) {
-        thumbHtml = `<a class="thumb" href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+        thumbHtml = `<a class="thumb" href="${detailUrl}" target="_self">
              <img loading="lazy" src="${escapeAttr(item.thumb)}" alt="${escapeHtml(item.name || '')}">
            </a>`;
       } else if (item.snippet) {
         // 无图时显示文本摘要，增加特殊样式类 .snippet-thumb
-        thumbHtml = `<a class="thumb snippet-thumb" href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+        thumbHtml = `<a class="thumb snippet-thumb" href="${detailUrl}" target="_self">
              <div class="snippet-text">${escapeHtml(item.snippet)}</div>
            </a>`;
       } else {
@@ -515,7 +518,7 @@ const Settings = (() => {
       // 标题 HTML
       const titleHtml = `
         <h3 class="title">
-            <a href="${profileUrl}" target="_blank" rel="noopener noreferrer">
+            <a href="${detailUrl}" target="_self">
                 ${escapeHtml(item.name || '（无标题）')}
             </a>
         </h3>

@@ -1,7 +1,7 @@
 
-# 版本v1.02
+# 版本v1.03
 # 每次修改后将修改次数加一,注意不要改动版本号，并在其后写下此次修改内容，内容每次修改要替换
-# 第16次修改，修改内容为：迁移角色翻译数据源至 hakush.in API，适配其以 ID 为键的对象结构，并将 EN 字段映射为 en，CHS 字段映射为 zhCN。
+# 第19次修改，修改内容为：修复详情页 404 问题，将前端路由注册逻辑从 __main__ 移至全局初始化作用域，确保在通过 WSGI 或其它方式启动时路由依然有效。
 
 from flask import Flask, jsonify, request, send_from_directory, make_response
 import time
@@ -72,7 +72,7 @@ def load_cache():
                     if isinstance(v, dict):
                         name = v.get("name")
                         # 成功的标准：有名称、名称不是旧版占位符、且有分类ID
-                        # 同时也自动剔除了 status 为 "pending" 或 "failed" 的条目
+                        # 同时也自动剔成了 status 为 "pending" 或 "failed" 的条目
                         if name and name != "获取中..." and v.get("id"):
                             cleaned_data[k] = v
                 
@@ -407,16 +407,28 @@ def register_frontend_routes(app):
         # 首页不强制长时间缓存，方便更新
         response.headers['Cache-Control'] = 'no-cache'
         return response
+    
+    @app.route('/mod/api/id/<int:mod_id>')
+    def serve_detail(mod_id):
+        log(f"提供详情页面: detail.html for ID {mod_id}")
+        # 检查文件是否存在
+        if not os.path.exists(BASE_DIR / 'detail.html'):
+            return "Detail template not found", 404
+        response = make_response(send_from_directory(BASE_DIR, 'detail.html'))
+        response.headers['Cache-Control'] = 'no-cache'
+        return response
+
+# 将前端路由注册移出 __main__ 块，确保在导入模式下也能注册
+register_frontend_routes(app)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="BananaView Backend API")
-    parser.add_argument("--serve", action="store_true", help="同时启动前端静态服务 (访问 /mod/)")
+    parser.add_argument("--serve", action="store_true", help="此参数目前仅用于兼容，前端路由现已默认注册")
     args = parser.parse_args()
 
     if args.serve:
         log("模式检测: 耦合模式已启用。可通过 http://localhost:9178/mod/ 访问前端。")
-        register_frontend_routes(app)
     else:
-        log("模式检测: 纯 API 模式。后端将不负责页面返回。")
+        log("模式检测: 服务器启动。")
 
     app.run(host="0.0.0.0", port=9178, debug=False)
