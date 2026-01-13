@@ -1,6 +1,5 @@
-
 /* 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换*/
-/* 第12次修改，修改内容为：移除健康检测文字布局，改为设置面板右下角绝对定位的极简指示点。 */
+/* 第14次修改，修改内容为：优化布局切换体验，禁用计算期间的动画并重置初始位移，解决单列模式切换时的残留偏移。 */
 
 /* 根变量，方便全局样式管理 */
 :root{
@@ -122,10 +121,17 @@ body{
   box-shadow: 0 4px 12px rgba(2,6,23,0.04);
   font-size:13px;
 }
+
+/* 布局切换期间禁用动画 */
+.layout-changing .card {
+  transition: none !important;
+}
+
 /* ===================================卡片相关===================================== */
 /* 通用卡片样式 */
 .card {
-  transform: translate(0, 50000px); /* 初始放在很下面 */
+  opacity: 0;
+  transform: translateY(20px); /* 改为轻微位移，配合渐现 */
   position: absolute; /* masonry布局要求绝对定位 */
   display: inline-block;
   width: 100%;
@@ -134,7 +140,12 @@ body{
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
-  transition: transform .18s ease, box-shadow .18s ease, height .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease, height .18s ease, opacity .3s ease;
+}
+
+/* 标记为已渲染并可见 */
+.card.rendered {
+  opacity: 1;
 }
 
 .card:hover {
@@ -148,12 +159,14 @@ body{
   background: #eef2ff;
   position: relative;
   overflow: hidden;
-  min-height: 120px;
+  min-height: 160px; /* 同步骨架屏高度，确保加载前后的视觉连贯性 */
 }
 .thumb img {
   width: 100%;
+  min-height: 160px; /* 确保极扁的图片也能撑满最小预留区域 */
   height: auto;
   display: block;
+  object-fit: cover; /* 核心修改：缩放并裁剪，确保图片铺满容器不留白 */
   transition: transform .35s ease;
 }
 .card:hover .thumb img {
@@ -196,13 +209,17 @@ body{
     text-align: center; /* 让文字居中 */
 }
 
-/* 横向卡片 */
+/* 横向卡片：强制重置布局属性 */
 .card.horizontal {
-  display: flex;
+  display: flex !important;
   flex-direction: row;
   align-items: flex-end;  
-  height: 200px;           /* 卡片整体增高 */
-  position: relative;
+  height: 200px !important;           /* 卡片整体增高 */
+  position: relative !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
   padding-top: 28px;       /* 给标题留空间 */
   box-sizing: border-box;
 }
