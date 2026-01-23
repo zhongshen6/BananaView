@@ -15,6 +15,22 @@
     "CHS": "甘雨",
     "JP": "甘雨"
   },
+  "10000128": {
+    "birth": [
+      1,
+      1
+    ],
+    "icon": "UI_AvatarIcon_Varka",
+    "rank": "QUALITY_ORANGE",
+    "weapon": "WEAPON_CLAYMORE",
+    "release": "1970-01-01 00:00:00",
+    "element": "Anemo",
+    "EN": "Varka",
+    "desc": "",
+    "KR": "바르카",
+    "CHS": "法尔伽",
+    "JP": "ファルカ"
+  },
   "10000123": {
     "birth": [
       3,
