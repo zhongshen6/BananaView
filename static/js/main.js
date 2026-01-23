@@ -1,37 +1,42 @@
-// 每次修改后修改次数加一，并另起一行写下这次的修改内容
-// 第17次修改，将列表卡片的外部链接修改为指向内部详情页路由 /mod/api/id/<id>，实现无缝聚合浏览体验。
-// 第18次修改，分离代码，优化结构
+import { Config, DOM } from './config.js';
+import { Settings } from './settings.js';
+import { Translator } from './translator.js';
+import { Api } from './api.js';
+import { UI } from './ui.js';
+import { CategoryPoller } from './poller.js';
+import { Controls } from './controls.js';
+import { Toast } from './toast.js';
 
-window.App = (() => {
+export const App = (() => {
   let page = 1;
   let loading = false;
   let noMore = false;
-  let currentMode = window.Config.DEFAULT_MODE;
+  let currentMode = Config.DEFAULT_MODE;
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !noMore) loadThreePages();
     });
-  }, { rootMargin: window.Config.SCROLL_ROOT_MARGIN });
+  }, { rootMargin: Config.SCROLL_ROOT_MARGIN });
 
   function setMode(mode, text = '') {
     currentMode = mode;
     page = 1;
     noMore = false;
-    window.DOM.MODS_CONTAINER.innerHTML = '';
-    if (window.DOM.menuBtn && text) window.DOM.menuBtn.textContent = text + ' ▼';
+    DOM.MODS_CONTAINER.innerHTML = '';
+    if (DOM.menuBtn && text) DOM.menuBtn.textContent = text + ' ▼';
     loadThreePages(true);
   }
 
   function refresh() {
     page = 1;
     noMore = false;
-    window.DOM.MODS_CONTAINER.innerHTML = '';
+    DOM.MODS_CONTAINER.innerHTML = '';
     loadThreePages(true);
   }
 
   function formatTime(ts) {
-    if (!ts) return window.Config.STRINGS.UNKNOWN;
+    if (!ts) return Config.STRINGS.UNKNOWN;
     const now = Math.floor(Date.now() / 1000);
     const diff = now - parseInt(ts, 10);
     if (diff < 3600) return Math.floor(diff / 60) + ' 分钟前';
@@ -47,14 +52,14 @@ window.App = (() => {
   async function loadMods() {
     if (loading || noMore) return;
     loading = true;
-    window.UI.showLoader(true);
+    UI.showLoader(true);
 
-    const skeletons = window.UI.showSkeleton(window.Config.INITIAL_SKELETON_COUNT);
+    const skeletons = UI.showSkeleton(Config.INITIAL_SKELETON_COUNT);
 
     try {
-      const quality = window.Settings.get('thumbQuality') || window.Config.DEFAULT_THUMB_QUALITY;
-      const filter = window.Settings.get('contentFilter') || 'all';
-      const url = window.Api.getApiUrl(currentMode, page);
+      const quality = Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
+      const filter = Settings.get('contentFilter') || 'all';
+      const url = Api.getApiUrl(currentMode, page);
       if (!url) throw new Error('Invalid URL');
 
       const response = await fetch(url);
@@ -63,8 +68,8 @@ window.App = (() => {
 
       if (!records.length) {
         noMore = true;
-        window.UI.clearSkeleton();
-        window.UI.showLoader(true, window.Config.STRINGS.NO_MORE);
+        UI.clearSkeleton();
+        UI.showLoader(true, Config.STRINGS.NO_MORE);
         loading = false;
         return;
       }
@@ -84,7 +89,7 @@ window.App = (() => {
         let cat_name = null;
 
         if (model === 'Mod' || model === 'Tool') {
-          cat_name = window.Config.STRINGS.GETTING;
+          cat_name = Config.STRINGS.GETTING;
           categoryIdsToFetch.push(item_id);
         } else if (model === 'Request') {
           cat_name = source._nBounty ? `赏金: ${source._nBounty}` : '悬赏';
@@ -115,7 +120,7 @@ window.App = (() => {
 
         items.push({
           id: item_id, model, name: source?._sName,
-          author: source?._aSubmitter?._sName || window.Config.STRINGS.UNKNOWN,
+          author: source?._aSubmitter?._sName || Config.STRINGS.UNKNOWN,
           author_url: source?._aSubmitter?._sProfileUrl || '#',
           thumb, snippet: source?._sSnippet,
           category: cat_name, catid: source?._aRootCategory?._idRow,
@@ -125,27 +130,27 @@ window.App = (() => {
         });
       }
 
-      const translatedItems = window.Translator.translateContent(items);
+      const translatedItems = Translator.translateContent(items);
 
       translatedItems.forEach((item, index) => {
-        const card = window.UI.createCard(item);
-        window.UI.appendCardOrReplaceSkeleton(card, skeletons, index);
+        const card = UI.createCard(item);
+        UI.appendCardOrReplaceSkeleton(card, skeletons, index);
       });
 
-      window.UI.layoutMasonry();
-      window.UI.applyNSFWPolicy(window.Settings.get('nsfwMode'));
+      UI.layoutMasonry();
+      UI.applyNSFWPolicy(Settings.get('nsfwMode'));
 
       if (categoryIdsToFetch.length) {
-        categoryIdsToFetch.forEach(id => window.CategoryPoller.add(id));
+        categoryIdsToFetch.forEach(id => CategoryPoller.add(id));
       }
 
       loading = false;
     } catch (error) {
-      window.UI.clearSkeleton();
-      window.UI.showLoader(true, window.Config.STRINGS.LOADING_FAILED);
+      UI.clearSkeleton();
+      UI.showLoader(true, Config.STRINGS.LOADING_FAILED);
       loading = false;
     } finally {
-      window.UI.showLoader(noMore);
+      UI.showLoader(noMore);
     }
   }
 
@@ -159,18 +164,19 @@ window.App = (() => {
   }
 
   async function initializeApp() {
-    window.Settings.load();
-    window.Controls.initAll();
-    await window.Translator.loadTranslationTable();
-    await window.CategoryPoller.loadCategoryCache();
-    if (window.DOM.SENTINEL) observer.observe(window.DOM.SENTINEL);
+    Settings.load();
+    Controls.setApp(App); // 注入 App 实例给 Controls 以便调用刷新
+    Controls.initAll();
+    await Translator.loadTranslationTable();
+    await CategoryPoller.loadCategoryCache();
+    if (DOM.SENTINEL) observer.observe(DOM.SENTINEL);
     await loadThreePages(true);
-    window.Toast.show('欢迎回来！', 'success', 2500);
+    Toast.show('欢迎回来！', 'success', 2500);
   }
 
   return { initializeApp, setMode, refresh };
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.App.initializeApp();
+  App.initializeApp();
 });

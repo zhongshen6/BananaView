@@ -1,9 +1,12 @@
-window.UI = (() => {
-  const container = window.DOM.MODS_CONTAINER;
-  const loader = window.DOM.LOADER;
+import { DOM, Config } from './config.js';
+import { CategoryPoller } from './poller.js';
+
+export const UI = (() => {
+  const container = DOM.MODS_CONTAINER;
+  const loader = DOM.LOADER;
   let prevColumnCount = -1;
 
-  function showSkeleton(count = window.Config.PER_SKELETON) {
+  function showSkeleton(count = Config.PER_SKELETON) {
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < count; i++) {
       const skeleton = document.createElement('div');
@@ -68,8 +71,8 @@ window.UI = (() => {
       </h3>
     `;
 
-    let categoryText = item.category || window.Config.STRINGS.GETTING;
-    let categoryClass = (item.model === 'Mod' && categoryText === window.Config.STRINGS.GETTING) ? 'pending' : '';
+    let categoryText = item.category || Config.STRINGS.GETTING;
+    let categoryClass = (item.model === 'Mod' && categoryText === Config.STRINGS.GETTING) ? 'pending' : '';
     let categoryHref = item.catid ? `https://gamebanana.com/${modelLower}s/cats/${item.catid}` : '#';
 
     const bodyHtml = `
@@ -108,7 +111,7 @@ window.UI = (() => {
     if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
     if (item.model === 'Mod' && categoryClass === 'pending') {
-      window.CategoryPoller.add(item.id);
+      CategoryPoller.add(item.id);
     }
 
     return card;
@@ -118,7 +121,7 @@ window.UI = (() => {
     return String(str)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
-      .replace(/歪/g, '&gt;')
+      .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
 
@@ -139,7 +142,7 @@ window.UI = (() => {
       el.classList.remove('pending');
       if (info.catid) el.href = `https://gamebanana.com/mods/cats/${info.catid}`;
     } else {
-      el.textContent = window.Config.STRINGS.UNKNOWN;
+      el.textContent = Config.STRINGS.UNKNOWN;
       el.dataset.status = 'done';
       el.classList.remove('pending');
     }
@@ -147,11 +150,11 @@ window.UI = (() => {
   }
 
   function getColumnCount() {
-    const userColumns = window.Settings.get('columnCount') || 0;
-    if (userColumns === 1 || userColumns === '1') return 1;
+    const userColumns = parseInt(window.localStorage.getItem('mods_settings_v1') ? JSON.parse(window.localStorage.getItem('mods_settings_v1')).columnCount : 0);
+    if (userColumns === 1) return 1;
     const width = container.clientWidth;
-    if (width <= window.Config.DEFAULT_COLUMN_BREAKPOINTS.sm) return 2;
-    if (width <= window.Config.DEFAULT_COLUMN_BREAKPOINTS.md) return 3;
+    if (width <= Config.DEFAULT_COLUMN_BREAKPOINTS.sm) return 2;
+    if (width <= Config.DEFAULT_COLUMN_BREAKPOINTS.md) return 3;
     return 4;
   }
 

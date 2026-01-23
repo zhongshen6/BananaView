@@ -1,4 +1,6 @@
-window.Toast = (() => {
+import { DOM } from './config.js';
+
+export const Toast = (() => {
   /**
    * 显示一条通知
    * @param {string} message 消息内容
@@ -6,13 +8,13 @@ window.Toast = (() => {
    * @param {number} duration 持续时间(ms)
    */
   function show(message, type = 'info', duration = 3000) {
-    if (!window.DOM.toastContainer) return;
+    if (!DOM.toastContainer) return;
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.textContent = message;
 
-    window.DOM.toastContainer.appendChild(toast);
+    DOM.toastContainer.appendChild(toast);
 
     // 进场动画触发
     requestAnimationFrame(() => {

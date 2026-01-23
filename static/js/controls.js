@@ -1,4 +1,17 @@
-window.Controls = (() => {
+import { Settings } from './settings.js';
+import { UI } from './ui.js';
+import { Toast } from './toast.js';
+import { DOM, Config } from './config.js';
+import { HealthMonitor } from './api.js';
+
+export const Controls = (() => {
+  // 声明 App 占位，稍后由 main.js 导入或通过初始化函数传入
+  let App = null;
+
+  function setApp(appInstance) {
+    App = appInstance;
+  }
+
   // 初始化滑块控件
   function initSlider(sliderId, valueKey) {
     const container = document.getElementById(sliderId);
@@ -21,7 +34,7 @@ window.Controls = (() => {
       if (idx !== -1) updateThumb(idx);
     };
 
-    let savedValue = window.Settings.get(valueKey);
+    let savedValue = Settings.get(valueKey);
     if (savedValue === null && options[0]) savedValue = options[0].dataset.value;
 
     function updateUI(val) {
@@ -34,18 +47,18 @@ window.Controls = (() => {
 
     options.forEach(option => option.addEventListener('click', () => {
       const v = option.dataset.value;
-      window.Settings.set(valueKey, v);
+      Settings.set(valueKey, v);
       updateUI(v);
 
       if (valueKey === 'nsfwMode') {
-        window.UI.applyNSFWPolicy(window.Settings.get('nsfwMode'));
-        window.UI.layoutMasonry();
-        window.Toast.show(`已应用 NSFW 策略: ${v}`, 'info', 2000);
+        UI.applyNSFWPolicy(Settings.get('nsfwMode'));
+        UI.layoutMasonry();
+        Toast.show(`已应用 NSFW 策略: ${v}`, 'info', 2000);
       }
-      if (valueKey === 'columnCount') window.UI.layoutMasonry();
+      if (valueKey === 'columnCount') UI.layoutMasonry();
       if (valueKey === 'contentFilter') {
-        window.App.refresh();
-        window.Toast.show(`正在重新加载...`, 'info', 2000);
+        if (App) App.refresh();
+        Toast.show(`正在重新加载...`, 'info', 2000);
       }
     }));
 
@@ -55,11 +68,11 @@ window.Controls = (() => {
 
   // 绑定设置模态框事件
   function bindSettingsModal() {
-    const { SETTINGS_BTN, SETTINGS_MODAL, CLOSE_SETTINGS, healthDot } = window.DOM;
+    const { SETTINGS_BTN, SETTINGS_MODAL, CLOSE_SETTINGS, healthDot } = DOM;
     if (SETTINGS_BTN && SETTINGS_MODAL && CLOSE_SETTINGS) {
       SETTINGS_BTN.addEventListener('click', () => {
         SETTINGS_MODAL.classList.add('show');
-        window.HealthMonitor.check();
+        HealthMonitor.check();
         setTimeout(() => {
           document.querySelectorAll('.slider-container').forEach(c => {
             if (typeof c._recalcThumb === 'function') c._recalcThumb();
@@ -75,29 +88,29 @@ window.Controls = (() => {
     if (healthDot) {
       healthDot.addEventListener('click', (e) => {
         e.stopPropagation();
-        window.HealthMonitor.check();
+        HealthMonitor.check();
       });
     }
   }
 
   // 绑定用户ID输入框事件
   function bindUserIdInput() {
-    const input = window.DOM.userIdInput;
+    const input = DOM.userIdInput;
     if (!input) return;
-    const saved = window.Settings.get('userId');
+    const saved = Settings.get('userId');
     if (saved) input.value = saved;
 
     document.addEventListener('click', (e) => {
       if (!input.contains(e.target)) {
         const val = input.value.trim();
         if (/^\d*$/.test(val)) {
-          if (val !== window.Settings.get('userId')) {
-            window.Settings.set('userId', val);
-            window.Toast.show('用户ID已保存', 'success', 2000);
+          if (val !== Settings.get('userId')) {
+            Settings.set('userId', val);
+            Toast.show('用户ID已保存', 'success', 2000);
           }
         } else {
-          alert(window.Config.STRINGS.USERID_NOT_NUM);
-          input.value = window.Settings.get('userId') || '';
+          alert(Config.STRINGS.USERID_NOT_NUM);
+          input.value = Settings.get('userId') || '';
         }
       }
     });
@@ -105,7 +118,7 @@ window.Controls = (() => {
 
   // 绑定使用说明弹出框事件
   function bindHowToPopover() {
-    const { howToBtn, howToPopover, howToPopoverArrow, closePopoverBtn } = window.DOM;
+    const { howToBtn, howToPopover, howToPopoverArrow, closePopoverBtn } = DOM;
     if (!howToBtn || !howToPopover) return;
 
     function hidePopover() {
@@ -171,7 +184,7 @@ window.Controls = (() => {
 
   // 绑定菜单事件
   function bindMenu() {
-    const { menuBtn, menuList, SETTINGS_MODAL, userIdInput } = window.DOM;
+    const { menuBtn, menuList, SETTINGS_MODAL, userIdInput } = DOM;
     if (!menuBtn || !menuList) return;
 
     menuBtn.addEventListener('click', () => menuList.classList.toggle('show'));
@@ -186,13 +199,13 @@ window.Controls = (() => {
         const text = item.textContent;
 
         if (action === 'subscriptions' && !userIdInput.value.trim()) {
-          window.Toast.show('请先设置用户ID以浏览订阅内容', 'error', 3000);
+          Toast.show('请先设置用户ID以浏览订阅内容', 'error', 3000);
           SETTINGS_MODAL.classList.add('show');
           return;
         }
 
-        window.App.setMode(action, text);
-        window.Toast.show(`模式切换: ${text}`, 'info', 2000);
+        if (App) App.setMode(action, text);
+        Toast.show(`模式切换: ${text}`, 'info', 2000);
         menuList.classList.remove('show');
       });
     });
@@ -204,22 +217,22 @@ window.Controls = (() => {
     window.addEventListener('scroll', () => {
       const currentScroll = window.pageYOffset;
       if (currentScroll > lastScroll) {
-        window.DOM.topbar?.classList.add('hide');
+        DOM.topbar?.classList.add('hide');
       } else {
-        window.DOM.topbar?.classList.remove('hide');
+        DOM.topbar?.classList.remove('hide');
       }
       lastScroll = currentScroll <= 0 ? 0 : currentScroll;
     });
 
     window.addEventListener('scroll', () => { 
-      if (window.DOM.BACK_TOP) window.DOM.BACK_TOP.style.opacity = window.scrollY > 420 ? '1' : '0'; 
+      if (DOM.BACK_TOP) DOM.BACK_TOP.style.opacity = window.scrollY > 420 ? '1' : '0'; 
     });
-    if (window.DOM.BACK_TOP) window.DOM.BACK_TOP.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (DOM.BACK_TOP) DOM.BACK_TOP.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
   function bindResizeLayout() {
     window.addEventListener('resize', () => {
-      window.UI.layoutMasonry();
+      UI.layoutMasonry();
     });
   }
 
@@ -240,5 +253,5 @@ window.Controls = (() => {
     initSliders();
   }
 
-  return { initAll };
+  return { initAll, setApp };
 })();

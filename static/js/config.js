@@ -1,4 +1,4 @@
-window.Config = {
+export const Config = {
   PER_SKELETON: 4, // 每次加载显示的骨架屏数量
   BASE_POLL_INTERVAL: 5000, // 基础分类信息轮询间隔(毫秒)
   MAX_POLL_INTERVAL: 30000, // 最大轮询间隔(退避上限)
@@ -17,7 +17,7 @@ window.Config = {
   }
 };
 
-window.DOM = {
+export const DOM = {
   MODS_CONTAINER: document.getElementById('mods'),
   LOADER: document.getElementById('loader'),
   SENTINEL: document.getElementById('sentinel'),
@@ -26,7 +26,7 @@ window.DOM = {
   SETTINGS_MODAL: document.getElementById('settingsModal'),
   CLOSE_SETTINGS: document.getElementById('closeSettings'),
   menuList: document.getElementById('menuList'),
-  menuBtn: window.menuBtn || document.getElementById('menuBtn'),
+  menuBtn: document.getElementById('menuBtn'),
   howToBtn: document.getElementById('howToBtn'),
   howToPopover: document.getElementById('howToPopover'),
   userIdInput: document.getElementById('userIdInput'),

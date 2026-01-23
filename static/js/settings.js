@@ -1,7 +1,9 @@
-window.Settings = (() => {
+import { Config } from './config.js';
+
+export const Settings = (() => {
   const STORAGE_KEY = 'mods_settings_v1'; // 本地存储键名
   let state = {
-    thumbQuality: window.Config.DEFAULT_THUMB_QUALITY, // 缩略图质量
+    thumbQuality: Config.DEFAULT_THUMB_QUALITY, // 缩略图质量
     columnCount: 0, // 列数(0表示自动)
     userId: '', // 用户ID
     nsfwMode: 'show',

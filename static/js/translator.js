@@ -1,13 +1,13 @@
-window.Translator = (() => {
+export const Translator = (() => {
   const translationMap = new Map(); // 翻译映射表
   let isLoaded = false; // 翻译表是否已加载
   let sortedKeys = null; // 按长度排序的键列表(用于最长匹配)
 
   // 加载翻译表
-  async function loadTranslationTable() {
+  async function loadTranslationTable(baseUrl = '') {
     if (isLoaded) return;
     try {
-      const res = await fetch('static/words-frontend.json');
+      const res = await fetch(`${baseUrl}static/words-frontend.json`);
       const words = await res.json();
       for (const word of words) {
         if (word.en && word.zhCN) {

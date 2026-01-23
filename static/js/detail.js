@@ -1,13 +1,7 @@
-
-/* 每次修改后修改次数加一，并另起一行写下这次的修改内容*/
-/* 第2次修改，分离代码 */
-/* 第3次修改，增加文件元数据展示（时间、下载量、MD5） */
-/* 第4次修改，彻底重构为 DOM 元素池方案，物理意义上消除重复请求，支持背景 Cross-fade 效果 */
-/* 第5次修改，将背景层也升级为 DOM 图片池，通过切换物理节点彻底消除切换背景时的任何网络验证请求 */
-/* 第6次修改，增加缩略图自动居中滚动逻辑，确保激活项始终在视口中心 */
+import { Translator } from './translator.js';
 
 /**
- * BananaView 详情页逻辑模块
+ * BananaView 详情页逻辑模块 (ES 模块版本)
  */
 
 // 自动重定向逻辑
@@ -17,49 +11,6 @@
     if (!modId || isNaN(modId) || modId === 'detail.html') {
         window.location.href = '/mod/';
     }
-})();
-
-// 翻译功能
-const Translator = (() => {
-    let translationMap = new Map();
-    let isLoaded = false;
-    let sortedKeys = null;
-
-    async function load() {
-        try {
-            const res = await fetch('/mod/static/words-frontend.json');
-            const words = await res.json();
-            for (const word of words) {
-                if (word.en && word.zhCN) {
-                    translationMap.set(word.en.toLowerCase(), word.zhCN);
-                }
-            }
-            sortedKeys = Array.from(translationMap.keys()).sort((a, b) => b.length - a.length);
-            isLoaded = true;
-        } catch (e) { console.warn('Translator load failed', e); }
-    }
-
-    function translate(text) {
-        if (!isLoaded || !text) return text;
-        let result = text;
-        const lower = () => result.toLowerCase();
-        for (const key of sortedKeys) {
-            const idx = lower().indexOf(key);
-            if (idx !== -1) {
-                const isBoundary = (idx === 0 || !result[idx-1].match(/[a-z]/i)) && 
-                                   (idx + key.length === result.length || !result[idx+key.length].match(/[a-z]/i));
-                if (isBoundary) {
-                    const original = result.substring(idx, idx + key.length);
-                    let replacement = translationMap.get(key);
-                    if (original[0] === original[0].toUpperCase()) 
-                        replacement = replacement[0].toUpperCase() + replacement.slice(1);
-                    result = result.substring(0, idx) + replacement + result.substring(idx + key.length);
-                }
-            }
-        }
-        return result;
-    }
-    return { load, translate };
 })();
 
 function formatDate(ts) {
@@ -93,6 +44,8 @@ const GalleryManager = (() => {
         
         mainContainer.innerHTML = ''; 
         bgContainer.innerHTML = '';
+        imageElements = [];
+        bgElements = [];
 
         images.forEach((imgData, idx) => {
             const fullUrl = `${imgData._sBaseUrl}/${imgData._sFile}`;
@@ -159,36 +112,10 @@ const GalleryManager = (() => {
 })();
 
 /**
- * 初始化详情页
- */
-async function init() {
-    const modId = window.location.pathname.split('/').pop();
-    if (!modId || isNaN(modId)) return;
-
-    await Translator.load();
-
-    try {
-        const response = await fetch(`https://gamebanana.com/apiv11/Mod/${modId}/ProfilePage`);
-        if (!response.ok) throw new Error('无法从 GameBanana 获取数据');
-        const data = await response.json();
-        render(data);
-    } catch (err) {
-        console.error(err);
-        const nameEl = document.getElementById('modName');
-        if (nameEl) nameEl.textContent = "数据获取失败";
-    } finally {
-        const overlay = document.getElementById('loadingOverlay');
-        if (overlay) overlay.classList.add('hidden');
-        const mainContent = document.getElementById('mainContent');
-        if (mainContent) mainContent.style.display = 'block';
-    }
-}
-
-/**
  * 渲染页面内容
  */
 function render(data) {
-    const name = Translator.translate(data._sName);
+    const name = Translator.translateModName(data._sName);
     document.getElementById('modName').textContent = name;
     document.title = name + " - BananaView";
 
@@ -294,6 +221,33 @@ function render(data) {
     if (data._aGame) {
         document.getElementById('gameName').textContent = data._aGame._sName;
         document.getElementById('gameIcon').src = data._aGame._sIconUrl;
+    }
+}
+
+/**
+ * 初始化详情页
+ */
+async function init() {
+    const modId = window.location.pathname.split('/').pop();
+    if (!modId || isNaN(modId)) return;
+
+    // 翻译表的基础路径设为 /mod/
+    await Translator.loadTranslationTable('/mod/');
+
+    try {
+        const response = await fetch(`https://gamebanana.com/apiv11/Mod/${modId}/ProfilePage`);
+        if (!response.ok) throw new Error('无法从 GameBanana 获取数据');
+        const data = await response.json();
+        render(data);
+    } catch (err) {
+        console.error(err);
+        const nameEl = document.getElementById('modName');
+        if (nameEl) nameEl.textContent = "数据获取失败";
+    } finally {
+        const overlay = document.getElementById('loadingOverlay');
+        if (overlay) overlay.classList.add('hidden');
+        const mainContent = document.getElementById('mainContent');
+        if (mainContent) mainContent.style.display = 'block';
     }
 }
 
