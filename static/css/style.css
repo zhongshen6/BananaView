@@ -1,6 +1,7 @@
 
-/* 每次修改后修改次数加一，并在其后写下此次修改内容，内容每次修改要替换*/
-/* 第17次修改，修改内容为：引入背景图模糊处理，利用 body 伪元素创建沉浸式氛围背景，并微调容器对比度。 */
+/* 每次修改后修改次数加一，并另起一行写下这次的修改内容*/
+/* 第17次修改，引入背景图模糊处理，利用 body 伪元素创建沉浸式氛围背景，并微调容器对比度。 */
+/* 第18次修改，xxxxx*/
 
 /* 根变量，方便全局样式管理 */
 :root{
@@ -45,7 +46,7 @@ body::before {
   left: -40px;
   right: -40px;
   bottom: -40px;
-  background-image: url('background.jpg'); /* 引用你传入的背景图 */
+  background-image: url('../background.jpg'); /* 引用你传入的背景图 */
   background-size: cover;
   background-position: center;
   filter: blur(10px) brightness(0.95); /* 深度模糊 */
