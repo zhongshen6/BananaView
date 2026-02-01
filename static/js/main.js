@@ -1,3 +1,8 @@
+// 每次修改后修改次数加一，并另起一行写下这次的修改内容
+// 第17次修改，将列表卡片的外部链接修改为指向内部详情页路由 /mod/api/id/<id>，实现无缝聚合浏览体验。
+// 第18次修改，分离代码，优化结构
+// 第19次修改，转向 ES6 Modules (ESM)
+
 import { Config, DOM } from './config.js';
 import { Settings } from './settings.js';
 import { Translator } from './translator.js';
