@@ -5,6 +5,7 @@
 // 第20次修改，重构 SPA 初始化逻辑：优先处理 URL 路由，立即打开详情页，不阻塞列表加载，解决直接访问 ID 页面白屏或延迟问题。
 // 第21次修改，修正 CategoryPoller 初始化路径
 // 第22次修改，重构 refresh 逻辑，通过重置 tabStates 强制触发 API 刷新以应用筛选设置
+// 第23次修改，引入加载版本控制 (currentLoadId)，解决切换筛选条件时的异步竞态问题，防止旧数据混入新列表。
 
 import { Config, DOM } from './config.js';
 import { Settings } from './settings.js';
@@ -27,11 +28,13 @@ export const App = (() => {
 
   let currentMode = Config.DEFAULT_MODE;
   let loading = false;
+  let currentLoadId = 0; // 加载版本 ID，用于解决竞态问题
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
+      // 滚动触发时，使用当前的全局 ID
       if (entry.isIntersecting && !tabStates[currentMode].noMore && !loading) {
-        loadThreePages();
+        loadThreePages(false, currentLoadId);
       }
     });
   }, { rootMargin: Config.SCROLL_ROOT_MARGIN });
@@ -40,14 +43,19 @@ export const App = (() => {
   async function setMode(mode, text = '') {
     if (mode === currentMode && tabStates[mode].items.length > 0) return;
 
-    // 1. 保存当前状态
+    // 1. 递增加载 ID，立即使之前的异步循环失效
+    currentLoadId++;
+    const myLoadId = currentLoadId;
+    loading = false; // 强制释放旧锁
+
+    // 2. 保存当前状态
     tabStates[currentMode].scrollY = window.scrollY;
     
-    // 2. 切换新分类
+    // 3. 切换新分类
     currentMode = mode;
     const state = tabStates[mode];
     
-    // 3. UI 更新
+    // 4. UI 更新
     DOM.MODS_CONTAINER.innerHTML = '';
     if (DOM.menuBtn && text) DOM.menuBtn.textContent = text + ' ▼';
 
@@ -61,8 +69,8 @@ export const App = (() => {
       UI.applyNSFWPolicy(Settings.get('nsfwMode'));
       window.scrollTo(0, state.scrollY);
     } else {
-      // 无缓存：首次加载
-      await loadThreePages(true);
+      // 无缓存：首次加载，传入 myLoadId
+      await loadThreePages(true, myLoadId);
     }
   }
 
@@ -75,9 +83,12 @@ export const App = (() => {
     return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
   }
 
-  async function loadMods() {
+  async function loadMods(myLoadId) {
     const state = tabStates[currentMode];
-    if (loading || state.noMore) return;
+    
+    // 基础检查：如果 ID 已经过时，或者正在加载，或者已经到底了
+    if (myLoadId !== currentLoadId || loading || state.noMore) return;
+    
     loading = true;
     UI.showLoader(true);
 
@@ -85,19 +96,25 @@ export const App = (() => {
 
     try {
       const quality = Settings.get('thumbQuality') || Config.DEFAULT_THUMB_QUALITY;
-      const filter = Settings.get('contentFilter') || 'all';
       const url = Api.getApiUrl(currentMode, state.page);
       if (!url) throw new Error('URL Invalid');
 
       const response = await fetch(url);
+      
+      // 关键检查点 1：请求返回后检查 ID
+      if (myLoadId !== currentLoadId) return;
+
       const data = await response.json();
+      
+      // 关键检查点 2：数据解析后检查 ID
+      if (myLoadId !== currentLoadId) return;
+
       const records = data?._aRecords || [];
 
       if (!records.length) {
         state.noMore = true;
         UI.clearSkeleton();
         UI.showLoader(true, Config.STRINGS.NO_MORE);
-        loading = false;
         return;
       }
 
@@ -134,6 +151,10 @@ export const App = (() => {
       }
 
       const translatedItems = Translator.translateContent(items);
+      
+      // 最终确认：在操作 DOM 和修改状态前检查 ID
+      if (myLoadId !== currentLoadId) return;
+
       state.items.push(...translatedItems);
 
       translatedItems.forEach((item, index) => {
@@ -143,20 +164,30 @@ export const App = (() => {
 
       UI.layoutMasonry();
       UI.applyNSFWPolicy(Settings.get('nsfwMode'));
-      loading = false;
     } catch (error) {
-      UI.clearSkeleton();
-      loading = false;
+      if (myLoadId === currentLoadId) {
+        UI.clearSkeleton();
+      }
     } finally {
-      UI.showLoader(state.noMore);
+      // 只有最新的任务有权修改全局 loading 状态
+      if (myLoadId === currentLoadId) {
+        loading = false;
+        UI.showLoader(state.noMore);
+      }
     }
   }
 
-  async function loadThreePages(isInitial = false) {
+  async function loadThreePages(isInitial = false, myLoadId = currentLoadId) {
     const state = tabStates[currentMode];
     for (let i = 0; i < 3; i++) {
+      // 循环内部检查版本
+      if (myLoadId !== currentLoadId) {
+        console.log(`[Abort] 旧的加载请求 (ID: ${myLoadId}) 已被中止`);
+        return;
+      }
+      
       if (!isInitial) state.page++;
-      await loadMods();
+      await loadMods(myLoadId);
       isInitial = false;
       if (state.noMore) break;
     }
@@ -236,7 +267,11 @@ export const App = (() => {
     initializeApp, 
     setMode, 
     refresh: () => {
-      // 强制重置所有分类轨道的数据，以触发新的 API 请求应用新设置
+      // 强制更新版本 ID
+      currentLoadId++;
+      loading = false;
+
+      // 强制重置所有分类轨道的数据
       Object.keys(tabStates).forEach(m => {
         tabStates[m].items = [];
         tabStates[m].page = 1;
