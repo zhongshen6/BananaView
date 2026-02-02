@@ -49,31 +49,50 @@ export const UI = (() => {
     }
 
     let thumbHtml = '';
-    const detailUrl = `/mod/api/id/${item.id}`;
     
     if (item.thumb) {
-      thumbHtml = `<a class="thumb" href="${detailUrl}" target="_self">
+      thumbHtml = `<div class="thumb" data-id="${item.id}">
            <img loading="lazy" src="${escapeAttr(item.thumb)}" alt="${escapeHtml(item.name || '')}">
-         </a>`;
+         </div>`;
     } else if (item.snippet) {
-      thumbHtml = `<a class="thumb snippet-thumb" href="${detailUrl}" target="_self">
+      thumbHtml = `<div class="thumb snippet-thumb" data-id="${item.id}">
            <div class="snippet-text">${escapeHtml(item.snippet)}</div>
-         </a>`;
+         </div>`;
     } else {
-      thumbHtml = `<div class="thumb no-img"><span>无图</span></div>`;
+      thumbHtml = `<div class="thumb no-img" data-id="${item.id}"><span>无图</span></div>`;
     }
 
     const titleHtml = `
-      <h3 class="title">
-          <a href="${detailUrl}" target="_self">
-              ${escapeHtml(item.name || '（无标题）')}
-          </a>
+      <h3 class="title" data-id="${item.id}">
+          ${escapeHtml(item.name || '（无标题）')}
       </h3>
     `;
 
-    let categoryText = item.category || Config.STRINGS.GETTING;
-    let categoryClass = (item.model === 'Mod' && categoryText === Config.STRINGS.GETTING) ? 'pending' : '';
-    let categoryHref = item.catid ? `https://gamebanana.com/${modelLower}s/cats/${item.catid}` : '#';
+    // --- 分类渲染逻辑优化 ---
+    // 1. 尝试从 CategoryPoller 获取缓存信息
+    const cachedInfo = CategoryPoller.getCategoryInfo(item.id);
+    
+    // 2. 确定初始显示的文本和样式
+    let categoryText = Config.STRINGS.GETTING;
+    let categoryClass = 'pending';
+    let categoryId = null;
+
+    if (item.model !== 'Mod') {
+        // 非 Mod 类型直接显示模型名称
+        categoryText = item.model;
+        categoryClass = '';
+    } else if (cachedInfo) {
+        // Mod 类型且有缓存
+        categoryText = cachedInfo.category;
+        categoryId = cachedInfo.catid;
+        categoryClass = '';
+    } else if (item.category && item.category !== Config.STRINGS.GETTING) {
+        // 传入数据中已有分类（通常是 API 响应带过来的）
+        categoryText = item.category;
+        categoryClass = '';
+    }
+
+    let categoryHref = categoryId || item.catid ? `https://gamebanana.com/${modelLower}s/cats/${categoryId || item.catid}` : '#';
 
     const bodyHtml = `
       <div class="card-body">
@@ -85,7 +104,6 @@ export const UI = (() => {
               </div>
               <div class="dates">
                   发布: ${escapeHtml(item.date_added)}
-                  ${item.has_update ? `<br>更新: ${escapeHtml(item.date_modified)}` : ''}
               </div>
           </div>
           <div class="row-stats">
@@ -93,13 +111,14 @@ export const UI = (() => {
                   <div class="chips">
                       <a class="chip category ${categoryClass}" 
                          href="${categoryHref}" 
+                         target="_blank"
                          data-id="${item.id}">
                           ${escapeHtml(categoryText)}
                       </a>
                   </div>
               </div>
               <div class="statsMini">
-                  👍${escapeHtml(String(item.likes || 0))}   &nbsp; 👁️${escapeHtml(String(item.views || 0))}
+                  👍${escapeHtml(String(item.likes || 0))} &nbsp; 👁️${escapeHtml(String(item.views || 0))}
               </div>
           </div>                  
       </div>
@@ -107,9 +126,17 @@ export const UI = (() => {
 
     card.innerHTML = `${tagHtml}${thumbHtml}${titleHtml}${bodyHtml}`;
 
+    // 绑定卡片点击到 SPA 详情
+    card.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') return;
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('open-detail', { detail: { id: item.id } }));
+    });
+
     const image = card.querySelector('.thumb img');
     if (image) image.onload = () => requestAnimationFrame(layoutMasonry);
 
+    // 只有当它是 Mod 且没有分类数据时才加入轮询
     if (item.model === 'Mod' && categoryClass === 'pending') {
       CategoryPoller.add(item.id);
     }
@@ -118,35 +145,25 @@ export const UI = (() => {
   }
 
   function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   function escapeAttr(str) {
-    return String(str)
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+    return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   function updateCategoryElement(id, info) {
     const selector = `.mod-card .category[data-id="${id}"], .card .category[data-id="${id}"]`;
     const el = document.querySelector(selector);
     if (!el) return;
-
     if (info?.category) {
       el.textContent = info.category;
-      el.dataset.status = 'done';
       el.classList.remove('pending');
-      if (info.catid) el.href = `https://gamebanana.com/mods/cats/${info.catid}`;
-    } else {
-      el.textContent = Config.STRINGS.UNKNOWN;
-      el.dataset.status = 'done';
-      el.classList.remove('pending');
+      // 如果有 catid，同步更新链接
+      if (info.catid) {
+          el.href = `https://gamebanana.com/mods/cats/${info.catid}`;
+      }
     }
-    el.style.display = '';
   }
 
   function getColumnCount() {
@@ -162,12 +179,10 @@ export const UI = (() => {
     const columnCount = getColumnCount();
     const isModeSwitch = (prevColumnCount !== -1 && ((prevColumnCount === 1 && columnCount > 1) || (prevColumnCount > 1 && columnCount === 1)));
     
-    if (isModeSwitch) {
-      container.classList.add('layout-changing');
-    }
+    if (isModeSwitch) container.classList.add('layout-changing');
 
     const cards = Array.from(container.children).filter(c => c.style.display !== 'none');
-    const gap = parseInt(getComputedStyle(container).getPropertyValue('--gap')) || 16;
+    const gap = 16;
 
     if (columnCount === 1) {
       cards.forEach(card => {
@@ -183,37 +198,25 @@ export const UI = (() => {
         card.classList.remove('horizontal');
         card.style.width = `${columnWidth}px`;
         card.style.position = 'absolute';
-
         const minColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
         const x = Math.round((columnWidth + gap) * minColumnIndex);
         const y = Math.round(columnHeights[minColumnIndex]);
-
         card.style.transform = `translate(${x}px, ${y}px)`;
         columnHeights[minColumnIndex] += card.offsetHeight + gap;
         card.classList.add('rendered');
       });
-
       container.style.height = `${Math.max(...columnHeights) || 0}px`;
     }
-
     prevColumnCount = columnCount;
-
     if (isModeSwitch) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          container.classList.remove('layout-changing');
-        });
-      });
+      requestAnimationFrame(() => requestAnimationFrame(() => container.classList.remove('layout-changing')));
     }
   }
 
   function appendCardOrReplaceSkeleton(card, skeletons, index) {
     const skeleton = skeletons && skeletons[index];
-    if (skeleton && skeleton.isConnected) {
-      skeleton.replaceWith(card);
-    } else {
-      container.appendChild(card);
-    }
+    if (skeleton && skeleton.isConnected) skeleton.replaceWith(card);
+    else container.appendChild(card);
   }
 
   function showLoader(show, text) {
@@ -223,44 +226,20 @@ export const UI = (() => {
   }
 
   function applyNSFWPolicy(mode = 'hide') {
-    try {
-      const cards = Array.from(container.querySelectorAll('.mod-card'));
-      cards.forEach(card => {
-        const isNsfw = card.dataset.nsfw === 'true';
-        card.classList.remove('nsfw-blur');
-
-        if (mode === 'only') {
-          card.style.display = isNsfw ? '' : 'none';
-        } else if (!isNsfw) {
-          card.style.display = '';
-        } else {
-          if (mode === 'show') {
-            card.style.display = '';
-          } else if (mode === 'blur') {
-            card.style.display = '';
-            card.classList.add('nsfw-blur');
-          } else if (mode === 'hide') {
-            card.style.display = 'none';
-          }
-        }
-      });
-
-      requestAnimationFrame(() => {
-        layoutMasonry();
-      });
-    } catch (e) {
-      console.error('applyNSFWPolicy error', e);
-    }
+    const cards = Array.from(container.querySelectorAll('.mod-card'));
+    cards.forEach(card => {
+      const isNsfw = card.dataset.nsfw === 'true';
+      card.classList.remove('nsfw-blur');
+      if (mode === 'only') card.style.display = isNsfw ? '' : 'none';
+      else if (!isNsfw) card.style.display = '';
+      else {
+        if (mode === 'show') card.style.display = '';
+        else if (mode === 'blur') { card.style.display = ''; card.classList.add('nsfw-blur'); }
+        else card.style.display = 'none';
+      }
+    });
+    requestAnimationFrame(layoutMasonry);
   }
 
-  return {
-    showSkeleton,
-    clearSkeleton,
-    createCard,
-    appendCardOrReplaceSkeleton,
-    layoutMasonry,
-    updateCategoryElement,
-    showLoader,
-    applyNSFWPolicy
-  };
+  return { showSkeleton, clearSkeleton, createCard, appendCardOrReplaceSkeleton, layoutMasonry, updateCategoryElement, showLoader, applyNSFWPolicy };
 })();

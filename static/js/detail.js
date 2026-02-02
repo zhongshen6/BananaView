@@ -5,22 +5,16 @@
 /* 第5次修改，将背景层也升级为 DOM 图片池，通过切换物理节点彻底消除切换背景时的任何网络验证请求 */
 /* 第6次修改，增加缩略图自动居中滚动逻辑，确保激活项始终在视口中心 */
 /* 第7次修改，转向 ES6 Modules (ESM) */
-
+/* 第8次修改,重构为spa*/
+/* 第9次修改,解决直接访问id时无法正常打开问题，并移除冗余独立加载逻辑 */
+/* 第10次修改,合并原 detail.html 中的所有缺失板块渲染逻辑（许可证、作者简介、使用软件） */
 
 import { Translator } from './translator.js';
+import { DOM } from './config.js';
 
 /**
- * BananaView 详情页逻辑模块 (ES 模块版本)
+ * 详情页模块 (SPA 适配版)
  */
-
-// 自动重定向逻辑
-(function() {
-    const pathParts = window.location.pathname.split('/');
-    const modId = pathParts.pop();
-    if (!modId || isNaN(modId) || modId === 'detail.html') {
-        window.location.href = '/mod/';
-    }
-})();
 
 function formatDate(ts) {
     if (!ts) return "未知";
@@ -36,228 +30,231 @@ function formatSize(bytes) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-/**
- * 画廊管理模块 (基于双重 DOM 元素池：主图池 + 背景池)
- */
 const GalleryManager = (() => {
     let currentIdx = -1;
-    let imageElements = []; // 主图池 <img>
-    let bgElements = [];    // 背景池 <img>
+    let imageElements = [];
+    let bgElements = [];
 
-    /**
-     * 为每一张画廊图片预创建主图和背景 DOM 节点
-     */
     function setupPool(images) {
         const mainContainer = document.getElementById('mainImgContainer');
         const bgContainer = document.getElementById('heroBg');
-        
-        mainContainer.innerHTML = ''; 
-        bgContainer.innerHTML = '';
-        imageElements = [];
-        bgElements = [];
+        if (!mainContainer || !bgContainer) return;
+
+        mainContainer.innerHTML = ''; bgContainer.innerHTML = '';
+        imageElements = []; bgElements = [];
+        currentIdx = -1; 
 
         images.forEach((imgData, idx) => {
             const fullUrl = `${imgData._sBaseUrl}/${imgData._sFile}`;
-            
-            // 1. 创建主图节点
             const img = document.createElement('img');
             img.className = 'pool-image';
             img.src = fullUrl;
-            img.loading = (idx === 0) ? "eager" : "lazy"; 
-            img.alt = `Preview ${idx}`;
+            img.loading = idx === 0 ? "eager" : "lazy";
             
-            // 2. 创建背景节点 (物理隔离 URL 赋值操作)
             const bgImg = document.createElement('img');
             bgImg.className = 'bg-pool-image';
             bgImg.src = fullUrl;
-            bgImg.loading = "lazy"; // 背景稍后加载即可
-
-            // 初始加载动画逻辑
-            if (idx === 0) {
-                mainContainer.classList.add('is-loading');
-                img.onload = () => mainContainer.classList.remove('is-loading');
-            }
-
+            bgImg.loading = "lazy";
+            
             mainContainer.appendChild(img);
             bgContainer.appendChild(bgImg);
-            
             imageElements.push(img);
             bgElements.push(bgImg);
         });
     }
 
-    /**
-     * 切换图片 (物理意义上的节点显隐切换，完全跳过 src 赋值)
-     */
     function switchImage(idx, thumbElement) {
         if (idx === currentIdx || !imageElements[idx]) return;
-
-        // 1. 更新缩略图状态并自动居中滚动
         document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
         if (thumbElement) {
             thumbElement.classList.add('active');
-            // 核心改进：平滑滚动到视野中心
-            thumbElement.scrollIntoView({ 
-                behavior: 'smooth', 
-                inline: 'center', 
-                block: 'nearest' 
-            });
+            thumbElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
-
-        // 2. 切换主图堆栈
-        imageElements.forEach((el, i) => {
-            el.classList.toggle('active', i === idx);
-        });
-
-        // 3. 切换背景堆栈 (物理节点透明度切换，实现零请求 Cross-fade)
-        bgElements.forEach((el, i) => {
-            el.classList.toggle('active', i === idx);
-        });
-
+        imageElements.forEach((el, i) => el.classList.toggle('active', i === idx));
+        bgElements.forEach((el, i) => el.classList.toggle('active', i === idx));
         currentIdx = idx;
     }
 
     return { setupPool, switchImage };
 })();
 
-/**
- * 渲染页面内容
- */
 function render(data) {
     const name = Translator.translateModName(data._sName);
-    document.getElementById('modName').textContent = name;
-    document.title = name + " - BananaView";
+    const modNameEl = document.getElementById('modName');
+    if (modNameEl) modNameEl.textContent = name;
+    
+    const addDateEl = document.getElementById('addDate');
+    if (addDateEl) addDateEl.textContent = formatDate(data._tsDateAdded);
+    
+    const viewCountEl = document.getElementById('viewCount');
+    if (viewCountEl) viewCountEl.textContent = data._nViewCount || 0;
+    
+    const likeCountEl = document.getElementById('likeCount');
+    if (likeCountEl) likeCountEl.textContent = data._nLikeCount || 0;
+    
+    const dlCountEl = document.getElementById('dlCount');
+    if (dlCountEl) dlCountEl.textContent = data._nDownloadCount || 0;
+    
+    const modDescEl = document.getElementById('modDescription');
+    if (modDescEl) modDescEl.innerHTML = data._sText || data._sDescription || "无描述";
+    
+    const downloadBtnEl = document.getElementById('mainDownloadBtn');
+    if (downloadBtnEl) downloadBtnEl.href = data._sDownloadUrl;
 
-    document.getElementById('addDate').textContent = formatDate(data._tsDateAdded);
-    document.getElementById('viewCount').textContent = data._nViewCount || 0;
-    document.getElementById('likeCount').textContent = data._nLikeCount || 0;
-    document.getElementById('dlCount').textContent = data._nDownloadCount || 0;
-    document.getElementById('modDescription').innerHTML = data._sText || data._sDescription || "无描述";
-    document.getElementById('mainDownloadBtn').href = data._sDownloadUrl;
-
-    if (data._sLicense) {
-        document.getElementById('licenseSection').style.display = 'block';
-        document.getElementById('licenseInfo').innerHTML = data._sLicense;
-    }
-
-    // 画廊初始化
     const images = data._aPreviewMedia?._aImages;
     const thumbList = document.getElementById('thumbList');
-
-    if (images && images.length > 0 && thumbList) {
-        // 创建双重 DOM 池
-        GalleryManager.setupPool(images);
-
-        // 创建缩略图
-        images.forEach((img, idx) => {
-            const thumbUrl = img._sFile100 ? `${img._sBaseUrl}/${img._sFile100}` : 
-                           (img._sFile220 ? `${img._sBaseUrl}/${img._sFile220}` : `${img._sBaseUrl}/${img._sFile}`);
-            
-            const thumb = document.createElement('div');
-            thumb.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
-            thumb.innerHTML = `<img src="${thumbUrl}">`;
-            thumb.onclick = () => GalleryManager.switchImage(idx, thumb);
-            thumbList.appendChild(thumb);
-
-            // 首次应用显示
-            if (idx === 0) GalleryManager.switchImage(0, thumb);
-        });
+    if (thumbList) {
+        thumbList.innerHTML = '';
+        if (images && images.length > 0) {
+            GalleryManager.setupPool(images);
+            images.forEach((img, idx) => {
+                const thumbUrl = img._sFile100 ? `${img._sBaseUrl}/${img._sFile100}` : `${img._sBaseUrl}/${img._sFile}`;
+                const thumb = document.createElement('div');
+                thumb.className = `thumb-item ${idx === 0 ? 'active' : ''}`;
+                thumb.innerHTML = `<img src="${thumbUrl}">`;
+                thumb.onclick = () => GalleryManager.switchImage(idx, thumb);
+                thumbList.appendChild(thumb);
+                if (idx === 0) GalleryManager.switchImage(0, thumb);
+            });
+        }
     }
 
-    // 前置要求渲染
-    if (data._aRequirements && data._aRequirements.length > 0) {
-        const reqSection = document.getElementById('reqSection');
-        const reqList = document.getElementById('reqList');
-        reqSection.style.display = 'block';
-        data._aRequirements.forEach(req => {
-            const a = document.createElement('a');
-            a.className = 'req-item';
-            a.href = req[1] || '#';
-            a.target = '_blank';
-            a.textContent = req[0];
-            reqList.appendChild(a);
-        });
+    const reqSection = document.getElementById('reqSection');
+    const reqList = document.getElementById('reqList');
+    if (reqSection && reqList) {
+        reqList.innerHTML = '';
+        if (data._aRequirements && data._aRequirements.length > 0) {
+            reqSection.style.display = 'block';
+            data._aRequirements.forEach(req => {
+                const a = document.createElement('a');
+                a.className = 'req-item'; a.href = req[1] || '#'; a.target = '_blank'; a.textContent = req[0];
+                reqList.appendChild(a);
+            });
+        } else { reqSection.style.display = 'none'; }
     }
 
-    // 文件列表渲染
     const fileList = document.getElementById('fileList');
-    if (fileList && data._aFiles) {
-        data._aFiles.forEach(f => {
-            const div = document.createElement('div');
-            div.className = 'file-item';
-            const downloadUrl = `https://gamebanana.com/dl/${f._idRow}`;
-            div.innerHTML = `
-                <div style="flex:1; min-width:0;">
-                    <div style="font-weight:600; font-size:0.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f._sFile}</div>
-                    <div style="font-size:0.7rem; color:var(--muted);">${f._sDescription || '无说明'}</div>
-                    <div class="file-meta">
-                        <span>📅 ${formatDate(f._tsDateAdded)}</span>
-                        <span>📥 ${f._nDownloadCount || 0}</span>
-                        <span class="md5-span">🔑 <code>${f._sMd5Checksum || 'N/A'}</code></span>
+    if (fileList) {
+        fileList.innerHTML = '';
+        if (data._aFiles) {
+            data._aFiles.forEach(f => {
+                const div = document.createElement('div');
+                div.className = 'file-item';
+                div.innerHTML = `
+                    <div style="flex:1; min-width:0;">
+                        <div style="font-weight:600; font-size:0.85rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${f._sFile}</div>
+                        <div class="file-meta">
+                            <span>📅 ${formatDate(f._tsDateAdded)}</span>
+                            <span>📥 ${f._nDownloadCount || 0}</span>
+                        </div>
                     </div>
-                </div>
-                <div style="text-align:right; flex-shrink:0;">
-                    <div style="font-size:0.8rem; font-weight:600;">${formatSize(f._nFilesize)}</div>
-                    <a href="${downloadUrl}" class="inline-download-btn">直接下载</a>
-                </div>
-            `;
-            fileList.appendChild(div);
-        });
+                    <div style="text-align:right;">
+                        <div style="font-size:0.8rem; font-weight:600;">${formatSize(f._nFilesize)}</div>
+                        <a href="https://gamebanana.com/dl/${f._idRow}" class="inline-download-btn" target="_blank">下载</a>
+                    </div>
+                `;
+                fileList.appendChild(div);
+            });
+        }
     }
 
-    // 发布者信息渲染
+    // 渲染发布者信息
     const sub = data._aSubmitter;
     if (sub) {
-        const nameEl = document.getElementById('authorName');
-        nameEl.textContent = sub._sName;
-        nameEl.href = sub._sProfileUrl;
-        document.getElementById('authorAvatar').src = sub._sAvatarUrl || 'https://images.gamebanana.com/img/av/default.png';
-        document.getElementById('authorTitle').textContent = sub._sUserTitle || '';
-        if (sub._bIsOnline) document.getElementById('onlineStatus').classList.add('online');
+        const authorNameEl = document.getElementById('authorName');
+        if (authorNameEl) {
+            authorNameEl.textContent = sub._sName;
+            authorNameEl.href = sub._sProfileUrl;
+        }
+        const authorAvatarEl = document.getElementById('authorAvatar');
+        if (authorAvatarEl) authorAvatarEl.src = sub._sAvatarUrl || 'https://images.gamebanana.com/img/av/default.png';
+        
+        const authorTitleEl = document.getElementById('authorTitle');
+        if (authorTitleEl) authorTitleEl.textContent = sub._sUserTitle || '';
         
         const wall = document.getElementById('medalsWall');
-        const allMedals = [...(sub._aNormalMedals || []), ...(sub._aRareMedals || []), ...(sub._aLegendaryMedals || [])];
-        allMedals.forEach(m => {
-            const img = document.createElement('img');
-            img.className = 'medal-icon';
-            img.src = `https://images.gamebanana.com/img/ico/medals/${m[0]}`;
-            img.title = m[1];
-            wall.appendChild(img);
-        });
+        if (wall) {
+            wall.innerHTML = '';
+            const allMedals = [...(sub._aNormalMedals || []), ...(sub._aRareMedals || [])];
+            allMedals.slice(0, 10).forEach(m => {
+                const img = document.createElement('img');
+                img.className = 'medal-icon'; img.src = `https://images.gamebanana.com/img/ico/medals/${m[0]}`; img.title = m[1];
+                wall.appendChild(img);
+            });
+        }
+
+        // 渲染作者简介 (Bio)
+        const bioSection = document.getElementById('bioSection');
+        const authorBioEl = document.getElementById('authorBio');
+        if (bioSection && authorBioEl) {
+            if (sub._sBio) {
+                bioSection.style.display = 'block';
+                authorBioEl.innerHTML = sub._sBio;
+            } else {
+                bioSection.style.display = 'none';
+            }
+        }
     }
 
-    // 游戏归属渲染
+    // 渲染许可证
+    const licenseSection = document.getElementById('licenseSection');
+    const licenseInfoEl = document.getElementById('licenseInfo');
+    if (licenseSection && licenseInfoEl) {
+        if (data._sLicense) {
+            licenseSection.style.display = 'block';
+            licenseInfoEl.innerHTML = data._sLicense;
+        } else {
+            licenseSection.style.display = 'none';
+        }
+    }
+
+    // 渲染使用软件 (Software)
+    const softwareSection = document.getElementById('softwareSection');
+    const softwareTagsEl = document.getElementById('softwareTags');
+    if (softwareSection && softwareTagsEl) {
+        softwareTagsEl.innerHTML = '';
+        if (data._aSoftwareUsed && data._aSoftwareUsed.length > 0) {
+            softwareSection.style.display = 'block';
+            data._aSoftwareUsed.forEach(sw => {
+                const pill = document.createElement('span');
+                pill.className = 'tag-pill';
+                pill.textContent = sw._sName || sw;
+                softwareTagsEl.appendChild(pill);
+            });
+        } else {
+            softwareSection.style.display = 'none';
+        }
+    }
+
+    // 渲染游戏信息
     if (data._aGame) {
-        document.getElementById('gameName').textContent = data._aGame._sName;
-        document.getElementById('gameIcon').src = data._aGame._sIconUrl;
+        const gameNameEl = document.getElementById('gameName');
+        if (gameNameEl) gameNameEl.textContent = data._aGame._sName;
+        const gameIconEl = document.getElementById('gameIcon');
+        if (gameIconEl) gameIconEl.src = data._aGame._sIconUrl;
     }
 }
 
-/**
- * 初始化详情页
- */
-async function init() {
-    const modId = window.location.pathname.split('/').pop();
-    if (!modId || isNaN(modId)) return;
-
-    // 翻译表的基础路径设为 /mod/
-    await Translator.loadTranslationTable('/mod/');
+export async function loadDetail(modId) {
+    const detailLoading = DOM.detailLoading || document.getElementById('detailLoading');
+    const detailMainContent = DOM.detailMainContent || document.getElementById('detailMainContent');
+    
+    if (detailLoading) detailLoading.classList.remove('hidden');
+    if (detailMainContent) detailMainContent.style.display = 'none';
 
     try {
+        if (!Translator.isLoaded()) {
+            await Translator.loadTranslationTable('/mod/');
+        }
+
         const response = await fetch(`https://gamebanana.com/apiv11/Mod/${modId}/ProfilePage`);
-        if (!response.ok) throw new Error('无法从 GameBanana 获取数据');
+        if (!response.ok) throw new Error('API Error');
         const data = await response.json();
         render(data);
+        if (detailMainContent) detailMainContent.style.display = 'block';
     } catch (err) {
-        console.error(err);
-        const nameEl = document.getElementById('modName');
-        if (nameEl) nameEl.textContent = "数据获取失败";
+        console.error('加载详情失败:', err);
     } finally {
-        const overlay = document.getElementById('loadingOverlay');
-        if (overlay) overlay.classList.add('hidden');
-        const mainContent = document.getElementById('mainContent');
-        if (mainContent) mainContent.style.display = 'block';
+        if (detailLoading) detailLoading.classList.add('hidden');
     }
 }
-
-document.addEventListener('DOMContentLoaded', init);

@@ -1,8 +1,7 @@
-
-# 版本v1.03
+# 版本v1.06
 # 每次修改后将修改次数加一,注意不要改动版本号，并另起一行写下这次的修改内容
-# 第21次修改，写修改内容请另起一行
-# 1：优化详情页图片切换逻辑，引入预加载机制防止背景图消失，增加切换时的加载过渡动画。
+# 第21次修改，优化详情页图片切换逻辑，引入预加载机制防止背景图消失，增加切换时的加载过渡动画。
+# 第22次修改，优化路由逻辑支持 SPA，详情页访问现在统一由 index.html 处理。
 
 from flask import Flask, jsonify, request, send_from_directory, make_response
 import time
@@ -47,7 +46,7 @@ MIN_REQUEST_INTERVAL = 0.2
 # 客户端限流配置
 client_requests = defaultdict(list)
 CLIENT_RATE_LIMIT = 50  # 每分钟最多请求次数
-CLIENT_LIMIT_WINDOW = 60 # 限流窗口（秒）
+CLIENT_RATE_LIMIT_WINDOW = 60 # 限流窗口（秒）
 
 # 创建全局 HTTP 会话池，提高连接复用效率
 http_session = requests.Session()
@@ -277,7 +276,7 @@ def check_client_rate_limit():
     now = time.time()
     times = client_requests[ip]
     # 清理窗口外的请求
-    times[:] = [t for t in times if now - t < CLIENT_LIMIT_WINDOW]
+    times[:] = [t for t in times if now - t < CLIENT_RATE_LIMIT_WINDOW]
     if len(times) >= CLIENT_RATE_LIMIT:
         return False
     times.append(now)
@@ -332,9 +331,6 @@ def api_subcat():
     result = {}
     expire_seconds = 600
     
-    pending_count = 0
-    failed_count = 0
-    
     for item_id in ids:
         # 特殊处理：ID 475764 作为健康检查探测点，不使用缓存，实时向 GameBanana 发起探测
         if item_id == 475764:
@@ -364,7 +360,6 @@ def api_subcat():
             save_cache()
             category_queue.put(item_id)
             result[item_id] = {"status": "pending"}
-            pending_count += 1
             continue
         
         # 已成功获取
@@ -383,14 +378,11 @@ def api_subcat():
             save_cache()
             category_queue.put(item_id)
             result[item_id] = {"status": "pending"}
-            pending_count += 1
         else:
             if status == "pending":
                 result[item_id] = {"status": "pending"}
-                pending_count += 1
             elif status == "failed":
                 result[item_id] = {"status": "failed"}
-                failed_count += 1
 
     # 2. 添加浏览器缓存控制
     resp = make_response(jsonify(result))
@@ -405,17 +397,14 @@ def register_frontend_routes(app):
     def serve_index():
         log("提供前端页面: index.html")
         response = make_response(send_from_directory(BASE_DIR, 'index.html'))
-        # 首页不强制长时间缓存，方便更新
         response.headers['Cache-Control'] = 'no-cache'
         return response
     
     @app.route('/mod/api/id/<int:mod_id>')
     def serve_detail(mod_id):
-        log(f"提供详情页面: detail.html for ID {mod_id}")
-        # 检查文件是否存在
-        if not os.path.exists(BASE_DIR / 'detail.html'):
-            return "Detail template not found", 404
-        response = make_response(send_from_directory(BASE_DIR, 'detail.html'))
+        log(f"提供详情页面路由(SPA模式): 返回 index.html 给 mod_id={mod_id}")
+        # 在 SPA 模式下，直接请求详情 URL 应该返回主入口文件
+        response = make_response(send_from_directory(BASE_DIR, 'index.html'))
         response.headers['Cache-Control'] = 'no-cache'
         return response
 

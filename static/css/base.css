@@ -1,0 +1,71 @@
+
+/* 每次修改后修改次数加一，并另起一行写下这次的修改内容*/
+/* 第17次修改，引入背景图模糊处理，利用 body 伪元素创建沉浸式氛围背景，并微调容器对比度。 */
+/* 第18次修改，整合详情页(Overlay)遮罩层与容器样式，为 main 添加最小高度，并增强横向卡片模式的布局重置权重（适配流式排版）。*/
+/* 第19次修改，对css文件进行分离方便编写和阅读 */
+
+
+/* 基础全局样式与变量 */
+:root {
+  --bg: #f5f7fb; /* 页面基础背景色 */
+  --card: #ffffff; /* 卡片背景色 */
+  --muted: #6b7280; /* 辅助文字色 */
+  --accent: #6C7BFF; /* 强调色 */
+  --radius: 12px; /* 圆角半径 */
+  --gap: 16px; /* 瀑布流间距 */
+  --shadow: 0 6px 18px rgba(16,24,40,0.06); /* 卡片阴影 */
+  --success: #10b981;
+  --error: #ef4444;
+  /* 滑块组件变量 */
+  --accent-blue: #3b82f6; 
+  --accent-gradient: linear-gradient(135deg, var(--accent-blue), #60a5fa);
+  --text-primary: #0f1724;
+  --slider-bg: rgba(59, 130, 246, 0.15);
+  --slider-option-active: #ffffff;
+  --slider-option-inactive: #94a3b8;
+}
+
+/* 全局重置 */
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: #0f1724;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 氛围背景层 */
+body::before {
+  content: "";
+  position: fixed;
+  top: -40px; 
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
+  background-image: url('../background.jpg'); 
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) brightness(0.95); 
+  z-index: -2;
+  opacity: 0.95; 
+}
+
+/* 渐变遮罩层 */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(245, 247, 251, 0.2) 0%, rgba(245, 247, 251, 0.7) 100%);
+  z-index: -1;
+  pointer-events: none;
+}
