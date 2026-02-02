@@ -6,6 +6,7 @@
 // 第21次修改，修正 CategoryPoller 初始化路径
 // 第22次修改，重构 refresh 逻辑，通过重置 tabStates 强制触发 API 刷新以应用筛选设置
 // 第23次修改，引入加载版本控制 (currentLoadId)，解决切换筛选条件时的异步竞态问题，防止旧数据混入新列表。
+// 第24次修改，更新 SPA 详情页路由规范为 /mod/api/{model}/{id}，支持帖子/问题/悬赏等多种内容。
 
 import { Config, DOM } from './config.js';
 import { Settings } from './settings.js';
@@ -194,19 +195,21 @@ export const App = (() => {
   }
 
   // --- SPA 路由逻辑 ---
-  function openDetail(id, isInitial = false) {
+  function openDetail(id, model = 'Mod', isInitial = false) {
     if (DOM.detailOverlay) DOM.detailOverlay.classList.remove('hidden');
     document.body.style.overflow = 'hidden'; // 背景静止
     
-    const url = `/mod/api/id/${id}`;
+    const url = `/mod/api/${model}/${id}`;
+    const stateData = { detailId: id, detailModel: model };
+
     // 如果是初始加载，使用 replaceState 避免回退历史错误
     if (isInitial) {
-        history.replaceState({ detailId: id }, '', url);
+        history.replaceState(stateData, '', url);
     } else if (window.location.pathname !== url) {
-        history.pushState({ detailId: id }, '', url);
+        history.pushState(stateData, '', url);
     }
     
-    loadDetail(id);
+    loadDetail(id, model);
   }
 
   function closeDetail(fromPopState = false) {
@@ -218,7 +221,7 @@ export const App = (() => {
   // 监听浏览器返回
   window.addEventListener('popstate', (e) => {
     if (e.state && e.state.detailId) {
-      openDetail(e.state.detailId);
+      openDetail(e.state.detailId, e.state.detailModel || 'Mod');
     } else {
       closeDetail(true);
     }
@@ -230,7 +233,7 @@ export const App = (() => {
     Controls.initAll();
     
     // 立即注册关键事件绑定
-    window.addEventListener('open-detail', (e) => openDetail(e.detail.id));
+    window.addEventListener('open-detail', (e) => openDetail(e.detail.id, e.detail.model));
     window.addEventListener('go-home', () => {
         closeDetail();
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -243,13 +246,14 @@ export const App = (() => {
         CategoryPoller.loadCategoryCache('/mod/')
     ];
 
-    // 路由判断：是否直接访问了详情页
-    const match = window.location.pathname.match(/\/api\/id\/(\d+)/);
+    // 路由判断：是否直接访问了详情页，现在匹配 /mod/api/{model}/{id}
+    const match = window.location.pathname.match(/\/api\/([^\/]+)\/(\d+)/);
     
     if (match) {
-        const initialId = match[1];
-        console.log(`[Router] 初始进入详情页: ID ${initialId}`);
-        openDetail(initialId, true);
+        const initialModel = match[1];
+        const initialId = match[2];
+        console.log(`[Router] 初始进入详情页: Model ${initialModel}, ID ${initialId}`);
+        openDetail(initialId, initialModel, true);
         
         Promise.all(dataInitPromises).then(() => {
             loadThreePages(true).then(() => {

@@ -8,6 +8,7 @@
 /* 第8次修改,重构为spa*/
 /* 第9次修改,解决直接访问id时无法正常打开问题，并移除冗余独立加载逻辑 */
 /* 第10次修改,合并原 detail.html 中的所有缺失板块渲染逻辑（许可证、作者简介、使用软件） */
+/* 第11次修改,支持动态获取不同类型(Mod/Thread/Question等)的详情数据，增加数据结构容错 */
 
 import { Translator } from './translator.js';
 import { DOM } from './config.js';
@@ -45,7 +46,9 @@ const GalleryManager = (() => {
         currentIdx = -1; 
 
         images.forEach((imgData, idx) => {
-            const fullUrl = `${imgData._sBaseUrl}/${imgData._sFile}`;
+            const fullUrl = imgData._sBaseUrl && imgData._sFile ? `${imgData._sBaseUrl}/${imgData._sFile}` : null;
+            if (!fullUrl) return;
+
             const img = document.createElement('img');
             img.className = 'pool-image';
             img.src = fullUrl;
@@ -99,13 +102,16 @@ function render(data) {
     if (modDescEl) modDescEl.innerHTML = data._sText || data._sDescription || "无描述";
     
     const downloadBtnEl = document.getElementById('mainDownloadBtn');
-    if (downloadBtnEl) downloadBtnEl.href = data._sDownloadUrl;
+    if (downloadBtnEl) downloadBtnEl.href = data._sDownloadUrl || data._sProfileUrl;
 
     const images = data._aPreviewMedia?._aImages;
     const thumbList = document.getElementById('thumbList');
+    const gallerySection = document.querySelector('.gallery-section');
+
     if (thumbList) {
         thumbList.innerHTML = '';
         if (images && images.length > 0) {
+            if (gallerySection) gallerySection.style.display = 'flex';
             GalleryManager.setupPool(images);
             images.forEach((img, idx) => {
                 const thumbUrl = img._sFile100 ? `${img._sBaseUrl}/${img._sFile100}` : `${img._sBaseUrl}/${img._sFile}`;
@@ -116,6 +122,9 @@ function render(data) {
                 thumbList.appendChild(thumb);
                 if (idx === 0) GalleryManager.switchImage(0, thumb);
             });
+        } else {
+            // 没有图片时隐藏画廊
+            if (gallerySection) gallerySection.style.display = 'none';
         }
     }
 
@@ -136,7 +145,7 @@ function render(data) {
     const fileList = document.getElementById('fileList');
     if (fileList) {
         fileList.innerHTML = '';
-        if (data._aFiles) {
+        if (data._aFiles && data._aFiles.length > 0) {
             data._aFiles.forEach(f => {
                 const div = document.createElement('div');
                 div.className = 'file-item';
@@ -235,7 +244,7 @@ function render(data) {
     }
 }
 
-export async function loadDetail(modId) {
+export async function loadDetail(id, model = 'Mod') {
     const detailLoading = DOM.detailLoading || document.getElementById('detailLoading');
     const detailMainContent = DOM.detailMainContent || document.getElementById('detailMainContent');
     
@@ -247,7 +256,8 @@ export async function loadDetail(modId) {
             await Translator.loadTranslationTable('/mod/');
         }
 
-        const response = await fetch(`https://gamebanana.com/apiv11/Mod/${modId}/ProfilePage`);
+        // 动态构建 API 路径，支持 Mod, Thread, Question, Request 等
+        const response = await fetch(`https://gamebanana.com/apiv11/${model}/${id}/ProfilePage`);
         if (!response.ok) throw new Error('API Error');
         const data = await response.json();
         render(data);

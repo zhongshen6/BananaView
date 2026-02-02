@@ -126,11 +126,13 @@ export const UI = (() => {
 
     card.innerHTML = `${tagHtml}${thumbHtml}${titleHtml}${bodyHtml}`;
 
-    // 绑定卡片点击到 SPA 详情
+    // 绑定卡片点击到 SPA 详情，传递 ID 和 Model
     card.addEventListener('click', (e) => {
         if (e.target.tagName === 'A') return;
         e.preventDefault();
-        window.dispatchEvent(new CustomEvent('open-detail', { detail: { id: item.id } }));
+        window.dispatchEvent(new CustomEvent('open-detail', { 
+            detail: { id: item.id, model: item.model } 
+        }));
     });
 
     const image = card.querySelector('.thumb img');

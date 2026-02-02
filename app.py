@@ -2,6 +2,7 @@
 # 每次修改后将修改次数加一,注意不要改动版本号，并另起一行写下这次的修改内容
 # 第21次修改，优化详情页图片切换逻辑，引入预加载机制防止背景图消失，增加切换时的加载过渡动画。
 # 第22次修改，优化路由逻辑支持 SPA，详情页访问现在统一由 index.html 处理。
+# 第23次修改，扩展详情页路由支持内容类型参数 /mod/api/{model}/{id}。
 
 from flask import Flask, jsonify, request, send_from_directory, make_response
 import time
@@ -400,9 +401,9 @@ def register_frontend_routes(app):
         response.headers['Cache-Control'] = 'no-cache'
         return response
     
-    @app.route('/mod/api/id/<int:mod_id>')
-    def serve_detail(mod_id):
-        log(f"提供详情页面路由(SPA模式): 返回 index.html 给 mod_id={mod_id}")
+    @app.route('/mod/api/<string:model>/<int:mod_id>')
+    def serve_detail(model, mod_id):
+        log(f"提供详情页面路由(SPA模式): [{model}] ID={mod_id}")
         # 在 SPA 模式下，直接请求详情 URL 应该返回主入口文件
         response = make_response(send_from_directory(BASE_DIR, 'index.html'))
         response.headers['Cache-Control'] = 'no-cache'
