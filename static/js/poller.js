@@ -14,11 +14,15 @@ export const CategoryPoller = (() => {
   async function loadCategoryCache(baseUrl = '') {
     if (cacheLoaded) return;
     try {
-      const res = await fetch(`${baseUrl}static/subcategory_cache.json`);
+      // 确保路径拼接正确
+      const cleanBase = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+      const res = await fetch(`${cleanBase}static/subcategory_cache.json`);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const cacheData = await res.json();
       
       for (const [itemId, cacheItem] of Object.entries(cacheData)) {
         if (cacheItem.name && cacheItem.name !== "获取中..." && cacheItem.id) {
+          // 加载时即进行翻译，确保同步查询时直接拿到中文
           const translatedCategory = Translator.translateCategory(cacheItem.name);
           categoryCache.set(String(itemId), {
             category: translatedCategory,
@@ -44,10 +48,8 @@ export const CategoryPoller = (() => {
   function add(id) {
     id = String(id);
     
-    // 先检查前端缓存
-    const cachedInfo = getCategoryInfo(id);
-    if (cachedInfo) {
-      UI.updateCategoryElement(id, cachedInfo);
+    // 如果已经有缓存，UI.createCard 已经处理了渲染，直接返回即可
+    if (categoryCache.has(id)) {
       return;
     }
     
@@ -76,7 +78,8 @@ export const CategoryPoller = (() => {
         const info = data?.[id] || data?.[String(id)];
         
         if (info?.category) {
-          // 成功获取分类
+          // 成功获取分类，存入缓存
+          categoryCache.set(String(id), info);
           UI.updateCategoryElement(id, info);
           pendingIds.delete(id);
         } else if (info?.status === 'failed') {

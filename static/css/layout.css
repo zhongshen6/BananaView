@@ -1,0 +1,104 @@
+/* 布局与骨架样式 */
+
+.app {
+  width: 100%;
+  max-width: 1500px; 
+  position: relative;
+  z-index: 1;
+}
+
+main#mods {
+    padding-top: 85px;
+    min-height: 100vh;
+}
+
+/* 顶部工具栏 */
+.topbar {
+  position: fixed;
+  top: 16px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.75); 
+  backdrop-filter: blur(12px) saturate(1.5); 
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+  width: calc(100% - 40px); 
+  max-width: 1500px;        
+  margin: 0 auto;           
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.topbar.hide {
+  transform: translateY(-120%);
+  opacity: 0;
+}
+
+/* Logo 区域 */
+.logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  flex: 0 0 auto;   
+  width: 160px;     
+}
+
+.logo-img {
+  width: 48px;   
+  height: 48px;
+  border-radius: 12px; 
+}
+
+.logo .title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 控件容器 */
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: 12px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* 布局切换期间禁用全部动画 */
+.layout-changing .card,
+.layout-changing .card * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* 详情页全屏遮罩 */
+.detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: var(--bg);
+    overflow-y: auto;
+    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-overlay.hidden { display: none; }
+
+@keyframes slideIn {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 5;
+}
