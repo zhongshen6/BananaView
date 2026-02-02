@@ -30,6 +30,7 @@ export const DOM = {
   menuBtn: document.getElementById('menuBtn'),
   howToBtn: document.getElementById('howToBtn'),
   howToPopover: document.getElementById('howToPopover'),
+  // 箭头引用已删除
   userIdInput: document.getElementById('userIdInput'),
   thumbQualitySlider: document.getElementById('thumbQualitySlider'),
   columnCountSlider: document.getElementById('columnCountSlider'),

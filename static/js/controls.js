@@ -1,3 +1,4 @@
+
 import { Settings } from './settings.js';
 import { UI } from './ui.js';
 import { Toast } from './toast.js';
@@ -66,6 +67,48 @@ export const Controls = (() => {
     updateUI(savedValue);
   }
 
+  // 隐藏气泡提示辅助函数
+  function hideHowToPopover() {
+    if (DOM.howToPopover) {
+      DOM.howToPopover.classList.add('hidden');
+    }
+  }
+
+  /**
+   * 核心弹出气泡逻辑 (已移除箭头相关计算)
+   */
+  function showHowToPopover() {
+    const { howToBtn, howToPopover } = DOM;
+    if (!howToBtn || !howToPopover) return;
+
+    // 如果已经是显示状态，则点击按钮即隐藏（Toggle）
+    if (!howToPopover.classList.contains('hidden')) {
+      hideHowToPopover();
+      return;
+    }
+
+    const rect = howToBtn.getBoundingClientRect();
+    const popW = howToPopover.offsetWidth;
+    const popH = howToPopover.offsetHeight;
+    const margin = 12;
+
+    // 水平定位计算
+    let left = rect.left + rect.width / 2 - popW / 2;
+    if (left < margin) left = margin;
+    if (left + popW > window.innerWidth - margin) left = window.innerWidth - margin - popW;
+
+    // 垂直定位计算
+    let top = rect.bottom + margin;
+    if (top + popH > window.innerHeight - margin) {
+      top = rect.top - popH - margin;
+    }
+
+    howToPopover.style.left = Math.round(left) + 'px';
+    howToPopover.style.top = Math.round(top) + 'px';
+
+    howToPopover.classList.remove('hidden');
+  }
+
   // 绑定设置模态框事件
   function bindSettingsModal() {
     const { SETTINGS_BTN, SETTINGS_MODAL, CLOSE_SETTINGS, healthDot } = DOM;
@@ -79,9 +122,15 @@ export const Controls = (() => {
           });
         }, 80);
       });
-      CLOSE_SETTINGS.addEventListener('click', () => SETTINGS_MODAL.classList.remove('show'));
+      CLOSE_SETTINGS.addEventListener('click', () => {
+        SETTINGS_MODAL.classList.remove('show');
+        hideHowToPopover(); 
+      });
       SETTINGS_MODAL.addEventListener('click', event => { 
-        if (event.target === SETTINGS_MODAL) SETTINGS_MODAL.classList.remove('show'); 
+        if (event.target === SETTINGS_MODAL) {
+          SETTINGS_MODAL.classList.remove('show');
+          hideHowToPopover(); 
+        }
       });
     }
 
@@ -101,7 +150,7 @@ export const Controls = (() => {
     if (saved) input.value = saved;
 
     document.addEventListener('click', (e) => {
-      if (!input.contains(e.target)) {
+      if (!input.contains(e.target) && e.target !== DOM.howToBtn) {
         const val = input.value.trim();
         if (/^\d*$/.test(val)) {
           if (val !== Settings.get('userId')) {
@@ -118,71 +167,26 @@ export const Controls = (() => {
 
   // 绑定使用说明弹出框事件
   function bindHowToPopover() {
-    const { howToBtn, howToPopover, howToPopoverArrow, closePopoverBtn } = DOM;
+    const { howToBtn, howToPopover } = DOM;
     if (!howToBtn || !howToPopover) return;
 
-    function hidePopover() {
-      if (!howToPopover || howToPopover.classList.contains('hidden')) return;
-      howToPopover.classList.add('hidden');
-    }
-
-    function showPopover() {
-      if (!howToPopover || !howToBtn) return;
-      if (!howToPopover.classList.contains('hidden')) {
-        hidePopover();
-        return;
-      }
-
-      howToPopover.classList.remove('hidden');
-      howToPopover.style.position = 'fixed';
-      howToPopover.style.visibility = 'hidden';
-
-      const rect = howToBtn.getBoundingClientRect();
-      const popW = howToPopover.offsetWidth;
-      const popH = howToPopover.offsetHeight;
-      const margin = 8;
-
-      let left = rect.left + rect.width / 2 - popW / 2;
-      if (left < margin) left = margin;
-      if (left + popW > window.innerWidth - margin) left = window.innerWidth - margin - popW;
-
-      let top = rect.bottom + margin;
-      let placeAbove = false;
-      if (top + popH > window.innerHeight - margin) {
-        top = rect.top - popH - margin;
-        placeAbove = true;
-      }
-
-      const arrowW = howToPopoverArrow?.offsetWidth || 14;
-      let arrowLeft = rect.left + rect.width / 2 - left - arrowW / 2;
-
-      howToPopover.style.left = Math.round(left) + 'px';
-      howToPopover.style.top = Math.round(top) + 'px';
-
-      if (howToPopoverArrow) {
-        if (placeAbove) {
-          howToPopoverArrow.style.top = 'auto';
-          howToPopoverArrow.style.bottom = '-7px';
-          howToPopoverArrow.style.transform = 'rotate(225deg)';
-        } else {
-          howToPopoverArrow.style.top = '-7px';
-          howToPopoverArrow.style.bottom = 'auto';
-          howToPopoverArrow.style.transform = 'rotate(45deg)';
-        }
-        howToPopoverArrow.style.left = Math.round(arrowLeft) + 'px';
-      }
-
-      howToPopover.style.visibility = 'visible';
-    }
-
-    howToBtn.addEventListener('click', (e) => { e.stopPropagation(); showPopover(); });
-    document.addEventListener('click', (e) => {
-      if (!howToPopover.classList.contains('hidden') && !howToPopover.contains(e.target) && e.target !== howToBtn) hidePopover();
+    howToBtn.addEventListener('click', (e) => { 
+      e.stopPropagation(); 
+      showHowToPopover(); 
     });
-    if (closePopoverBtn) closePopoverBtn.addEventListener('click', hidePopover);
+
+    document.addEventListener('click', (e) => {
+      if (!howToPopover.classList.contains('hidden') && 
+          !howToPopover.contains(e.target) && 
+          e.target !== howToBtn) {
+        hideHowToPopover();
+      }
+    });
+
+    window.addEventListener('resize', hideHowToPopover);
   }
 
-  // 绑定菜单事件
+  // 绑定菜单事件 (增加自动弹出逻辑)
   function bindMenu() {
     const { menuBtn, menuList, SETTINGS_MODAL, userIdInput } = DOM;
     if (!menuBtn || !menuList) return;
@@ -201,6 +205,10 @@ export const Controls = (() => {
         if (action === 'subscriptions' && !userIdInput.value.trim()) {
           Toast.show('请先设置用户ID以浏览订阅内容', 'error', 3000);
           SETTINGS_MODAL.classList.add('show');
+          // 联动优化：300ms 后自动弹出帮助引导
+          setTimeout(() => {
+            showHowToPopover();
+          }, 350);
           return;
         }
 
