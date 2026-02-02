@@ -1,3 +1,4 @@
+
 // 每次修改后修改次数加一，并另起一行写下这次的修改内容
 // 第17次修改，将列表卡片的外部链接修改为指向内部详情页路由 /mod/api/id/<id>，实现无缝聚合浏览体验。
 // 第18次修改，分离代码，优化结构
@@ -7,6 +8,7 @@
 // 第22次修改，重构 refresh 逻辑，通过重置 tabStates 强制触发 API 刷新以应用筛选设置
 // 第23次修改，引入加载版本控制 (currentLoadId)，解决切换筛选条件时的异步竞态问题，防止旧数据混入新列表。
 // 第24次修改，更新 SPA 详情页路由规范为 /mod/api/{model}/{id}，支持帖子/问题/悬赏等多种内容。
+// 第25次修改，优化移动端菜单文字显示，增加简写映射及 resize 响应处理。
 
 import { Config, DOM } from './config.js';
 import { Settings } from './settings.js';
@@ -30,6 +32,15 @@ export const App = (() => {
   let currentMode = Config.DEFAULT_MODE;
   let loading = false;
   let currentLoadId = 0; // 加载版本 ID，用于解决竞态问题
+  let currentFullText = '推荐内容'; // 记录当前的完整显示文字
+
+  // 文字简写映射表：针对移动端窄屏幕优化
+  const MENU_TEXT_MAP = {
+    '推荐内容': '推荐',
+    '最新发布': '最新',
+    '最近更新': '更新',
+    '订阅内容': '订阅'
+  };
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -40,9 +51,25 @@ export const App = (() => {
     });
   }, { rootMargin: Config.SCROLL_ROOT_MARGIN });
 
+  /**
+   * 响应式更新菜单按钮文字
+   * 在小屏幕下使用简写且移除箭头，大屏幕恢复完整描述
+   */
+  function updateMenuButtonText() {
+    if (!DOM.menuBtn) return;
+    const isSmall = window.innerWidth < 600;
+    const displayText = isSmall 
+      ? (MENU_TEXT_MAP[currentFullText] || currentFullText) 
+      : (currentFullText + ' ▼');
+    DOM.menuBtn.textContent = displayText;
+  }
+
   // 核心：切换分类 (多轨道恢复)
   async function setMode(mode, text = '') {
     if (mode === currentMode && tabStates[mode].items.length > 0) return;
+
+    // 记录完整文字供响应式函数使用
+    if (text) currentFullText = text;
 
     // 1. 递增加载 ID，立即使之前的异步循环失效
     currentLoadId++;
@@ -58,7 +85,7 @@ export const App = (() => {
     
     // 4. UI 更新
     DOM.MODS_CONTAINER.innerHTML = '';
-    if (DOM.menuBtn && text) DOM.menuBtn.textContent = text + ' ▼';
+    updateMenuButtonText();
 
     if (state.items.length > 0) {
       // 轨道内有缓存：瞬间恢复
@@ -232,6 +259,11 @@ export const App = (() => {
     Controls.setApp(App);
     Controls.initAll();
     
+    // 监听窗口大小变化以动态切换菜单文字长度
+    window.addEventListener('resize', updateMenuButtonText);
+    // 初始文字设置
+    updateMenuButtonText();
+
     // 立即注册关键事件绑定
     window.addEventListener('open-detail', (e) => openDetail(e.detail.id, e.detail.model));
     window.addEventListener('go-home', () => {

@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="zh-CN">
 <head>
@@ -170,16 +171,24 @@
             <button id="howToBtn" class="info-btn"> ？</button>
           </div>
         </div>
-        <div id="howToPopover" class="popover hidden">
-          <div class="popover-arrow"></div>
-          <div class="popover-content">
-            <h4>获取用户ID</h4>
-            <p>在 GameBanana 登录后，打开链接获取 ID。</p>
-            <a href="https://gamebanana.com/apiv11/Member/Navigator/Personal" target="_blank" rel="noreferrer" class="btn-popover">获取ID</a>
-          </div>
-        </div>
       </div>
       <span id="healthDot" class="status-dot"></span>
+    </div>
+  </div>
+
+  <!-- 使用说明弹出窗口 (已移至最外层防止 clipping) -->
+  <div id="howToPopover" class="popover hidden">
+    <div class="popover-content">
+      <h4>获取用户ID</h4>
+      <p>在 GameBanana 登录后，打开以下链接，找到类似 <code>/members/123456</code> 的数字，即为 ID。</p>
+      <div class="popover-images">
+        <img src="static/id_example.png" alt="示例图">
+        <img src="static/id_example-2.png" alt="示例图">
+      </div>
+      <div class="popover-footer">
+        <a href="https://gamebanana.com/members/account/login" target="_blank" rel="noreferrer" class="btn-popover secondary">去登录</a>
+        <a href="https://gamebanana.com/apiv11/Member/Navigator/Personal" target="_blank" rel="noreferrer" class="btn-popover">获取ID</a>
+      </div>
     </div>
   </div>
 
